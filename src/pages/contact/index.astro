@@ -1,0 +1,175 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import Placeholder from '../../components/ui/Placeholder.astro';
+import { site } from '../../data/site';
+import { capabilities, advisory } from '../../data/capabilities';
+import { industries } from '../../data/industries';
+
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const topics = [
+  { group: 'Engagement', options: [{ value: 'advisory', label: `${advisory.name} / discovery consultation` }] },
+  { group: 'Capabilities', options: capabilities.map((c) => ({ value: c.slug, label: c.name })) },
+  { group: 'Industries', options: industries.map((i) => ({ value: i.slug, label: i.shortName })) },
+  { group: 'Other', options: [{ value: 'product', label: 'Products / partnership' }, { value: 'other', label: 'Something else' }] },
+];
+---
+<Base title="Contact — Start a Project or Book a Consultation" description="Start a project with NSB INVICTUS or book a discovery consultation. Tell us about your idea, challenge or organisation and we will respond with clear next steps.">
+  <PageHero
+    compact
+    eyebrow="Contact"
+    title="Tell us what you <span class='text-gradient'>want to build.</span>"
+    intro="Share as much or as little as you know today. A short description is enough to start — we will follow up with focused questions."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+  />
+
+  <section class="pb-12" aria-label="Project inquiry">
+    <div class="container-x grid gap-12 lg:grid-cols-[1.4fr_0.8fr]">
+      <form
+        class="panel space-y-6 p-6 sm:p-10"
+        method="post"
+        action={site.inquiryEndpoint}
+        data-inquiry
+        novalidate
+      >
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label class="field-label" for="f-name">Full name <span class="text-signal-soft">*</span></label>
+            <input class="field" id="f-name" name="name" type="text" autocomplete="name" required maxlength="120" />
+          </div>
+          <div>
+            <label class="field-label" for="f-email">Work email <span class="text-signal-soft">*</span></label>
+            <input class="field" id="f-email" name="email" type="email" autocomplete="email" required maxlength="160" />
+          </div>
+          <div>
+            <label class="field-label" for="f-company">Company / organisation</label>
+            <input class="field" id="f-company" name="company" type="text" autocomplete="organization" maxlength="160" />
+          </div>
+          <div>
+            <label class="field-label" for="f-topic">What is it about?</label>
+            <select class="field" id="f-topic" name="topic">
+              {topics.map((g) => (
+                <optgroup label={g.group}>
+                  {g.options.map((o) => <option value={o.value}>{o.label}</option>)}
+                </optgroup>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="f-budget">Indicative budget</label>
+            <select class="field" id="f-budget" name="budget">
+              <option value="">Prefer not to say</option>
+              <option>Under €10,000</option>
+              <option>€10,000 – €30,000</option>
+              <option>€30,000 – €75,000</option>
+              <option>€75,000 – €150,000</option>
+              <option>Over €150,000</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="f-timeline">Timeline</label>
+            <select class="field" id="f-timeline" name="timeline">
+              <option value="">Not decided yet</option>
+              <option>As soon as possible</option>
+              <option>Within 3 months</option>
+              <option>3 – 6 months</option>
+              <option>Exploring options</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="f-message">Your idea, challenge or project <span class="text-signal-soft">*</span></label>
+          <textarea class="field min-h-40" id="f-message" name="message" required minlength="20" maxlength="5000" placeholder="What are you trying to achieve, and what does success look like?"></textarea>
+        </div>
+
+        <!-- Honeypot: hidden from people, attractive to bots -->
+        <div class="absolute -left-[9999px]" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="product" value="" />
+        <input type="hidden" name="started" value="" />
+
+        <label class="flex items-start gap-3 text-sm text-mist-400">
+          <input type="checkbox" name="consent" value="yes" required class="mt-1 h-4 w-4 shrink-0 accent-[#7c5cff]" />
+          <span>I agree that NSB INVICTUS may use these details to respond to my inquiry, as described in the <a href="/privacy/" class="text-signal-soft link-underline">privacy policy</a>. <span class="text-signal-soft">*</span></span>
+        </label>
+
+        {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="dark"></div>}
+
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <button type="submit" class="btn btn-primary" data-submit>Send inquiry</button>
+          <p class="text-sm text-mist-500">Required fields are marked *</p>
+        </div>
+        <div class="hidden rounded-xl border p-4 text-sm" role="status" aria-live="polite" data-status></div>
+      </form>
+
+      <div class="space-y-6">
+        <div class="panel p-8">
+          <h2 class="text-xl">What happens next</h2>
+          <ol class="mt-6 space-y-5 text-sm">
+            <li class="flex gap-4"><span class="font-mono text-signal-soft">01</span><span class="text-mist-400">We review your inquiry and reply with clarifying questions or a proposed call.</span></li>
+            <li class="flex gap-4"><span class="font-mono text-signal-soft">02</span><span class="text-mist-400">A focused conversation about goals, constraints and options.</span></li>
+            <li class="flex gap-4"><span class="font-mono text-signal-soft">03</span><span class="text-mist-400">A recommended next step — often a short discovery engagement or a clear proposal.</span></li>
+          </ol>
+        </div>
+        <div class="panel p-8">
+          <h2 class="text-xl">Direct contact</h2>
+          <a href={`mailto:${site.contact.email}`} class="mt-4 block text-signal-soft link-underline">{site.contact.email}</a>
+          {site.contact.phone && <a href={`tel:${site.contact.phone.replace(/\s/g, '')}`} class="mt-2 block text-mist-200">{site.contact.phone}</a>}
+          {site.contact.emailIsPlaceholder && <div class="mt-4"><Placeholder label="contact email & phone" /></div>}
+          <p class="mt-6 text-sm text-mist-500">{site.legal.entityName}<br />{site.legal.address}</p>
+          {site.legal.isPlaceholder && <div class="mt-3"><Placeholder label="registered company details" /></div>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-inquiry]');
+  if (form) {
+    const params = new URLSearchParams(location.search);
+    const topic = params.get('topic');
+    const select = form.querySelector<HTMLSelectElement>('#f-topic')!;
+    if (topic && Array.from(select.options).some((o) => o.value === topic)) select.value = topic;
+    (form.elements.namedItem('product') as HTMLInputElement).value = params.get('product') ?? '';
+    (form.elements.namedItem('started') as HTMLInputElement).value = String(Date.now());
+
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const show = (ok: boolean, msg: string) => {
+      status.className = `rounded-xl border p-4 text-sm ${ok ? 'border-reality/50 bg-reality/10 text-reality-soft' : 'border-caution/50 bg-caution/10 text-caution'}`;
+      status.textContent = msg;
+    };
+    if (params.get('sent') === '1') show(true, 'Thank you — your inquiry has been sent. We will be in touch shortly.');
+    if (params.get('error')) show(false, 'Your inquiry could not be sent. Please check the form or email us directly.');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          form.reset();
+          show(true, 'Thank you — your inquiry has been sent. We will reply as soon as possible.');
+        } else {
+          show(false, data.error ?? 'Your inquiry could not be sent. Please try again or email us directly.');
+        }
+      } catch {
+        show(false, 'The inquiry service is not reachable. Please email us directly.');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Send inquiry';
+      }
+    });
+  }
+</script>

@@ -1,0 +1,128 @@
+---
+import Arrow from '../ui/Arrow.astro';
+const steps = [
+  { n: '01', title: 'Vision', text: 'Every initiative begins as an idea — a direction, not yet a system.' },
+  { n: '02', title: 'Architecture', text: 'We give it structure: strategy, technical architecture and a clear plan.' },
+  { n: '03', title: 'Reality', text: 'Then we engineer, launch and keep improving it — as dependable technology.' },
+];
+---
+<section
+  class="hero relative"
+  data-scene="0"
+  data-scene-end="1"
+  data-scene-lead="0.1"
+  data-offset="1.9"
+  data-hero
+  aria-labelledby="hero-title"
+>
+  <div class="hero-sticky">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_40%,rgba(5,6,10,0.85),transparent_60%)]" aria-hidden="true"></div>
+
+    <div class="container-x relative flex h-full flex-col justify-center pt-[var(--header-h)]">
+      <div class="stage-1 max-w-4xl">
+        <p class="eyebrow mb-7">Technology &amp; digital innovation</p>
+        <h1 id="hero-title" class="text-display-xl font-medium">
+          Where vision<br />becomes <span class="text-gradient">reality.</span>
+        </h1>
+        <p class="mt-8 max-w-xl text-lg leading-relaxed text-mist-200 md:text-xl">
+          NSB INVICTUS designs, engineers and grows digital solutions — from AI and custom software to data, cloud and digital growth — for organisations ready to turn ambitious ideas into working systems.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href="/contact/" class="btn btn-primary">Start a project <Arrow /></a>
+          <a href="#capabilities" class="btn btn-ghost">Explore capabilities</a>
+        </div>
+      </div>
+
+      <div class="stage-2" aria-label="How an idea becomes a system">
+        <div class="flex gap-6 md:gap-10">
+          <div class="relative w-px shrink-0 bg-line-strong" aria-hidden="true">
+            <div class="progress absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-vision via-signal to-reality"></div>
+          </div>
+          <ol class="space-y-8 md:space-y-10">
+            {steps.map((s, i) => (
+              <li class="step" data-step={i}>
+                <p class="font-mono text-xs tracking-[0.2em] text-mist-500">{s.n}</p>
+                <p class="mt-1 font-display text-3xl text-mist-50 md:text-5xl">{s.title}</p>
+                <p class="mt-2 max-w-sm text-mist-400">{s.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div class="scroll-cue absolute bottom-8 left-[var(--gutter)] flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-mist-500" aria-hidden="true">
+        <span class="relative block h-10 w-px overflow-hidden bg-line-strong"><span class="cue-dot absolute left-0 top-0 h-3 w-px bg-signal"></span></span>
+        Scroll to assemble
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { --p: 0; }
+  .hero-sticky { position: relative; min-height: 100svh; }
+  .stage-2 { margin-top: 4rem; padding-bottom: 4rem; }
+  .scroll-cue { display: none; }
+
+  /* Motion-enabled: tall pinned section with scroll choreography */
+  :global(.motion-ok) .hero { height: 280svh; }
+  :global(.motion-ok) .hero-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  :global(.motion-ok) .stage-1 {
+    opacity: clamp(0, calc(1 - (var(--p) - 0.06) * 5), 1);
+    transform: translateY(calc(clamp(0, (var(--p) - 0.06), 0.3) * -160px));
+  }
+  :global(.motion-ok) .stage-2 {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    top: 50%;
+    margin: 0;
+    padding: 0;
+    transform: translateY(-40%);
+    opacity: clamp(0, calc((var(--p) - 0.2) * 6), 1);
+    pointer-events: none;
+  }
+  :global(.motion-ok) .stage-2 .progress { transform: scaleY(clamp(0, calc((var(--p) - 0.2) / 0.62), 1)); }
+  :global(.motion-ok) .stage-2 .step { opacity: 0.28; transition: opacity 0.5s ease; }
+  :global(.motion-ok) .stage-2 .step.is-active { opacity: 1; }
+  :global(.motion-ok) .stage-2 .step.is-done { opacity: 0.55; }
+  :global(.motion-ok) .scroll-cue { display: flex; opacity: clamp(0, calc(1 - var(--p) * 12), 1); }
+  .cue-dot { animation: cue 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+  @keyframes cue { 0% { transform: translateY(-100%); } 100% { transform: translateY(400%); } }
+  @media (min-width: 1024px) {
+    :global(.motion-ok) .stage-2 { max-width: 34rem; }
+  }
+  /* Portrait: structure lifts to the upper half, steps anchor to the bottom */
+  @media (max-aspect-ratio: 1/1) {
+    :global(.motion-ok) .stage-2 { top: auto; bottom: 5svh; transform: none; }
+    :global(.motion-ok) .stage-2 .step { margin-top: 0; }
+    :global(.motion-ok) .stage-2 ol { gap: 1.1rem; display: grid; }
+    :global(.motion-ok) .stage-2 ol > li + li { margin-top: 0; }
+    :global(.motion-ok) .stage-2 .step p:nth-child(2) { font-size: 1.75rem; }
+    :global(.motion-ok) .stage-2 .step p:last-child { font-size: 0.875rem; }
+    :global(.motion-ok) .hero-sticky::after { content: ''; position: absolute; inset: auto 0 0 0; height: 55%; background: linear-gradient(to bottom, transparent, rgb(5 6 10 / 0.9) 40%); pointer-events: none; }
+    :global(.motion-ok) .stage-2 { z-index: 1; }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero && document.documentElement.classList.contains('motion-ok')) {
+    const steps = hero.querySelectorAll<HTMLElement>('.step');
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const total = hero.offsetHeight - window.innerHeight;
+      const p = Math.min(1, Math.max(0, (window.scrollY - hero.offsetTop) / Math.max(1, total)));
+      hero.style.setProperty('--p', p.toFixed(4));
+      const active = p < 0.4 ? 0 : p < 0.66 ? 1 : 2;
+      steps.forEach((s, i) => {
+        s.classList.toggle('is-active', i === active);
+        s.classList.toggle('is-done', i < active);
+      });
+    };
+    update();
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+  }
+</script>

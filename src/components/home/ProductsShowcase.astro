@@ -1,0 +1,19 @@
+---
+import Arrow from '../ui/Arrow.astro';
+import ProductGrid from '../ui/ProductGrid.astro';
+---
+<section class="relative py-28 md:py-36" data-scene="3" data-dim="0.25" data-offset="2.3" aria-labelledby="products-title">
+  <div class="container-x">
+    <div class="grid gap-8 lg:grid-cols-2 lg:items-end">
+      <div data-reveal>
+        <p class="eyebrow mb-5">Proprietary products</p>
+        <h2 id="products-title" class="text-display-md">We also build <span class="text-gradient">our own</span> products.</h2>
+      </div>
+      <p class="max-w-xl text-lg leading-relaxed text-mist-400 lg:justify-self-end" data-reveal>
+        Alongside client work, NSB INVICTUS develops and owns digital products and software platforms. They are presented separately, with an honest status for each — from early concept to commercially available.
+      </p>
+    </div>
+    <div class="mt-14"><ProductGrid compact /></div>
+    <a href="/products/" class="btn btn-ghost mt-10">View the product portfolio <Arrow /></a>
+  </div>
+</section>

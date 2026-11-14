@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import ProductGrid from '../../components/ui/ProductGrid.astro';
+import FinalCta from '../../components/cta/FinalCta.astro';
+---
+<Base title="Products — Proprietary Software by NSB INVICTUS" description="Digital products and software platforms developed and owned by NSB INVICTUS, each presented with a clear development status.">
+  <PageHero
+    compact
+    eyebrow="Products"
+    title="Products we build <span class='text-gradient'>and own.</span>"
+    intro="Beyond client work, NSB INVICTUS develops its own software products and platforms — including industry-specific solutions and future SaaS offerings. Every product is shown with an honest development status."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Products' }]}
+  />
+  <section class="py-12" aria-labelledby="portfolio-h">
+    <div class="container-x"><h2 id="portfolio-h" class="sr-only">Product portfolio</h2><ProductGrid /></div>
+  </section>
+  <section class="py-16" aria-labelledby="sep-h">
+    <div class="container-x grid gap-8 md:grid-cols-2">
+      <div data-reveal>
+        <h2 id="sep-h" class="text-2xl">Products and services are separate.</h2>
+        <p class="mt-4 leading-relaxed text-mist-400">Our products are developed independently from client engagements. Client work is never repackaged as a product, and some products may operate under their own brands.</p>
+      </div>
+      <div data-reveal>
+        <h2 class="text-2xl">Interested in a partnership?</h2>
+        <p class="mt-4 leading-relaxed text-mist-400">We welcome conversations with early adopters, pilot customers and distribution partners for products in development.</p>
+        <a href="/contact/?topic=product" class="btn btn-ghost mt-6">Contact the product team</a>
+      </div>
+    </div>
+  </section>
+  <FinalCta />
+</Base>

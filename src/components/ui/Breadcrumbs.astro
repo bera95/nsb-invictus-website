@@ -1,0 +1,21 @@
+---
+interface Props { items: { label: string; href?: string }[] }
+const { items } = Astro.props;
+const base = Astro.site ? Astro.site.toString().replace(/\/$/, '') : '';
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.label, ...(it.href ? { item: base + it.href } : {}) })),
+};
+---
+<nav aria-label="Breadcrumb" class="font-mono text-xs tracking-wider text-mist-500">
+  <ol class="flex flex-wrap items-center gap-2">
+    {items.map((it, i) => (
+      <li class="flex items-center gap-2">
+        {it.href ? <a href={it.href} class="hover:text-signal-soft transition-colors">{it.label}</a> : <span aria-current="page" class="text-mist-200">{it.label}</span>}
+        {i < items.length - 1 && <span aria-hidden="true">/</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />

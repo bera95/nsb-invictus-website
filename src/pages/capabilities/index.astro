@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import FinalCta from '../../components/cta/FinalCta.astro';
+import Arrow from '../../components/ui/Arrow.astro';
+import { capabilities, advisory } from '../../data/capabilities';
+---
+<Base title="Capabilities — AI, Software, Data, Cloud & Digital Growth" description="Five connected capabilities: AI & intelligent automation, software & product engineering, data & business intelligence, cloud & platform engineering, and digital growth & brand.">
+  <PageHero
+    eyebrow="Capabilities"
+    title="Five disciplines, <span class='text-gradient'>engineered as one.</span>"
+    intro="We organise our work around five capabilities. Each is a complete discipline on its own; together they let us deliver complete digital solutions without hand-offs between vendors."
+    shape="ecosystem"
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Capabilities' }]}
+  />
+  <section class="relative py-16" aria-label="All capabilities">
+    <div class="container-x">
+      <ul class="grid gap-5 md:grid-cols-2">
+        {capabilities.map((c, i) => (
+          <li class="panel group relative flex flex-col p-8 transition-colors hover:border-line-strong sm:p-10" data-reveal data-reveal-delay={(i % 2) * 80}>
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs tracking-[0.18em] text-mist-500">{c.index}</span>
+              <span class="h-2 w-2 rounded-full" style={`background:${c.accent};box-shadow:0 0 14px ${c.accent}`}></span>
+            </div>
+            <h2 class="mt-8 text-2xl sm:text-3xl">{c.name}</h2>
+            <p class="mt-4 flex-1 leading-relaxed text-mist-400">{c.summary}</p>
+            <ul class="mt-6 flex flex-wrap gap-2">{c.offerings.slice(0, 4).map((o) => <li class="tag">{o.title}</li>)}</ul>
+            <a href={`/capabilities/${c.slug}/`} class="mt-8 inline-flex items-center gap-2 text-signal-soft after:absolute after:inset-0">
+              <span class="link-underline">Explore {c.shortName}</span><span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </li>
+        ))}
+        <li class="glass relative flex flex-col justify-between rounded-[1.25rem] p-8 sm:p-10" data-reveal>
+          <div>
+            <span class="font-mono text-xs tracking-[0.18em] text-signal-soft">CROSS-CUTTING</span>
+            <h2 class="mt-8 text-2xl sm:text-3xl">{advisory.name}</h2>
+            <p class="mt-4 leading-relaxed text-mist-400">{advisory.summary}</p>
+          </div>
+          <a href="/approach/#advisory" class="btn btn-ghost mt-8 self-start">How advisory works <Arrow /></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <FinalCta />
+</Base>

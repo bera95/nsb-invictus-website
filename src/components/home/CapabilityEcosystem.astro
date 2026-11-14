@@ -1,0 +1,195 @@
+---
+/**
+ * Interactive capability ecosystem: five capabilities around one core.
+ * Selecting a capability highlights how it connects to the others.
+ * Built with accessible tabs; works with keyboard, touch and without JS (first tab shown).
+ */
+import Arrow from '../ui/Arrow.astro';
+import { capabilities } from '../../data/capabilities';
+
+const R = 39; // radius in % of the diagram box
+const nodes = capabilities.map((c, i) => {
+  const a = (-90 + i * 72) * (Math.PI / 180);
+  return { ...c, x: 50 + Math.cos(a) * R, y: 50 + Math.sin(a) * R * 0.96 };
+});
+const pairs: [number, number][] = [];
+for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) pairs.push([i, j]);
+---
+<section id="capabilities" class="relative py-28 md:py-36" data-scene="2" data-dim="0.16" data-offset="0" aria-labelledby="eco-title">
+  <div class="container-x">
+    <div class="grid items-end gap-8 lg:grid-cols-2">
+      <div data-reveal>
+        <p class="eyebrow mb-5">Capabilities</p>
+        <h2 id="eco-title" class="text-display-md">Five capabilities.<br /><span class="text-mist-400">One connected system.</span></h2>
+      </div>
+      <p class="max-w-xl text-lg leading-relaxed text-mist-400 lg:justify-self-end" data-reveal data-reveal-delay="100">
+        Real solutions rarely sit inside one discipline. An AI assistant needs clean data, a solid application and secure infrastructure. Because every capability lives in one team, the pieces are designed to work together from the start.
+      </p>
+    </div>
+
+    <div class="eco mt-16 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16" data-eco>
+      <!-- Diagram -->
+      <div class="relative mx-auto aspect-square w-full max-w-[36rem]" data-reveal>
+        <svg class="absolute inset-0 h-full w-full" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <radialGradient id="eco-core" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#7c5cff" stop-opacity="0.55" />
+              <stop offset="0.6" stop-color="#22d3ee" stop-opacity="0.08" />
+              <stop offset="1" stop-color="#22d3ee" stop-opacity="0" />
+            </radialGradient>
+            <linearGradient id="eco-line" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#a996ff" /><stop offset="1" stop-color="#22d3ee" />
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="50" r="22" fill="url(#eco-core)" />
+          <circle cx="50" cy="50" r={R} fill="none" stroke="rgba(148,163,210,0.1)" stroke-width="0.2" stroke-dasharray="0.6 1.2" />
+          {pairs.map(([i, j]) => (
+            <line x1={nodes[i].x} y1={nodes[i].y} x2={nodes[j].x} y2={nodes[j].y} class="eco-link" data-a={i} data-b={j} />
+          ))}
+          {nodes.map((n, i) => (
+            <line x1="50" y1="50" x2={n.x} y2={n.y} class="eco-spoke" data-a={i} />
+          ))}
+          <circle cx="50" cy="50" r="7.5" fill="#080b14" stroke="rgba(148,163,210,0.35)" stroke-width="0.25" />
+          <circle cx="50" cy="50" r="10.5" fill="none" stroke="rgba(124,92,255,0.35)" stroke-width="0.15" class="eco-pulse" />
+        </svg>
+        <div class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+          <span class="block font-display text-[0.62rem] font-semibold tracking-[0.18em] text-mist-50 sm:text-xs">NSB</span>
+          <span class="block font-mono text-[0.45rem] tracking-[0.2em] text-mist-500 sm:text-[0.55rem]">CORE</span>
+        </div>
+
+        <div role="tablist" aria-label="Capabilities" class="absolute inset-0">
+          {nodes.map((n, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`eco-tab-${i}`}
+              aria-controls={`eco-panel-${i}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              class="eco-node group absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
+              style={`left:${n.x}%;top:${n.y}%;--accent:${n.accent}`}
+              data-index={i}
+            >
+              <span class="eco-dot relative flex h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-ink-900 font-mono text-[0.7rem] text-mist-200 transition-all duration-500 sm:h-14 sm:w-14 sm:text-xs">
+                {n.index}
+              </span>
+              <span class="eco-label w-[6.5rem] text-center text-[0.7rem] leading-tight text-mist-400 transition-colors sm:w-32 sm:text-[0.8rem]">{n.shortName}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Panels -->
+      <div class="relative">
+        {nodes.map((n, i) => {
+          const others = n.connections.map((c) => ({ ...c, cap: capabilities.find((x) => x.slug === c.to)! }));
+          return (
+            <div
+              role="tabpanel"
+              id={`eco-panel-${i}`}
+              aria-labelledby={`eco-tab-${i}`}
+              class:list={['eco-panel panel p-7 sm:p-9', i !== 0 && 'hidden']}
+              data-panel={i}
+              tabindex="0"
+            >
+              <div class="flex items-center gap-3">
+                <span class="h-2 w-2 rounded-full" style={`background:${n.accent};box-shadow:0 0 12px ${n.accent}`}></span>
+                <span class="font-mono text-xs tracking-[0.18em] text-mist-500">CAPABILITY {n.index}</span>
+              </div>
+              <h3 class="mt-4 text-2xl sm:text-3xl">{n.name}</h3>
+              <p class="mt-4 leading-relaxed text-mist-400">{n.summary}</p>
+              <ul class="mt-6 flex flex-wrap gap-2">
+                {n.offerings.slice(0, 5).map((o) => <li class="tag">{o.title}</li>)}
+              </ul>
+              <div class="mt-7 border-t border-line pt-6">
+                <p class="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-mist-500">Connects with</p>
+                <ul class="mt-4 space-y-3">
+                  {others.map((o) => (
+                    <li class="flex gap-3 text-sm">
+                      <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={`background:${o.cap.accent}`}></span>
+                      <span><span class="text-mist-50">{o.cap.shortName}</span> <span class="text-mist-400">— {o.label}</span></span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <a href={`/capabilities/${n.slug}/`} class="btn btn-ghost mt-8">Explore {n.shortName} <Arrow /></a>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .eco-link { stroke: rgba(148, 163, 210, 0.13); stroke-width: 0.18; transition: stroke 0.5s, stroke-width 0.5s; }
+  .eco-spoke { stroke: rgba(148, 163, 210, 0.1); stroke-width: 0.15; stroke-dasharray: 0.5 0.8; transition: stroke 0.5s; }
+  .eco-link.is-on { stroke: url(#eco-line); stroke-width: 0.35; stroke-dasharray: 1.2 1.2; animation: flow 2.4s linear infinite; }
+  .eco-spoke.is-on { stroke: rgba(169, 150, 255, 0.6); }
+  @keyframes flow { to { stroke-dashoffset: -9.6; } }
+  .eco-pulse { transform-origin: 50px 50px; animation: pulse 4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 0.25; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.12); } }
+  .eco-node[aria-selected='true'] .eco-dot,
+  .eco-node:hover .eco-dot {
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgb(255 255 255 / 0.03), 0 0 28px -2px var(--accent);
+  }
+  .eco-node[aria-selected='true'] .eco-dot { background: color-mix(in srgb, var(--accent) 22%, #080b14); transform: scale(1.08); }
+  .eco-node[aria-selected='true'] .eco-label, .eco-node:hover .eco-label { color: #f4f5f7; }
+  .eco-panel { animation: panel-in 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(10px); } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-eco]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-panel]'));
+    const links = Array.from(root.querySelectorAll<SVGLineElement>('.eco-link'));
+    const spokes = Array.from(root.querySelectorAll<SVGLineElement>('.eco-spoke'));
+    let current = 0;
+    let auto: number | undefined;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const select = (i: number, focus = false) => {
+      current = i;
+      tabs.forEach((t, k) => {
+        t.setAttribute('aria-selected', String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+      });
+      panels.forEach((p, k) => p.classList.toggle('hidden', k !== i));
+      links.forEach((l) => l.classList.toggle('is-on', Number(l.dataset.a) === i || Number(l.dataset.b) === i));
+      spokes.forEach((s) => s.classList.toggle('is-on', Number(s.dataset.a) === i));
+      if (focus) tabs[i].focus();
+    };
+    const stopAuto = () => { if (auto) { clearInterval(auto); auto = undefined; } };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { stopAuto(); select(i); });
+      t.addEventListener('mouseenter', () => { if (window.matchMedia('(hover: hover)').matches) { stopAuto(); select(i); } });
+      t.addEventListener('keydown', (e) => {
+        const n = tabs.length;
+        let next = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % n;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + n) % n;
+        if (e.key === 'Home') next = 0;
+        if (e.key === 'End') next = n - 1;
+        if (next >= 0) { e.preventDefault(); stopAuto(); select(next, true); }
+      });
+    });
+    select(0);
+
+    // Gentle auto-cycle while visible, until the visitor interacts.
+    if (!reduce) {
+      const io = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && auto === undefined && !root.dataset.touched) {
+          auto = window.setInterval(() => select((current + 1) % tabs.length), 5200);
+        } else if (!e.isIntersecting) stopAuto();
+      }, { threshold: 0.4 });
+      io.observe(root);
+      root.addEventListener('pointerdown', () => { root.dataset.touched = '1'; stopAuto(); });
+      root.addEventListener('focusin', () => { root.dataset.touched = '1'; stopAuto(); });
+    }
+  }
+</script>

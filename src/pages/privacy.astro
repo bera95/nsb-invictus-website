@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import Placeholder from '../components/ui/Placeholder.astro';
+import { site } from '../data/site';
+---
+<Base title="Privacy Policy" description="How NSB INVICTUS collects, uses and protects personal data submitted through this website.">
+  <PageHero compact eyebrow="Legal" title="Privacy policy" breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Privacy' }]} />
+  <section class="pb-16">
+    <div class="container-x max-w-3xl space-y-8 leading-relaxed text-mist-400 [&_h2]:mt-12 [&_h2]:text-2xl [&_a]:underline [&_a]:underline-offset-4">
+      <Placeholder label="have this policy reviewed for your jurisdiction before launch" />
+      <p><strong class="text-mist-50">Controller:</strong> {site.legal.entityName}, {site.legal.address}. Contact: <a class="text-signal-soft" href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.</p>
+      <h2>What we collect</h2>
+      <p>When you submit an inquiry we process the details you provide (name, email, company, project information) and technical data required to deliver the form securely (such as IP address for spam and abuse prevention). We use this information only to respond to your inquiry and to manage any resulting business relationship.</p>
+      <h2>Cookies and analytics</h2>
+      <p>This website does not set advertising or tracking cookies. If privacy-friendly, cookieless analytics are enabled, they measure aggregate page usage without identifying individual visitors. Should we introduce any cookies that require consent, we will ask for it first.</p>
+      <h2>Fonts and third parties</h2>
+      <p>All fonts are served from our own server. If spam protection by Cloudflare Turnstile is enabled on the contact form, Cloudflare processes limited technical data to distinguish people from automated traffic.</p>
+      <h2>Retention</h2>
+      <p>Inquiries are retained only as long as necessary to respond and for legitimate business record-keeping, after which they are deleted.</p>
+      <h2>Your rights</h2>
+      <p>Depending on your location, you may have the right to access, correct, delete or restrict the processing of your personal data, to object to processing and to lodge a complaint with a supervisory authority. Contact us using the details above to exercise these rights.</p>
+      <p class="text-sm text-mist-500">Jurisdiction: {site.legal.jurisdiction}. Last updated: <Placeholder label="publication date" /></p>
+    </div>
+  </section>
+</Base>

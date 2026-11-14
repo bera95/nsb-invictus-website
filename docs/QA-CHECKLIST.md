@@ -1,0 +1,41 @@
+# Pre-launch QA checklist
+
+## Content
+- [ ] All `PLACEHOLDER` items resolved (see README), then `site.showPlaceholders = false`
+- [ ] Contact email, company details and jurisdiction correct on `/contact/`, `/legal/` and `/privacy/`
+- [ ] Privacy policy reviewed for the jurisdiction
+- [ ] Products listed only with accurate statuses
+- [ ] No invented clients, statistics, awards or partnerships anywhere
+
+## Functionality
+- [ ] Contact form: valid submission arrives by email, with Reply-To set to the sender
+- [ ] Contact form: invalid fields show an error; honeypot and rate limit work
+- [ ] Topic preselection works (`/contact/?topic=ai-automation`)
+- [ ] Mobile menu opens and closes (button, Escape, link click)
+- [ ] Capability ecosystem: click, hover, arrow keys, Home/End
+- [ ] 360° tour starts once a panorama is configured
+
+## Visual / responsive
+- [ ] Check at 360, 390, 768, 1024, 1280, 1440 and 1920 px widths
+- [ ] Homepage scroll assembly is smooth on a mid-range phone
+- [ ] No horizontal scrolling on any page
+- [ ] Reduced motion (OS setting): no pinned hero and no animation loop; content fully readable
+- [ ] WebGL disabled: static fallback illustration shown
+
+## Accessibility
+- [ ] Automated audit (axe) — 0 violations *(passing at the time of handover)*
+- [ ] Keyboard-only navigation through every page, with visible focus
+- [ ] Skip link works
+- [ ] Screen reader check of navigation, tabs and form
+
+## SEO & technical
+- [ ] `PUBLIC_SITE_URL` set — canonicals and sitemap use the real domain
+- [ ] `/sitemap-index.xml` and `/robots.txt` load
+- [ ] Submit the sitemap in Google Search Console
+- [ ] Structured data validates (Rich Results Test)
+- [ ] OG image previews correctly (LinkedIn Post Inspector)
+- [ ] HTTPS redirect and canonical-host redirect active
+- [ ] Security headers present (securityheaders.com)
+- [ ] Lighthouse: Performance ≥ 90 on mobile; Accessibility, Best Practices and SEO ≥ 95
+- [ ] `/api/config.php` and `/api/vendor/` are not reachable from the browser
+- [ ] `npm run check` passes with 0 errors

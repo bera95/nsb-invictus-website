@@ -1,0 +1,32 @@
+{
+  "name": "nsb-invictus-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "NSB INVICTUS corporate website — static Astro build with PHP inquiry endpoint for Hostinger.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/postbuild.mjs",
+    "preview": "node scripts/serve.mjs",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.5",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "astro": "^7.4.12",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/three": "^0.187.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^6.0.3"
+  }
+}

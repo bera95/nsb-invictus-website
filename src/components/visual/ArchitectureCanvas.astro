@@ -1,0 +1,52 @@
+---
+/**
+ * Living Architecture canvas with a static fallback.
+ * mode="scroll" → fixed full-viewport backdrop driven by [data-scene] sections.
+ * mode="intro"  → assembles once inside its container (page heroes).
+ */
+import type { ShapeName } from '../../scripts/architecture/shapes';
+interface Props {
+  sequence: ShapeName[];
+  mode?: 'intro' | 'scroll';
+  /** Horizontal world offset on desktop (positive = right). */
+  offset?: number;
+  zoom?: number;
+  /** Vertical lift on portrait (mobile) screens. */
+  lift?: number;
+  class?: string;
+}
+const { sequence, mode = 'intro', offset = 0, zoom = 1, lift = 0, class: cls = '' } = Astro.props;
+---
+<div
+  class:list={['arch', mode === 'scroll' ? 'pointer-events-none fixed inset-0 z-0' : 'pointer-events-none absolute inset-0', cls]}
+  data-architecture={mode}
+  data-sequence={sequence.join(',')}
+  data-offset={offset}
+  data-zoom={zoom}
+  data-lift={lift}
+  aria-hidden="true"
+>
+  <div class="arch-fallback absolute inset-0">
+    <div class="absolute inset-0 grid-backdrop opacity-70"></div>
+    <div class="absolute left-[74%] top-1/2 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(124,92,255,0.28),rgba(34,211,238,0.08)_45%,transparent_70%)] blur-2xl"></div>
+    <svg class="absolute left-[74%] top-1/2 h-[46vmin] w-[46vmin] -translate-x-1/2 -translate-y-1/2 opacity-60" viewBox="0 0 200 200" fill="none">
+      <g stroke="url(#fbg)" stroke-width="0.6">
+        <path d="M40 170V90l40-24v104M80 66l40 22v82M120 88l40-20v102M40 90l40 20 40-22M80 110v60M40 130l40 20 40-20 40-22M40 150l40 20" />
+      </g>
+      <defs><linearGradient id="fbg" x1="0" y1="200" x2="200" y2="0"><stop stop-color="#7c5cff"/><stop offset=".6" stop-color="#22d3ee"/><stop offset="1" stop-color="#10b981"/></linearGradient></defs>
+    </svg>
+  </div>
+  <canvas class="absolute inset-0 h-full w-full"></canvas>
+</div>
+
+<style>
+  .arch canvas { opacity: 0; transition: opacity 1.4s ease; }
+  .arch.is-ready canvas { opacity: 1; }
+  .arch .arch-fallback { transition: opacity 1.4s ease; }
+  .arch.is-ready .arch-fallback { opacity: 0; }
+</style>
+
+<script>
+  import { mountArchitecture } from '../../scripts/architecture/mount';
+  mountArchitecture();
+</script>

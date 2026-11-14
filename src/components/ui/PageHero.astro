@@ -1,0 +1,28 @@
+---
+import ArchitectureCanvas from '../visual/ArchitectureCanvas.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import type { ShapeName } from '../../scripts/architecture/shapes';
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  shape?: ShapeName;
+  breadcrumbs?: { label: string; href?: string }[];
+  compact?: boolean;
+}
+const { eyebrow, title, intro, shape, breadcrumbs, compact = false } = Astro.props;
+---
+<section class:list={['relative overflow-hidden', compact ? 'pt-36 pb-16 md:pt-44' : 'flex min-h-[88svh] items-center pt-32 pb-20']}>
+  {shape && <ArchitectureCanvas sequence={['vision', shape]} offset={2.2} zoom={1.05} class="opacity-90" />}
+  <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,6,10,0.94)_0%,rgba(5,6,10,0.7)_45%,transparent_80%)]" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-void" aria-hidden="true"></div>
+  <div class="container-x relative">
+    {breadcrumbs && <div class="mb-10"><Breadcrumbs items={breadcrumbs} /></div>}
+    <div class="max-w-3xl">
+      {eyebrow && <p class="eyebrow mb-6">{eyebrow}</p>}
+      <h1 class="text-display-lg" set:html={title} />
+      {intro && <p class="mt-8 max-w-2xl text-lg leading-relaxed text-mist-200 md:text-xl">{intro}</p>}
+      <div class="mt-10 flex flex-wrap gap-3 empty:hidden"><slot /></div>
+    </div>
+  </div>
+</section>

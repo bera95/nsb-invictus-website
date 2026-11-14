@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import ArchitectureCanvas from '../components/visual/ArchitectureCanvas.astro';
+import Hero from '../components/home/Hero.astro';
+import Problems from '../components/home/Problems.astro';
+import CapabilityEcosystem from '../components/home/CapabilityEcosystem.astro';
+import Advisory from '../components/home/Advisory.astro';
+import PropTechSpotlight from '../components/home/PropTechSpotlight.astro';
+import ProductsShowcase from '../components/home/ProductsShowcase.astro';
+import Approach from '../components/home/Approach.astro';
+import Principles from '../components/home/Principles.astro';
+import FinalCta from '../components/cta/FinalCta.astro';
+import { site } from '../data/site';
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: new URL('/', Astro.site).toString(),
+};
+---
+<Base
+  title="NSB INVICTUS — Where Vision Becomes Reality"
+  rawTitle
+  description="Technology and digital innovation company: AI and automation, custom software, data and BI, cloud engineering, digital growth and property technology."
+  jsonLd={website}
+>
+  <ArchitectureCanvas slot="backdrop" mode="scroll" sequence={['vision', 'architecture', 'ecosystem', 'building', 'architecture']} offset={1.9} zoom={1.12} lift={1.9} />
+  <Hero />
+  <Problems />
+  <CapabilityEcosystem />
+  <Advisory />
+  <PropTechSpotlight />
+  <ProductsShowcase />
+  <Approach />
+  <Principles />
+  <FinalCta scene={4} />
+</Base>

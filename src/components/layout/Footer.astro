@@ -1,0 +1,61 @@
+---
+import Wordmark from '../ui/Wordmark.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import { site } from '../../data/site';
+import { capabilities, advisory } from '../../data/capabilities';
+import { industries } from '../../data/industries';
+const year = new Date().getFullYear();
+---
+<footer class="relative z-10 mt-24 border-t border-line bg-void/80 backdrop-blur-sm">
+  <div class="container-x grid gap-12 py-16 md:grid-cols-12">
+    <div class="md:col-span-4">
+      <Wordmark id="ftr" />
+      <p class="mt-6 max-w-xs font-display text-xl text-mist-50">Where vision becomes reality.</p>
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-mist-400">
+        Technology consulting, software engineering, AI, data, cloud and digital growth — and our own digital products.
+      </p>
+      <div class="mt-6 space-y-2 text-sm">
+        <a href={`mailto:${site.contact.email}`} class="link-underline text-mist-200">{site.contact.email}</a>
+        {site.contact.emailIsPlaceholder && <div><Placeholder label="public contact email" /></div>}
+      </div>
+    </div>
+
+    <nav aria-label="Capabilities" class="md:col-span-3">
+      <h2 class="font-mono text-xs uppercase tracking-[0.18em] text-mist-500">Capabilities</h2>
+      <ul class="mt-5 space-y-3 text-sm">
+        {capabilities.map((c) => <li><a href={`/capabilities/${c.slug}/`} class="text-mist-200 hover:text-mist-50">{c.name}</a></li>)}
+        <li><a href="/approach/#advisory" class="text-mist-200 hover:text-mist-50">{advisory.name}</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Company" class="md:col-span-2">
+      <h2 class="font-mono text-xs uppercase tracking-[0.18em] text-mist-500">Explore</h2>
+      <ul class="mt-5 space-y-3 text-sm">
+        {industries.map((i) => <li><a href={`/industries/${i.slug}/`} class="text-mist-200 hover:text-mist-50">{i.shortName}</a></li>)}
+        <li><a href="/products/" class="text-mist-200 hover:text-mist-50">Products</a></li>
+        <li><a href="/approach/" class="text-mist-200 hover:text-mist-50">Approach</a></li>
+        <li><a href="/contact/" class="text-mist-200 hover:text-mist-50">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="md:col-span-3">
+      <h2 class="font-mono text-xs uppercase tracking-[0.18em] text-mist-500">Start a conversation</h2>
+      <p class="mt-5 text-sm leading-relaxed text-mist-400">Tell us what you want to build or improve. We reply to every serious inquiry.</p>
+      <a href="/contact/" class="btn btn-ghost mt-5">Project inquiry</a>
+      {site.social.length > 0 && (
+        <ul class="mt-6 flex gap-4 text-sm">
+          {site.social.map((s) => <li><a href={s.href} rel="noopener" class="text-mist-200 hover:text-mist-50">{s.label}</a></li>)}
+        </ul>
+      )}
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="container-x flex flex-col gap-3 py-6 text-xs text-mist-500 md:flex-row md:items-center md:justify-between">
+      <p>© {year} {site.legal.entityName}. All rights reserved. {site.legal.isPlaceholder && <Placeholder label="legal entity" class="ml-2" />}</p>
+      <ul class="flex gap-6">
+        <li><a href="/privacy/" class="hover:text-mist-200">Privacy</a></li>
+        <li><a href="/legal/" class="hover:text-mist-200">Legal notice</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

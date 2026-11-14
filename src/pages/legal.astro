@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import Placeholder from '../components/ui/Placeholder.astro';
+import { site } from '../data/site';
+---
+<Base title="Legal Notice" description="Company registration, address and legal information for NSB INVICTUS, a technology and digital innovation company.">
+  <PageHero compact eyebrow="Legal" title="Legal notice" breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Legal notice' }]} />
+  <section class="pb-16">
+    <div class="container-x max-w-3xl space-y-6 leading-relaxed text-mist-400">
+      {site.legal.isPlaceholder && <Placeholder label="registered company details" />}
+      <dl class="panel grid gap-4 p-8 sm:grid-cols-[12rem_1fr]">
+        <dt class="text-mist-500">Company</dt><dd class="text-mist-50">{site.legal.entityName}</dd>
+        <dt class="text-mist-500">Registered address</dt><dd class="text-mist-50">{site.legal.address}</dd>
+        <dt class="text-mist-500">Registration</dt><dd class="text-mist-50">{site.legal.registration}</dd>
+        <dt class="text-mist-500">Contact</dt><dd><a class="text-signal-soft" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></dd>
+      </dl>
+      <p>All content on this website is provided for general information. Trademarks and product names belong to their respective owners.</p>
+    </div>
+  </section>
+</Base>

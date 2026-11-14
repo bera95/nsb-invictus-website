@@ -1,0 +1,10 @@
+---
+interface Props { eyebrow?: string; title: string; intro?: string; align?: 'left' | 'center'; as?: 'h1' | 'h2'; class?: string }
+const { eyebrow, title, intro, align = 'left', as: Tag = 'h2', class: cls = '' } = Astro.props;
+---
+<div class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center', cls]} data-reveal>
+  {eyebrow && <p class="eyebrow mb-5">{eyebrow}</p>}
+  <Tag class="text-display-md" set:html={title} />
+  {intro && <p class="mt-6 text-lg leading-relaxed text-mist-400">{intro}</p>}
+  <slot />
+</div>

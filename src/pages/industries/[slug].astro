@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import FinalCta from '../../components/cta/FinalCta.astro';
+import TourDemo from '../../components/visual/TourDemo.astro';
+import Arrow from '../../components/ui/Arrow.astro';
+import { industries, type Industry } from '../../data/industries';
+import { capabilities } from '../../data/capabilities';
+
+export function getStaticPaths() {
+  return industries.map((i) => ({ params: { slug: i.slug }, props: { ind: i } }));
+}
+interface Props { ind: Industry }
+const { ind } = Astro.props;
+const capName = (slug: string) => capabilities.find((c) => c.slug === slug)!;
+const isProp = ind.slug === 'property-technology';
+const ld = { '@context': 'https://schema.org', '@type': 'Service', name: ind.name, description: ind.seo.description, provider: { '@type': 'Organization', name: 'NSB INVICTUS' } };
+---
+<Base title={ind.seo.title} description={ind.seo.description} jsonLd={ld}>
+  <PageHero
+    eyebrow={`Industry · ${ind.shortName}`}
+    title={ind.headline}
+    intro={ind.intro}
+    shape={ind.shape}
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Industries', href: '/industries/' }, { label: ind.shortName }]}
+  >
+    <a href={`/contact/?topic=${ind.slug}`} class="btn btn-primary">Discuss your project <Arrow /></a>
+    <a href="#solutions" class="btn btn-ghost">View solutions</a>
+  </PageHero>
+
+  <section class="py-20" aria-labelledby="chal-h">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+      <div data-reveal>
+        <p class="eyebrow mb-5">The challenge</p>
+        <h2 id="chal-h" class="text-display-md">What we hear from {ind.shortName.toLowerCase()} teams.</h2>
+      </div>
+      <ul class="space-y-4">
+        {ind.challenges.map((c, i) => (
+          <li class="flex gap-5 border-b border-line pb-5 text-lg text-mist-200" data-reveal data-reveal-delay={i * 70}><span class="mt-1 font-mono text-xs text-signal-soft">0{i + 1}</span>{c}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="solutions" class="py-20" aria-labelledby="sol-h">
+    <div class="container-x">
+      <div class="max-w-2xl" data-reveal>
+        <p class="eyebrow mb-5">Solutions</p>
+        <h2 id="sol-h" class="text-display-md">What we build for {ind.shortName}.</h2>
+      </div>
+      <ul class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {ind.solutions.map((s, i) => {
+          const c = capName(s.capability);
+          return (
+            <li class="panel flex flex-col p-8" data-reveal data-reveal-delay={(i % 3) * 70}>
+              <span class="font-mono text-xs text-mist-500">0{i + 1}</span>
+              <h3 class="mt-5 text-xl">{s.title}</h3>
+              <p class="mt-3 flex-1 leading-relaxed text-mist-400">{s.text}</p>
+              <a href={`/capabilities/${c.slug}/`} class="mt-6 inline-flex items-center gap-2 text-xs text-mist-400 hover:text-signal-soft">
+                <span class="h-1.5 w-1.5 rounded-full" style={`background:${c.accent}`}></span>{c.name}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  {isProp && (
+    <section class="py-20" aria-labelledby="tour-h">
+      <div class="container-x grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div data-reveal>
+          <p class="eyebrow mb-5">Virtual viewing</p>
+          <h2 id="tour-h" class="text-display-md">Let buyers walk through before they visit.</h2>
+          <p class="mt-6 text-lg leading-relaxed text-mist-400">
+            360° tours run directly in the browser and can be embedded in listings, project sites and portals. Hotspots, floor plans and property information turn a viewing into an informed decision.
+          </p>
+          <ul class="mt-6 space-y-2 text-mist-200">
+            <li>— Self-hosted viewer, no third-party licence required</li>
+            <li>— Mobile, desktop and embeddable in any website</li>
+            <li>— Can connect to listing data and lead capture</li>
+          </ul>
+        </div>
+        <div data-reveal data-reveal-delay="100"><TourDemo /></div>
+      </div>
+    </section>
+  )}
+
+  <FinalCta title={`Let’s build your <span class="text-gradient">${ind.shortName.toLowerCase()}</span> solution.`} topic={ind.slug} />
+</Base>
