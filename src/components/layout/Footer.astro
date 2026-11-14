@@ -16,6 +16,9 @@ const year = new Date().getFullYear();
       </p>
       <div class="mt-6 space-y-2 text-sm">
         <a href={`mailto:${site.contact.email}`} class="link-underline text-mist-200">{site.contact.email}</a>
+        {site.contact.phones.map((p) => (
+          <div><a href={`tel:${p.tel}`} class="text-mist-400 hover:text-mist-200">{p.display}</a> <span class="text-xs text-mist-500">· {p.label}</span></div>
+        ))}
         {site.contact.emailIsPlaceholder && <div><Placeholder label="public contact email" /></div>}
       </div>
     </div>
@@ -51,7 +54,7 @@ const year = new Date().getFullYear();
   </div>
   <div class="border-t border-line">
     <div class="container-x flex flex-col gap-3 py-6 text-xs text-mist-500 md:flex-row md:items-center md:justify-between">
-      <p>© {year} {site.legal.entityName}. All rights reserved. {site.legal.isPlaceholder && <Placeholder label="legal entity" class="ml-2" />}</p>
+      <p>© {year} {site.legal.isPlaceholder ? site.name : site.legal.entityName}. All rights reserved.</p>
       <ul class="flex gap-6">
         <li><a href="/privacy/" class="hover:text-mist-200">Privacy</a></li>
         <li><a href="/legal/" class="hover:text-mist-200">Legal notice</a></li>

@@ -9,9 +9,9 @@ DirectoryIndex index.html index.php
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-  # Canonical host — uncomment and set once the domain is final:
-  # RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]
-  # RewriteRule ^ https://www.example.com%{REQUEST_URI} [L,R=301]
+  # Canonical host: redirect www.nsbinvictus.tech → nsbinvictus.tech
+  RewriteCond %{HTTP_HOST} ^www\.nsbinvictus\.tech$ [NC]
+  RewriteRule ^ https://nsbinvictus.tech%{REQUEST_URI} [L,R=301]
   # Add trailing slash to directory-style URLs
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$

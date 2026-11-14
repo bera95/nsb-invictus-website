@@ -5,10 +5,10 @@
  * Runs on standard PHP hosting (Hostinger Premium). Receives the contact form,
  * validates it, applies spam protection and sends an email notification.
  *
- * Configuration (secrets) is loaded from, in order:
- *   1. ../../private/nsb-config.php   (recommended: outside public_html)
- *   2. ./config.php                   (fallback; blocked from web access by .htaccess)
- * See config.example.php.
+ * Configuration (secrets) is loaded ONLY from outside the web root:
+ *   <public_html>/../private/nsb-config.php
+ * On Hostinger: ~/domains/nsbinvictus.tech/private/nsb-config.php
+ * See config.example.php for the template.
  *
  * Compatible with PHP 7.4+ (Hostinger runs PHP 8.x).
  */
@@ -40,11 +40,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
 
 /* ---------- Configuration ---------- */
 $config = [];
-foreach ([__DIR__ . '/../../private/nsb-config.php', __DIR__ . '/config.php'] as $file) {
-    if (is_file($file)) {
-        $config = require $file;
-        break;
-    }
+$configFile = dirname(__DIR__, 2) . '/private/nsb-config.php';
+if (is_file($configFile)) {
+    $config = require $configFile;
 }
 if (!is_array($config) || empty($config['mail_to'])) {
     error_log('[inquiry] Missing configuration.');

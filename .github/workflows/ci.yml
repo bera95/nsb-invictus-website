@@ -1,0 +1,32 @@
+# Continuous integration: runs on every push and pull request.
+# Builds and verifies the site. NEVER publishes or deploys anything.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - name: Type check
+        run: npm run check
+      - name: Build
+        run: npm run build
+      - name: Verify production payload (structure, secrets, links, domain)
+        run: npm run verify
+      - name: Lint PHP endpoint
+        run: php -l dist/api/inquiry.php

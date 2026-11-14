@@ -8,31 +8,36 @@ export const site = {
   tagline: 'Where vision becomes reality.',
   description:
     'NSB INVICTUS is a technology and digital innovation company. We design, engineer and grow digital solutions — from AI and custom software to data, cloud and digital growth.',
-  /** Production URL is injected at build time via PUBLIC_SITE_URL. */
+  /** Production URL (canonical). Override at build time with PUBLIC_SITE_URL. */
+  url: 'https://nsbinvictus.tech',
   locale: 'en',
 
   contact: {
-    /** PLACEHOLDER — public inquiry address. */
-    email: 'hello@example.com' as string,
-    emailIsPlaceholder: true,
-    /** PLACEHOLDER — optional phone number, leave empty to hide. */
-    phone: '' as string,
+    /** Public inquiry address (temporary — replace with a domain mailbox, e.g. hello@nsbinvictus.tech). */
+    email: 'nikola.bera@gmail.com' as string,
+    emailIsPlaceholder: false,
+    /** Public phone numbers. `tel` must be in international E.164 format. */
+    phones: [
+      { label: 'Ireland', display: '+353 87 443 3160', tel: '+353874433160' },
+      { label: 'Serbia', display: '+387 64 191 4707', tel: '+387641914707' },
+    ] as { label: string; display: string; tel: string }[],
   },
 
   legal: {
-    /** PLACEHOLDER — registered legal entity name, e.g. "NSB INVICTUS d.o.o." */
+    /** PLACEHOLDER — registered legal entity name as in the Serbian Business Registers Agency (APR), e.g. "NSB INVICTUS d.o.o." */
     entityName: '[Registered company name]',
-    /** PLACEHOLDER — registered address. */
-    address: '[Registered address]',
-    /** PLACEHOLDER — company registration / VAT numbers. */
-    registration: '[Registration number] · [VAT number]',
-    /** PLACEHOLDER — jurisdiction governing privacy & legal pages. */
-    jurisdiction: '[Country of registration]',
+    /** PLACEHOLDER — registered address in Serbia. */
+    address: '[Registered address], Serbia',
+    /** PLACEHOLDER — Serbian company registration number (matični broj) and tax ID (PIB). */
+    registration: 'Registration no. (MB): [—] · Tax ID (PIB): [—]',
+    jurisdiction: 'Republic of Serbia',
+    countryCode: 'RS',
+    /** Set to false once entityName, address and registration are filled in. */
     isPlaceholder: true,
   },
 
   social: [
-    // PLACEHOLDER — add real profiles, e.g. { label: 'LinkedIn', href: 'https://www.linkedin.com/company/...' }
+    // Add real profiles when available, e.g. { label: 'LinkedIn', href: 'https://www.linkedin.com/company/...' }
   ] as { label: string; href: string }[],
 
   /** Show yellow "input required" markers. Set to false only when every placeholder is resolved. */

@@ -5,7 +5,7 @@
 | Layer | Where | What |
 |---|---|---|
 | Development | Local machine | `npm run dev` (Astro dev server), `npm run preview` (built site + PHP) |
-| Build | GitHub Actions (or locally) | `astro build` → static HTML/CSS/JS in `dist/`, plus PHPMailer via Composer |
+| Build | GitHub Actions (or locally) | `astro build` → static HTML/CSS/JS in `dist/`, `npm run verify`, plus PHPMailer via Composer on publish |
 | Production hosting | Hostinger Premium | Static files served by LiteSpeed/Apache; `api/inquiry.php` runs on the plan's PHP |
 | Frontend rendering | Build time | Every page is pre-rendered HTML. JavaScript only enhances (3D, tabs, form UX) |
 | Backend functionality | `api/inquiry.php` | Validation, spam protection, rate limiting, email notification. No database |

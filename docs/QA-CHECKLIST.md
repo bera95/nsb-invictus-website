@@ -3,7 +3,7 @@
 ## Content
 - [ ] All `PLACEHOLDER` items resolved (see README), then `site.showPlaceholders = false`
 - [ ] Contact email, company details and jurisdiction correct on `/contact/`, `/legal/` and `/privacy/`
-- [ ] Privacy policy reviewed for the jurisdiction
+- [ ] Privacy policy effective date current; company details filled in once registered
 - [ ] Products listed only with accurate statuses
 - [ ] No invented clients, statistics, awards or partnerships anywhere
 
@@ -29,7 +29,7 @@
 - [ ] Screen reader check of navigation, tabs and form
 
 ## SEO & technical
-- [ ] `PUBLIC_SITE_URL` set — canonicals and sitemap use the real domain
+- [ ] `npm run verify` passes (canonicals and sitemap use https://nsbinvictus.tech)
 - [ ] `/sitemap-index.xml` and `/robots.txt` load
 - [ ] Submit the sitemap in Google Search Console
 - [ ] Structured data validates (Rich Results Test)

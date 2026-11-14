@@ -2,7 +2,7 @@
 
 **Where vision becomes reality.**
 
-Corporate website for NSB INVICTUS: a static Astro site with a WebGL "Living Architecture" experience and a small PHP endpoint for inquiries. Designed to run on **Hostinger Premium Web Hosting** with no Node.js production runtime, database or VPS.
+Corporate website for NSB INVICTUS — **https://nsbinvictus.tech**: a static Astro site with a WebGL "Living Architecture" experience and a small PHP endpoint for inquiries. Designed to run on **Hostinger Premium Web Hosting** with no Node.js production runtime, database or VPS.
 
 | | |
 |---|---|
@@ -20,6 +20,7 @@ npm install
 npm run dev          # http://localhost:4321  (live reload; the PHP form endpoint is not active here)
 npm run build        # production build → dist/
 npm run preview      # http://localhost:4322  (serves dist/ with PHP — the contact form works)
+npm run verify       # checks dist/ is a safe, complete public_html payload (run after build)
 npm run check        # TypeScript / Astro diagnostics
 ```
 
@@ -45,7 +46,8 @@ public/
   api/             PHP inquiry endpoint, config template, composer.json
   .htaccess        HTTPS, security headers, caching, 404
 docs/              architecture decisions, deployment, QA checklist
-scripts/           post-build + local PHP preview
+scripts/           post-build, dist verification, local PHP preview
+.github/workflows/ ci.yml (every push) · publish-production.yml (manual)
 ```
 
 ## Editing content
@@ -56,21 +58,29 @@ scripts/           post-build + local PHP preview
 - **Products** → add entries to `src/data/products.ts` using an honest `status` (`concept`, `in-development`, `private-beta`, `public-beta`, `available`)
 - **360° demo tour** → place an equirectangular image in `public/media/tours/` and set `propertyTourDemo.panorama`
 
+## Configured
+
+- Domain `nsbinvictus.tech` (canonical URLs, sitemap, robots, `.htaccess` www→apex redirect)
+- Contact: nikola.bera@gmail.com (temporary), +353 87 443 3160 (Ireland), +387 64 191 4707
+- Jurisdiction: Republic of Serbia. The privacy policy covers ZZPL (Serbia) and GDPR (EU visitors).
+
 ## Outstanding placeholders
 
-Search for `PLACEHOLDER` in the code. Yellow "Input required" markers are shown on the site until `site.showPlaceholders` is set to `false`.
+Search for `PLACEHOLDER` in the code. Yellow "Input required" markers stay visible until `site.showPlaceholders` is set to `false`.
 
-1. Public contact email (and optional phone) — `site.ts`
-2. Registered company name, address, registration/VAT numbers, jurisdiction — `site.ts`
-3. Production domain — `PUBLIC_SITE_URL` (GitHub variable / `.env`), `.htaccess` canonical host, `config.php` `allowed_host`
-4. Real products — `products.ts`
-5. Property panorama(s) for the 360° demo — `industries.ts`
-6. Social profiles — `site.ts`
-7. Legal review of the privacy policy for the relevant jurisdiction
+1. Registered company name, address, MB (registration no.) and PIB (tax ID) from APR — `site.ts`, then set `legal.isPlaceholder: false`
+2. Real products and statuses — `products.ts`
+3. Property panorama for the 360° demo — `industries.ts`
+4. *(Later)* domain mailbox to replace the Gmail address, and social profiles — `site.ts`
 
 ## Deployment
 
-See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**. Short version: push to `main` → GitHub Actions builds and publishes `dist/` to the `production` branch → Hostinger Git deployment pulls it into `public_html`.
+See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
+
+- Push to `main` → **CI** workflow: type check, build, verify. **Nothing is published.**
+- Actions → **Publish production** (manual, type `publish`) → the built site goes to the `production` branch.
+- Hostinger Git deployment pulls `production` into `public_html`.
+- SMTP credentials live only in `~/domains/nsbinvictus.tech/private/nsb-config.php`, outside `public_html`.
 
 ## Documentation
 

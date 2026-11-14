@@ -4,18 +4,30 @@ import PageHero from '../components/ui/PageHero.astro';
 import Placeholder from '../components/ui/Placeholder.astro';
 import { site } from '../data/site';
 ---
-<Base title="Legal Notice" description="Company registration, address and legal information for NSB INVICTUS, a technology and digital innovation company.">
+<Base title="Legal Notice" description="Company and contact information for NSB INVICTUS, a technology and digital innovation company established in the Republic of Serbia.">
   <PageHero compact eyebrow="Legal" title="Legal notice" breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Legal notice' }]} />
   <section class="pb-16">
     <div class="container-x max-w-3xl space-y-6 leading-relaxed text-mist-400">
-      {site.legal.isPlaceholder && <Placeholder label="registered company details" />}
+      {site.legal.isPlaceholder && <Placeholder label="registered company name, address, MB and PIB (from APR)" />}
       <dl class="panel grid gap-4 p-8 sm:grid-cols-[12rem_1fr]">
         <dt class="text-mist-500">Company</dt><dd class="text-mist-50">{site.legal.entityName}</dd>
         <dt class="text-mist-500">Registered address</dt><dd class="text-mist-50">{site.legal.address}</dd>
         <dt class="text-mist-500">Registration</dt><dd class="text-mist-50">{site.legal.registration}</dd>
-        <dt class="text-mist-500">Contact</dt><dd><a class="text-signal-soft" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></dd>
+        <dt class="text-mist-500">Country</dt><dd class="text-mist-50">{site.legal.jurisdiction}</dd>
+        <dt class="text-mist-500">Email</dt><dd><a class="text-signal-soft underline underline-offset-4" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></dd>
+        <dt class="text-mist-500">Phone</dt>
+        <dd class="space-y-1">{site.contact.phones.map((p) => <div><a class="text-mist-50" href={`tel:${p.tel}`}>{p.display}</a> <span class="text-mist-500">({p.label})</span></div>)}</dd>
       </dl>
-      <p>All content on this website is provided for general information. Trademarks and product names belong to their respective owners.</p>
+      <h2 class="pt-6 text-2xl">Use of this website</h2>
+      <p>The content of this website is provided for general information about NSB INVICTUS and its services. It does not constitute an offer or a binding commitment; projects are governed by individual written agreements.</p>
+      <h2 class="pt-6 text-2xl">Intellectual property</h2>
+      <p>The NSB INVICTUS name, wordmark, website design, text and visual elements are protected. They may not be reproduced without prior written permission. Third-party trademarks and product names belong to their respective owners.</p>
+      <h2 class="pt-6 text-2xl">Liability</h2>
+      <p>We take care to keep information on this website accurate and current but cannot guarantee that it is complete or error-free at all times. To the extent permitted by law, we are not liable for decisions made solely on the basis of this content. External links are provided for convenience; we are not responsible for third-party content.</p>
+      <h2 class="pt-6 text-2xl">Privacy</h2>
+      <p>For information on how we process personal data, see the <a href="/privacy/" class="text-signal-soft underline underline-offset-4">privacy policy</a>.</p>
+      <h2 class="pt-6 text-2xl">Governing law</h2>
+      <p>This website and any disputes arising from its use are governed by the laws of the {site.legal.jurisdiction}, without prejudice to mandatory consumer or data protection rights in your country of residence.</p>
     </div>
   </section>
 </Base>

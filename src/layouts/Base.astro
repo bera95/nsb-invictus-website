@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { site } from '../data/site';
+import { capabilities } from '../data/capabilities';
 
 interface Props {
   title: string;
@@ -15,18 +16,34 @@ interface Props {
 }
 const { title, description, rawTitle = false, ogType = 'website', jsonLd, noindex = false } = Astro.props;
 const fullTitle = rawTitle ? title : `${title} | ${site.name}`;
+const origin = new URL('/', Astro.site).toString();
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL('/og-image.png', Astro.site).toString();
 
 const organization = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${origin}#organization`,
   name: site.name,
+  ...(site.legal.isPlaceholder ? {} : { legalName: site.legal.entityName }),
   slogan: site.tagline,
   description: site.description,
-  url: new URL('/', Astro.site).toString(),
-  logo: new URL('/favicon.svg', Astro.site).toString(),
-  ...(site.contact.emailIsPlaceholder ? {} : { email: site.contact.email }),
+  url: origin,
+  logo: { '@type': 'ImageObject', url: new URL('/icon-512.png', Astro.site).toString(), width: 512, height: 512 },
+  image: ogImage,
+  email: site.contact.email,
+  telephone: site.contact.phones[0]?.tel,
+  address: { '@type': 'PostalAddress', addressCountry: site.legal.countryCode },
+  areaServed: 'Worldwide',
+  knowsAbout: capabilities.map((c) => c.name),
+  contactPoint: site.contact.phones.map((p) => ({
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    telephone: p.tel,
+    email: site.contact.email,
+    areaServed: p.label === 'Ireland' ? 'IE' : 'RS',
+    availableLanguage: ['English', 'Serbian'],
+  })),
   ...(site.social.length ? { sameAs: site.social.map((s) => s.href) } : {}),
 };
 const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
@@ -38,19 +55,31 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
     <meta name="theme-color" content="#05060a" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="author" content={site.name} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="NSB INVICTUS — Where vision becomes reality." />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <script is:inline>
       document.documentElement.classList.add('js');

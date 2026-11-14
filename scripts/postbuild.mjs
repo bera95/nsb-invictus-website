@@ -8,7 +8,7 @@ import { readFileSync, writeFileSync, rmSync, existsSync, readdirSync, statSync 
 import { join } from 'node:path';
 
 const dist = new URL('../dist/', import.meta.url).pathname;
-const site = (process.env.PUBLIC_SITE_URL || 'https://www.example.com').replace(/\/$/, '');
+const site = (process.env.PUBLIC_SITE_URL || 'https://nsbinvictus.tech').replace(/\/$/, '');
 
 const robots = join(dist, 'robots.txt');
 if (existsSync(robots)) {
@@ -28,5 +28,5 @@ const walk = (d) => readdirSync(d).forEach((n) => {
 });
 walk(dist);
 
-if (!process.env.PUBLIC_SITE_URL) console.warn('[postbuild] WARNING: PUBLIC_SITE_URL is not set — canonical URLs use https://www.example.com');
+console.log(`[postbuild] canonical site: ${site}`);
 console.log(`[postbuild] done. Visible placeholder markers in output: ${count}`);

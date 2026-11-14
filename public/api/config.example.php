@@ -2,22 +2,23 @@
 /**
  * Inquiry endpoint configuration — TEMPLATE.
  *
- * Copy to the server as:  ~/private/nsb-config.php   (outside public_html — recommended)
- *                    or:  public_html/api/config.php (blocked by .htaccess)
- * Never commit the real file to Git.
+ * Copy to the server OUTSIDE the web root, next to public_html:
+ *   ~/domains/nsbinvictus.tech/private/nsb-config.php
+ *   (i.e. <public_html>/../private/nsb-config.php)
+ * The endpoint reads no other location. Never commit the real file to Git.
  */
 return [
     'site_name'      => 'NSB INVICTUS',
-    'allowed_host'   => 'www.example.com',          // PLACEHOLDER: production host name
-    'mail_to'        => ['hello@example.com'],      // PLACEHOLDER: who receives inquiries
-    'mail_from'      => 'website@example.com',      // PLACEHOLDER: mailbox on your domain
+    'allowed_host'   => 'nsbinvictus.tech',
+    'mail_to'        => ['nikola.bera@gmail.com'],  // who receives inquiries
+    'mail_from'      => 'website@nsbinvictus.tech', // Hostinger mailbox on the domain (create it in hPanel)
     'mail_from_name' => 'NSB INVICTUS Website',
 
     // Authenticated SMTP (recommended). Hostinger: smtp.hostinger.com, port 465 (SSL) or 587 (TLS).
     // Leave smtp_host empty to fall back to PHP mail().
     'smtp_host'      => 'smtp.hostinger.com',
     'smtp_port'      => 465,
-    'smtp_user'      => 'website@example.com',
+    'smtp_user'      => 'website@nsbinvictus.tech',
     'smtp_pass'      => 'CHANGE_ME',
 
     // Optional Cloudflare Turnstile secret key (pair with PUBLIC_TURNSTILE_SITE_KEY at build time).
