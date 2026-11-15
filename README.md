@@ -11,7 +11,8 @@ Corporate website for NSB INVICTUS — **https://nsbinvictus.tech**: a static As
 | 3D | three.js (custom shaders), lazy-loaded after first paint |
 | Motion | Ambient 2D canvas (packets, comets), neon CSS layer, view transitions — all off for reduced motion |
 | Analytics | GTM + Consent Mode v2 via `src/components/layout/CookieConsent.astro` |
-| Free tools | `/tools/` pages (`src/data/tools.ts`, `src/scripts/tools.ts`) + `public/api/tools.php` (SSRF-safe, rate-limited) |
+| Free tools | 10 tools at `/tools/` (`src/data/tools.ts`, `src/scripts/tools.ts`): 5 server checks via `public/api/tools.php` (SSRF-safe, rate-limited, results gated) + 5 browser-only tools |
+| AI agents | `/ai-agents/` page and homepage section (`src/data/agents.ts`) |
 | Forms | `public/api/inquiry.php` (PHP 7.4+/8.x, PHPMailer over SMTP) |
 | Fonts | Self-hosted via Fontsource (no Google Fonts requests) |
 | Hosting | Hostinger Premium — static files + PHP |
@@ -39,6 +40,9 @@ src/
     industries.ts    industry verticals (add an object → new page)
     products.ts      proprietary products with status labels
     approach.ts      process, engagement models, principles, technology
+    tools.ts         free tools (pages, SEO, FAQ, gating)
+    agents.ts        AI agent workforce roles
+    icons.ts         icon set used across the site
   components/      layout, home sections, UI, visual (3D canvas, 360° tour)
   layouts/Base.astro   <head>, SEO, structured data, header/footer
   pages/           routes (file-based)

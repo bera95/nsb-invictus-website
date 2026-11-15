@@ -22,8 +22,16 @@
 - [ ] Reduced motion (OS setting): no pinned hero and no animation loop; content fully readable
 - [ ] WebGL disabled: static fallback illustration shown
 
+## Free tools & protection
+- [ ] Website audit on a real site: score, categories, 3 findings visible, rest locked; "full report" lead email arrives
+- [ ] AI crawler, security headers, email and tracking checks return results for a real domain
+- [ ] Browser tools work: UTM builder, word counter, password generator, image compressor
+- [ ] After a scan the page stays at the top of the results
+- [ ] Page text cannot be selected or copied; URL fields accept paste; "Copy results" works
+- [ ] `/api/tools.php` opened directly in the browser returns an error (POST + header required)
+
 ## Accessibility
-- [ ] Automated audit (axe) — 0 violations *(passing at the time of handover)*
+- [ ] Automated audit (axe) — 0 violations on all 29 pages *(passing at the time of handover)*
 - [ ] Keyboard-only navigation through every page, with visible focus
 - [ ] Skip link works
 - [ ] Screen reader check of navigation, tabs and form

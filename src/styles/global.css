@@ -3,6 +3,16 @@
 @import "@fontsource-variable/space-grotesk";
 @import "@fontsource-variable/jetbrains-mono";
 
+/* Metric-matched fallback: text keeps its size while the web font loads (no layout shift). */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Helvetica"), local("Liberation Sans");
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+  size-adjust: 107.12%;
+}
+
 /* ------------------------------------------------------------------
    NSB INVICTUS design tokens
    Vision (violet) → Structure (cyan) → Reality (emerald)
@@ -32,7 +42,7 @@
   --color-neon-soft: #ff8be6;
 
   --font-display: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
   --text-display-xl: clamp(2.9rem, 1.6rem + 6.2vw, 7.25rem);

@@ -9,10 +9,10 @@ const ld = {
 };
 ---
 <nav aria-label="Breadcrumb" class="font-mono text-xs tracking-wider text-mist-500">
-  <ol class="flex flex-wrap items-center gap-2">
+  <ol class="flex min-w-0 flex-nowrap items-center gap-2 overflow-hidden whitespace-nowrap">
     {items.map((it, i) => (
-      <li class="flex items-center gap-2">
-        {it.href ? <a href={it.href} class="hover:text-signal-soft transition-colors">{it.label}</a> : <span aria-current="page" class="text-mist-200">{it.label}</span>}
+      <li class:list={["flex items-center gap-2", i === items.length - 1 ? "min-w-0" : "shrink-0"]}>
+        {it.href ? <a href={it.href} class="hover:text-signal-soft transition-colors">{it.label}</a> : <span aria-current="page" class="truncate text-mist-200">{it.label}</span>}
         {i < items.length - 1 && <span aria-hidden="true">/</span>}
       </li>
     ))}

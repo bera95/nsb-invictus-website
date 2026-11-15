@@ -11,7 +11,7 @@ import type { ShapeName } from './shapes';
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isDesktop = () => window.matchMedia('(min-width: 1024px)').matches;
 const idle = (cb: () => void) =>
-  'requestIdleCallback' in window ? (window as any).requestIdleCallback(cb, { timeout: 1200 }) : setTimeout(cb, 200);
+  'requestIdleCallback' in window ? (window as any).requestIdleCallback(cb, { timeout: 2000 }) : setTimeout(cb, 300);
 
 async function boot(el: HTMLElement) {
   const { createEngine, supportsWebGL } = await import('./engine');
