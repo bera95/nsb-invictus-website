@@ -17,6 +17,8 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: no-store');
+header_remove('X-Powered-By');
+header('X-Robots-Tag: noindex, nofollow');
 
 const UA = 'Mozilla/5.0 (compatible; NSB-INVICTUS-SiteCheck/1.0; +https://nsbinvictus.tech/tools/)';
 const MAX_BYTES = 2_500_000;
@@ -29,12 +31,26 @@ function out(array $data, int $status = 200): void
 }
 function fail(string $msg, int $status = 400): void { out(['ok' => false, 'error' => $msg], $status); }
 
+
+/* ---------- Bot & abuse filter ---------- */
+function nsb_is_bot(): bool
+{
+    $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
+    if ($ua === '' || strlen($ua) < 20) return true;
+    return (bool) preg_match('/(bot|crawl|spider|scrapy|python|curl|wget|httpclient|go-http|aiohttp|libwww|java\/|headless|phantom|selenium|puppeteer|playwright)/i', $ua);
+}
+
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') fail('Method not allowed.', 405);
+// Requests must come from our own pages: JSON body + custom header (blocks cross-site forms and simple scripts).
+if (($_SERVER['HTTP_X_NSB_CLIENT'] ?? '') !== 'web' || stripos((string) ($_SERVER['CONTENT_TYPE'] ?? ''), 'application/json') !== 0) fail('Invalid request.', 400);
+
 
 $config = [];
 $configFile = dirname(__DIR__, 2) . '/private/nsb-config.php';
 if (is_file($configFile)) $config = require $configFile;
 if (!is_array($config)) $config = [];
+// Bot filter (the local-only 'allow_automation' flag lets automated browser tests run).
+if (nsb_is_bot() && empty($config['allow_automation'])) fail('Automated requests are not allowed.', 403);
 
 // Same-origin only
 $host = preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? ''));
@@ -50,8 +66,10 @@ $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 $rateFile = rtrim($config['rate_limit_dir'] ?? sys_get_temp_dir(), '/') . '/nsb-tools-' . hash('sha256', $ip . ($config['rate_limit_salt'] ?? 'nsb')) . '.json';
 $now = time();
 $hits = is_file($rateFile) ? (json_decode((string) @file_get_contents($rateFile), true) ?: []) : [];
-$hits = array_values(array_filter($hits, static function ($t) use ($now) { return $now - (int) $t < 3600; }));
-if (count($hits) >= (int) ($config['tools_per_hour'] ?? 30)) fail('Hourly limit reached. Please try again later — or contact us for a full analysis.', 429);
+$hits = array_values(array_filter($hits, static function ($t) use ($now) { return $now - (int) $t < 86400; }));
+$lastHour = count(array_filter($hits, static function ($t) use ($now) { return $now - (int) $t < 3600; }));
+if ($lastHour >= (int) ($config['tools_per_hour'] ?? 30)) fail('Hourly limit reached. Please try again later — or contact us for a full analysis.', 429);
+if (count($hits) >= (int) ($config['tools_per_day'] ?? 80)) fail('Daily limit reached. Contact us for a full analysis with our professional tools.', 429);
 $hits[] = $now;
 @file_put_contents($rateFile, json_encode($hits), LOCK_EX);
 

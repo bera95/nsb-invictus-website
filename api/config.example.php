@@ -29,7 +29,9 @@ return [
 
     // Free tools (api/tools.php): checks per hour per visitor. NEVER enable tools_allow_private in production.
     'tools_per_hour' => 30,
+    'tools_per_day'  => 80,
     'tools_allow_private' => false,
+    'allow_automation'    => false, // local testing only — keep false in production
 
     // Rate limiting
     'rate_limit_per_hour' => 5,

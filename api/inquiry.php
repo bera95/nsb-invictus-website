@@ -17,6 +17,8 @@ declare(strict_types=1);
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
 header('Cache-Control: no-store');
+header_remove('X-Powered-By');
+header('X-Robots-Tag: noindex, nofollow');
 
 $wantsJson = isset($_SERVER['HTTP_ACCEPT']) && strpos((string) $_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
 
@@ -69,6 +71,15 @@ function oneLine(string $v): string
 }
 
 /* ---------- Spam protection ---------- */
+// 0. Obvious bots and scripts (no or automated user agent).
+$ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
+if (empty($config['allow_automation']) && ($ua === '' || preg_match('/(bot|crawl|spider|scrapy|python|curl|wget|httpclient|go-http|libwww|headless|phantom|selenium|puppeteer)/i', $ua))) {
+    respond(false, 'Automated submissions are not allowed.', 403);
+}
+// Links in messages are a strong spam signal: allow at most 3.
+if (preg_match_all('#https?://#i', (string) ($_POST['message'] ?? '')) > 3) {
+    respond(false, 'Please include no more than three links in your message.', 422);
+}
 // 1. Honeypot: silently accept so bots learn nothing.
 if (field('website', 200) !== '') {
     respond(true);
