@@ -1,15 +1,16 @@
 ---
 /**
- * Interactive capability ecosystem: five capabilities around one core.
+ * Interactive capability ecosystem: all capabilities around one core.
  * Selecting a capability highlights how it connects to the others.
  * Built with accessible tabs; works with keyboard, touch and without JS (first tab shown).
  */
 import Arrow from '../ui/Arrow.astro';
 import { capabilities } from '../../data/capabilities';
 
-const R = 39; // radius in % of the diagram box
+const R = 38; // radius in % of the diagram box
+const step = 360 / capabilities.length;
 const nodes = capabilities.map((c, i) => {
-  const a = (-90 + i * 72) * (Math.PI / 180);
+  const a = (-90 + i * step) * (Math.PI / 180);
   return { ...c, x: 50 + Math.cos(a) * R, y: 50 + Math.sin(a) * R * 0.96 };
 });
 const pairs: [number, number][] = [];
@@ -20,10 +21,10 @@ for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++
     <div class="grid items-end gap-8 lg:grid-cols-2">
       <div data-reveal>
         <p class="eyebrow mb-5">Capabilities</p>
-        <h2 id="eco-title" class="text-display-md">Five capabilities.<br /><span class="text-mist-400">One connected system.</span></h2>
+        <h2 id="eco-title" class="text-display-md">Six capabilities.<br /><span class="text-gradient">One connected system.</span></h2>
       </div>
       <p class="max-w-xl text-lg leading-relaxed text-mist-400 lg:justify-self-end" data-reveal data-reveal-delay="100">
-        Real solutions rarely sit inside one discipline. An AI assistant needs clean data, a solid application and secure infrastructure. Because every capability lives in one team, the pieces are designed to work together from the start.
+        Real solutions rarely sit inside one discipline. A website needs search visibility, tracking and security; an AI agent needs clean data and solid infrastructure. Our team covers every piece — and our own tools connect them.
       </p>
     </div>
 

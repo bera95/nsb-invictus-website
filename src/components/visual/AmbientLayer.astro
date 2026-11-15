@@ -1,0 +1,33 @@
+---
+/** Always-on ambient motion: neon orbs, flying data packets, comets, cursor glow, scroll progress. */
+---
+<div class="ambient pointer-events-none fixed inset-0 z-[5] overflow-hidden" aria-hidden="true">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+  <canvas class="absolute inset-0 h-full w-full" data-ambient></canvas>
+</div>
+<div class="cursor-glow pointer-events-none fixed left-0 top-0 z-[6] hidden h-[600px] w-[600px] rounded-full opacity-0 transition-opacity duration-700 md:block" data-cursor-glow aria-hidden="true"></div>
+<div class="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-vision via-neon to-signal shadow-[0_0_12px_#ff4fd8]" style="transform:scaleX(0)" data-progress aria-hidden="true"></div>
+
+<style>
+  .orb { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: 0.22; mix-blend-mode: screen; }
+  .orb-a { width: 42vmax; height: 42vmax; left: -12vmax; top: 10vh; background: radial-gradient(circle, #7c5cff, transparent 65%); }
+  .orb-b { width: 36vmax; height: 36vmax; right: -10vmax; top: 45vh; background: radial-gradient(circle, #ff4fd8, transparent 65%); opacity: 0.14; }
+  .orb-c { width: 30vmax; height: 30vmax; left: 35vw; bottom: -14vmax; background: radial-gradient(circle, #22d3ee, transparent 65%); opacity: 0.16; }
+  :global(.motion-ok) .orb-a { animation: drift-a 26s ease-in-out infinite; }
+  :global(.motion-ok) .orb-b { animation: drift-b 32s ease-in-out infinite; }
+  :global(.motion-ok) .orb-c { animation: drift-c 22s ease-in-out infinite; }
+  @keyframes drift-a { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(18vw, 12vh) scale(1.15); } }
+  @keyframes drift-b { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-22vw, -18vh) scale(0.9); } }
+  @keyframes drift-c { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-15vw, -10vh); } }
+  .cursor-glow { background: radial-gradient(circle, rgb(124 92 255 / 0.13), rgb(255 79 216 / 0.06) 35%, transparent 65%); mix-blend-mode: screen; }
+</style>
+
+<script>
+  import { initAmbient } from '../../scripts/ambient';
+  import { initEffects } from '../../scripts/effects';
+  const c = document.querySelector<HTMLCanvasElement>('[data-ambient]');
+  const run = () => { if (c) initAmbient(c); initEffects(); };
+  'requestIdleCallback' in window ? (window as any).requestIdleCallback(run, { timeout: 800 }) : setTimeout(run, 150);
+</script>

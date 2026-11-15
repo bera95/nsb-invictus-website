@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ArchitectureCanvas from '../components/visual/ArchitectureCanvas.astro';
 import Hero from '../components/home/Hero.astro';
+import ServicesMarquee from '../components/home/ServicesMarquee.astro';
 import Problems from '../components/home/Problems.astro';
 import CapabilityEcosystem from '../components/home/CapabilityEcosystem.astro';
 import Advisory from '../components/home/Advisory.astro';
@@ -22,16 +23,17 @@ const website = {
 <Base
   title="NSB INVICTUS — Where Vision Becomes Reality"
   rawTitle
-  description="Technology and digital innovation company: AI and automation, custom software, data and BI, cloud engineering, digital growth and property technology."
+  description="AI agents, SEO, AEO and GEO, websites, apps and SaaS, GA4 and GTM analytics, cloud and security — a technology and digital innovation company serving clients worldwide."
   jsonLd={website}
 >
   <ArchitectureCanvas slot="backdrop" mode="scroll" sequence={['vision', 'architecture', 'ecosystem', 'building', 'architecture']} offset={1.9} zoom={1.12} lift={1.9} />
   <Hero />
+  <ServicesMarquee />
   <Problems />
   <CapabilityEcosystem />
+  <ProductsShowcase />
   <Advisory />
   <PropTechSpotlight />
-  <ProductsShowcase />
   <Approach />
   <Principles />
   <FinalCta scene={4} />

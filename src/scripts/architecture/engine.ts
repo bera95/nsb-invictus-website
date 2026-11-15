@@ -78,6 +78,10 @@ const vertex = /* glsl */ `
     vColor = mix(base, uColReality, accent);
     vColor += transit * 0.25;
     vColor *= 1.0 + settled * 0.6;
+    // Neon sparks: a few points flare in magenta/white at random moments.
+    float spark = smoothstep(0.965, 1.0, fract(aSeed * 17.0 + uTime * 0.12));
+    vColor = mix(vColor, vec3(1.0, 0.45, 0.9) * 2.2, spark * 0.85);
+    gl_PointSize *= 1.0 + spark * 1.6;
     vAlpha = 0.55 + 0.45 * fract(aSeed * 9.1);
   }
 `;

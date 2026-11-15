@@ -16,7 +16,8 @@ export type ShapeName =
   | 'modules'
   | 'terrain'
   | 'strata'
-  | 'radiance';
+  | 'radiance'
+  | 'beacon';
 
 export interface Shape {
   positions: Float32Array;
@@ -186,19 +187,21 @@ function ecosystem(n: number): Shape {
   const r = rng(37);
   const nodes: V3[] = [];
   const R = 2.7;
-  for (let i = 0; i < 5; i++) {
-    const a = -Math.PI / 2 + (i / 5) * Math.PI * 2;
-    nodes.push([Math.cos(a) * R, -Math.sin(a) * R * 0.78, Math.sin(a * 2) * 0.4]);
+  const count = 6;
+  for (let i = 0; i < count; i++) {
+    const a = -Math.PI / 2 + (i / count) * Math.PI * 2;
+    // Horizontal ring (XZ plane) so the system reads clearly from every rotation angle.
+    nodes.push([Math.cos(a) * R, Math.sin(a * 3) * 0.35, Math.sin(a) * R]);
   }
   const core: V3 = [0, 0, 0];
   const segs: Seg[] = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < count; i++) {
     segs.push([core, nodes[i]]);
-    for (let j = i + 1; j < 5; j++) segs.push([nodes[i], nodes[j]]);
+    for (let j = i + 1; j < count; j++) segs.push([nodes[i], nodes[j]]);
   }
   const rings: Seg[] = [];
   nodes.forEach((c) => rings.push(...circle(c[0], c[1], c[2], 0.42, 28, 'xy'), ...circle(c[0], c[1], c[2], 0.42, 28, 'xz')));
-  rings.push(...circle(0, 0, 0, 0.75, 40, 'xy'), ...circle(0, 0, 0, 0.75, 40, 'xz'), ...circle(0, 0, 0, 1.15, 48, 'xy'));
+  rings.push(...circle(0, 0, 0, 0.75, 40, 'xy'), ...circle(0, 0, 0, 0.75, 40, 'xz'), ...circle(0, 0, 0, 1.15, 48, 'xz'), ...circle(0, 0, 0, R, 90, 'xz'));
   const positions = compose(n, r, rings, segs, 0.42, 0.014);
   return { positions, lines: segsToLines([...segs, ...rings]), chaos: 0.05 };
 }
@@ -363,8 +366,38 @@ function radiance(n: number): Shape {
   return { positions, lines: segsToLines(rings), chaos: 0.05 };
 }
 
+/** Beacon — a signal spire broadcasting rings of visibility (search & AI visibility). */
+function beacon(n: number): Shape {
+  const r = rng(131);
+  const segs: Seg[] = [];
+  // spire
+  const base = -1.9, top = 1.6;
+  const legs: V3[] = [[-0.55, base, -0.55], [0.55, base, -0.55], [0.55, base, 0.55], [-0.55, base, 0.55]];
+  const apex: V3 = [0, top, 0];
+  legs.forEach((l) => segs.push([l, apex]));
+  for (let k = 1; k < 7; k++) {
+    const t = k / 7;
+    const y = base + (top - base) * t, w = 1.1 * (1 - t);
+    segs.push(...rectRing(0, y, 0, w, w));
+  }
+  // broadcast rings around the apex, tilted
+  const rings: Seg[] = [];
+  for (let k = 1; k <= 5; k++) {
+    const rad = 0.45 + k * 0.5;
+    rings.push(...circle(0, top - 0.2 - k * 0.12, 0, rad, 32 + k * 10, 'xz'));
+  }
+  // signal rays
+  for (let a = 0; a < 12; a++) {
+    const ang = (a / 12) * Math.PI * 2;
+    rings.push([[Math.cos(ang) * 0.3, top, Math.sin(ang) * 0.3], [Math.cos(ang) * 3.1, top - 0.9, Math.sin(ang) * 3.1]]);
+  }
+  const ground: Seg[] = circle(0, base, 0, 2.6, 60, 'xz').concat(circle(0, base, 0, 1.6, 44, 'xz'));
+  const positions = compose(n, r, [...segs, ...ground], rings, 0.45, 0.012);
+  return { positions, lines: segsToLines([...segs, ...ground]), chaos: 0.05 };
+}
+
 const builders: Record<ShapeName, (n: number) => Shape> = {
-  vision, architecture, ecosystem, building, neural, modules, terrain, strata, radiance,
+  vision, architecture, ecosystem, building, neural, modules, terrain, strata, radiance, beacon,
 };
 
 const cache = new Map<string, Shape>();

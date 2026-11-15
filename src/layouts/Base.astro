@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import CookieConsent from '../components/layout/CookieConsent.astro';
+import AmbientLayer from '../components/visual/AmbientLayer.astro';
 import { site } from '../data/site';
 import { capabilities } from '../data/capabilities';
 
@@ -33,8 +35,8 @@ const organization = {
   image: ogImage,
   email: site.contact.email,
   telephone: site.contact.phones[0]?.tel,
-  address: { '@type': 'PostalAddress', addressCountry: site.legal.countryCode },
-  areaServed: 'Worldwide',
+  address: { '@type': 'PostalAddress', addressLocality: site.legal.city, addressCountry: site.legal.countryCode },
+  areaServed: site.areaServed.map((name) => ({ '@type': 'Place', name })),
   knowsAbout: capabilities.map((c) => c.name),
   contactPoint: site.contact.phones.map((p) => ({
     '@type': 'ContactPoint',
@@ -90,11 +92,13 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
   <body class="relative">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-mist-50 focus:px-4 focus:py-2 focus:text-void">Skip to content</a>
     <slot name="backdrop" />
+    <AmbientLayer />
     <Header />
     <main id="main" class="relative z-10">
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
     <script>
       import { initReveals } from '../scripts/reveal';
       initReveals();

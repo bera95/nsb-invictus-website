@@ -1,10 +1,16 @@
 /**
  * Capability (service) architecture — single source of truth for navigation,
- * the homepage ecosystem, capability landing pages and the inquiry form.
+ * the homepage ecosystem, capability landing pages, FAQ schema and the inquiry form.
  */
 import type { ShapeName } from '../scripts/architecture/shapes';
 
-export type CapabilitySlug = 'ai-automation' | 'software-engineering' | 'data-intelligence' | 'cloud-platform' | 'digital-growth';
+export type CapabilitySlug =
+  | 'ai-automation'
+  | 'search-visibility'
+  | 'software-engineering'
+  | 'data-intelligence'
+  | 'cloud-platform'
+  | 'digital-growth';
 
 export interface Capability {
   slug: CapabilitySlug;
@@ -20,6 +26,7 @@ export interface Capability {
   problems: string[];
   outcomes: string[];
   connections: { to: CapabilitySlug; label: string }[];
+  faq: { q: string; a: string }[];
   seo: { title: string; description: string };
 }
 
@@ -27,20 +34,20 @@ export const capabilities: Capability[] = [
   {
     slug: 'ai-automation',
     index: '01',
-    name: 'AI & Intelligent Automation',
-    shortName: 'AI & Automation',
+    name: 'AI, Agents & Automation',
+    shortName: 'AI & Agents',
     shape: 'neural',
     accent: '#a996ff',
-    summary: 'Practical AI that sits inside real workflows — agents, LLM integrations and automation that remove repetitive work.',
+    summary: 'AI agents, LLM integrations and intelligent automation built into real business workflows — not demos.',
     headline: 'AI that does real work inside your business.',
     intro:
-      'We design and build AI systems around concrete processes rather than demos. That means grounding language models in your own data, connecting them to the tools your teams already use, and adding the controls needed to run them responsibly in production.',
+      'We design and build AI systems around concrete processes. That means grounding large language models in your own data, connecting agents to the tools your teams already use, and adding the evaluation and controls needed to run them responsibly in production.',
     offerings: [
       { title: 'AI agents', text: 'Task-oriented agents that research, draft, triage and act across your systems, with human review where it matters.' },
-      { title: 'LLM integrations', text: 'Language models connected to your documents, databases and applications through secure, well-defined interfaces.' },
-      { title: 'Intelligent automation', text: 'End-to-end automation of document handling, data entry, routing and approvals that previously required manual effort.' },
-      { title: 'AI-powered workflows', text: 'Existing business processes redesigned so that AI handles the routine steps and people handle the decisions.' },
-      { title: 'Custom AI applications', text: 'Purpose-built tools — assistants, classifiers, search and extraction systems — designed for a specific business problem.' },
+      { title: 'LLM integrations', text: 'Language models connected to your documents, databases and applications — including retrieval-augmented generation (RAG).' },
+      { title: 'Intelligent automation', text: 'End-to-end automation of document handling, data entry, routing and approvals that previously required manual work.' },
+      { title: 'AI-powered workflows', text: 'Business processes redesigned so AI handles the routine steps and people handle the decisions.' },
+      { title: 'Custom AI tools', text: 'Purpose-built assistants, classifiers, search and extraction systems for a specific business problem.' },
       { title: 'Evaluation & guardrails', text: 'Testing, monitoring and access controls that make AI behaviour measurable, predictable and auditable.' },
     ],
     problems: [
@@ -52,165 +59,231 @@ export const capabilities: Capability[] = [
     connections: [
       { to: 'data-intelligence', label: 'AI is only as good as the data it is grounded in.' },
       { to: 'software-engineering', label: 'Models become useful when embedded in real applications.' },
-      { to: 'cloud-platform', label: 'Secure, scalable infrastructure to run AI in production.' },
-      { to: 'digital-growth', label: 'Automated content, personalisation and lead handling.' },
+      { to: 'cloud-platform', label: 'Secure, governed infrastructure to run AI in production.' },
+      { to: 'search-visibility', label: 'AI-assisted research, content operations and GEO.' },
+    ],
+    faq: [
+      { q: 'What is an AI agent?', a: 'An AI agent is software that uses a language model to plan and carry out multi-step tasks — such as researching, drafting, classifying or updating records — by calling the tools and systems it is given access to, with human approval where needed.' },
+      { q: 'Can AI work with our own company data securely?', a: 'Yes. We connect models to your data through controlled interfaces, apply access permissions, and choose hosting and model providers that match your security and data-residency requirements.' },
+      { q: 'How do you start an AI project?', a: 'Usually with a short discovery phase: we identify the processes where AI saves the most time, build a focused pilot, measure the results, and then scale what works.' },
     ],
     seo: {
-      title: 'AI & Intelligent Automation — AI Agents, LLM Integration',
-      description: 'AI agents, LLM integrations and intelligent automation designed around real business workflows. Built for production, with evaluation and guardrails.',
+      title: 'AI Agents, LLM Integration & Intelligent Automation',
+      description: 'Custom AI agents, LLM integrations, RAG and intelligent automation designed around real business workflows — built for production with evaluation and guardrails.',
+    },
+  },
+  {
+    slug: 'search-visibility',
+    index: '02',
+    name: 'Search, AI & Local Visibility',
+    shortName: 'SEO · AEO · GEO',
+    shape: 'beacon',
+    accent: '#ff4fd8',
+    summary: 'SEO, AEO and GEO: visibility in Google, in AI assistants and in local search — across Europe, the US, Canada and beyond.',
+    headline: 'Be the answer — on Google, in AI assistants and on the map.',
+    intro:
+      'Search has split into many surfaces: classic results, featured answers, AI overviews, chat assistants and local maps. We optimise for all of them at once — technically, editorially and locally — and measure visibility with our own proprietary search intelligence tools.',
+    offerings: [
+      { title: 'Technical SEO', text: 'Crawlability, indexation, site speed, Core Web Vitals, structured data and site architecture — fixed at the source.' },
+      { title: 'Content & on-page SEO', text: 'Keyword and intent research, content strategy and on-page optimisation that build topical authority.' },
+      { title: 'AEO — answer engine optimisation', text: 'Content structured to win featured snippets, “People also ask”, voice answers and AI overviews.' },
+      { title: 'GEO — generative engine optimisation', text: 'Visibility and accurate brand representation in ChatGPT, Gemini, Perplexity, Copilot and other AI assistants.' },
+      { title: 'Local & international SEO', text: 'Google Business Profile, local citations, multi-location and multilingual (hreflang) SEO for Europe, the US and Canada.' },
+      { title: 'Search intelligence & reporting', text: 'Rank, AI-visibility and competitor tracking with our proprietary SEODREAM platform, plus clear reporting.' },
+    ],
+    problems: [
+      'Competitors appear in search results and AI answers — you do not.',
+      'Traffic dropped after algorithm or AI-overview changes.',
+      'You serve several countries or cities but rank in none of them.',
+    ],
+    outcomes: ['Higher qualified organic visibility', 'Presence in AI-generated answers', 'Local visibility in every target market'],
+    connections: [
+      { to: 'data-intelligence', label: 'Search Console, GA4 and tracking that prove the impact.' },
+      { to: 'software-engineering', label: 'Fast, crawlable websites built for search from day one.' },
+      { to: 'digital-growth', label: 'Content and brand that earn links and citations.' },
+      { to: 'ai-automation', label: 'AI-assisted research and content operations at scale.' },
+    ],
+    faq: [
+      { q: 'What is the difference between SEO, AEO and GEO?', a: 'SEO (search engine optimisation) improves rankings in classic search results. AEO (answer engine optimisation) structures content so search engines and voice assistants can use it as a direct answer. GEO (generative engine optimisation) improves how often and how accurately AI assistants such as ChatGPT, Gemini and Perplexity mention and cite your brand.' },
+      { q: 'Do you do local SEO outside Serbia?', a: 'Yes. We work internationally — across Europe, the United States, Canada and other markets — including Google Business Profile optimisation, local citations and multilingual SEO with correct hreflang setup.' },
+      { q: 'How long does SEO take to show results?', a: 'Technical fixes can show impact within weeks; content and authority typically build over several months. We agree measurable milestones up front and report against them.' },
+    ],
+    seo: {
+      title: 'SEO, AEO & GEO Services — Search, AI and Local Visibility',
+      description: 'Technical SEO, content SEO, answer engine optimisation (AEO), generative engine optimisation (GEO) and local SEO for Europe, the US and Canada — powered by proprietary search tools.',
     },
   },
   {
     slug: 'software-engineering',
-    index: '02',
-    name: 'Software & Product Engineering',
-    shortName: 'Software & Product',
+    index: '03',
+    name: 'Websites, Apps & SaaS',
+    shortName: 'Web, Apps & SaaS',
     shape: 'modules',
     accent: '#7fe6f6',
-    summary: 'Custom software, SaaS platforms and web applications engineered to be maintainable, secure and ready to scale.',
-    headline: 'Software engineered to last, not just to launch.',
+    summary: 'Websites, web and mobile applications, SaaS platforms and e-commerce tools — engineered to be fast, secure and scalable.',
+    headline: 'Websites and software engineered to last, not just to launch.',
     intro:
-      'From a first MVP to complex business systems, we take products from requirements to production. We favour clear architecture, automated testing and documentation, so the software remains an asset you can extend rather than a liability you work around.',
+      'From high-performance company websites to complex SaaS platforms, we take products from requirements to production. We favour clear architecture, automated testing and documentation, so what we build remains an asset you can extend.',
     offerings: [
-      { title: 'Custom software', text: 'Applications built around how your organisation actually operates, not around the limits of off-the-shelf tools.' },
-      { title: 'SaaS platforms', text: 'Multi-tenant products with subscription, permissions and administration designed in from day one.' },
-      { title: 'Web applications', text: 'Fast, accessible, responsive applications built with modern, well-supported frameworks.' },
-      { title: 'Business management systems', text: 'Internal platforms that replace spreadsheets and disconnected tools with one reliable system of record.' },
+      { title: 'Websites', text: 'Fast, accessible, search-ready company websites and landing pages with modern frameworks or a CMS.' },
+      { title: 'Web applications', text: 'Portals, dashboards and internal tools built around how your organisation actually works.' },
+      { title: 'Mobile apps', text: 'Cross-platform iOS and Android applications that share code and design with the web.' },
+      { title: 'SaaS platforms', text: 'Multi-tenant products with subscriptions, permissions and administration designed in from day one.' },
+      { title: 'E-commerce & commerce tools', text: 'Online stores, headless commerce and custom tools for catalogues, pricing, inventory and orders.' },
       { title: 'APIs & integrations', text: 'Robust APIs and integrations that connect CRMs, ERPs, payment providers and third-party services.' },
-      { title: 'Digital product development', text: 'Discovery, UX design, prototyping and iterative delivery for new digital products.' },
     ],
     problems: [
+      'Your website is slow, outdated or hard to update.',
       'Operations depend on spreadsheets and manual hand-offs.',
-      'Existing software is hard to change and expensive to maintain.',
       'A product idea needs to become a working, testable release.',
     ],
-    outcomes: ['One reliable system of record', 'Shorter time from idea to release', 'Code you own, documented and maintainable'],
+    outcomes: ['A fast, modern digital presence', 'Shorter time from idea to release', 'Code you own, documented and maintainable'],
     connections: [
       { to: 'ai-automation', label: 'Intelligent features built directly into the product.' },
-      { to: 'cloud-platform', label: 'Deployment pipelines and infrastructure designed alongside the code.' },
-      { to: 'data-intelligence', label: 'Applications that capture clean, analysable data from the start.' },
-      { to: 'digital-growth', label: 'Products designed to be found, adopted and grown.' },
+      { to: 'cloud-platform', label: 'Secure hosting, CI/CD and infrastructure designed alongside the code.' },
+      { to: 'search-visibility', label: 'Technical SEO and structured data built in from the start.' },
+      { to: 'data-intelligence', label: 'Analytics and event tracking implemented correctly at launch.' },
+    ],
+    faq: [
+      { q: 'Do you build websites or only complex software?', a: 'Both. We build company websites and landing pages as well as web applications, mobile apps, SaaS platforms and e-commerce systems.' },
+      { q: 'Who owns the code?', a: 'You do. Source code, documentation and infrastructure access are handed over — there is no artificial lock-in.' },
+      { q: 'Can you take over an existing project?', a: 'Yes. We start with a technical review of the codebase and infrastructure, then propose a plan to stabilise, improve or rebuild where it makes sense.' },
     ],
     seo: {
-      title: 'Software & Product Engineering — Custom Software, SaaS, APIs',
-      description: 'Custom software, SaaS platforms, web applications, business systems and API integrations — engineered for maintainability, security and scale.',
+      title: 'Website, Web App, Mobile App & SaaS Development',
+      description: 'Website development, web and mobile applications, SaaS platforms, e-commerce tools and API integrations — engineered for performance, security and scale.',
     },
   },
   {
     slug: 'data-intelligence',
-    index: '03',
-    name: 'Data & Business Intelligence',
-    shortName: 'Data & BI',
+    index: '04',
+    name: 'Analytics, Tracking & Data',
+    shortName: 'Analytics & Data',
     shape: 'terrain',
     accent: '#5fdcb0',
-    summary: 'Dashboards, analytics and predictive models that turn operational data into decisions.',
-    headline: 'Turn the data you already have into decisions you can trust.',
+    summary: 'GA4, Google Tag Manager, Search Console, consent mode, live dashboards and conversion analysis — data you can trust.',
+    headline: 'Tracking you can trust. Insight you can act on.',
     intro:
-      'Most organisations already hold the data they need — it is simply spread across systems and difficult to trust. We consolidate, model and visualise it, so leaders and teams work from a single, reliable view of performance.',
+      'Most analytics setups are incomplete, inconsistent or non-compliant. We implement GA4, Google Tag Manager, Search Console and consent mode correctly, connect them in live dashboards, and use our proprietary analytics platform to detect and resolve issues continuously.',
     offerings: [
-      { title: 'Business intelligence', text: 'A consistent reporting layer with agreed definitions for the metrics that run your business.' },
-      { title: 'Data analytics', text: 'Analysis that answers specific commercial and operational questions, not just descriptive reports.' },
-      { title: 'Interactive dashboards', text: 'Clear, role-specific dashboards that people actually open and use.' },
-      { title: 'Reporting & visualisation', text: 'Automated reporting that replaces manual monthly spreadsheet work.' },
-      { title: 'Predictive analytics', text: 'Forecasting and scoring models for demand, churn, pricing and risk.' },
-      { title: 'Data pipelines', text: 'Reliable extraction, transformation and storage that keeps every report up to date.' },
+      { title: 'GA4 implementation & audits', text: 'Clean Google Analytics 4 properties with meaningful events, conversions and audiences — or a full audit of your existing setup.' },
+      { title: 'Google Tag Manager', text: 'Structured, documented GTM containers with server-side tagging where it adds value.' },
+      { title: 'Consent mode & cookie compliance', text: 'Cookie consent banners and Google Consent Mode v2 configured to meet GDPR requirements without losing measurement.' },
+      { title: 'Search Console & search data', text: 'Search Console setup, indexing monitoring and search performance analysis combined with analytics data.' },
+      { title: 'Live dashboards & BI', text: 'Real-time dashboards that combine analytics, search, advertising and business data in one view.' },
+      { title: 'Analysis & CRO', text: 'Funnel analysis, experimentation and conversion rate optimisation that turn insight into revenue.' },
     ],
     problems: [
-      'Different teams report different numbers for the same metric.',
-      'Reporting is manual, slow and error-prone.',
-      'Decisions rely on intuition because data is hard to access.',
+      'Analytics numbers do not match reality — or each other.',
+      'Cookie consent is missing, broken or blocking measurement.',
+      'Reporting is manual, slow and nobody trusts it.',
     ],
-    outcomes: ['A single source of truth for key metrics', 'Automated, always-current reporting', 'Forward-looking insight, not just history'],
+    outcomes: ['Accurate, compliant tracking', 'Live dashboards instead of manual reports', 'Issues found before they cost money'],
     connections: [
-      { to: 'ai-automation', label: 'Clean data foundations for AI and machine learning.' },
-      { to: 'software-engineering', label: 'Embedded analytics inside your own applications.' },
-      { to: 'cloud-platform', label: 'Scalable warehouses and pipelines in the cloud.' },
-      { to: 'digital-growth', label: 'Marketing attribution and performance measurement.' },
+      { to: 'search-visibility', label: 'Search Console and analytics data for SEO decisions.' },
+      { to: 'ai-automation', label: 'AI-assisted anomaly detection and analysis.' },
+      { to: 'cloud-platform', label: 'Server-side tagging and privacy-safe infrastructure.' },
+      { to: 'digital-growth', label: 'Attribution and campaign performance measurement.' },
+    ],
+    faq: [
+      { q: 'What is Google Consent Mode v2 and do I need it?', a: 'Consent Mode v2 tells Google tags whether a visitor has agreed to analytics and advertising storage. For websites with visitors from the EU and EEA it is required to keep using Google advertising features and to measure compliantly.' },
+      { q: 'Can you audit our existing GA4 and GTM setup?', a: 'Yes. We review data quality, events, conversions, consent configuration and tag governance, then deliver a prioritised list of fixes — and can implement them.' },
+      { q: 'What is a live analytics dashboard?', a: 'A continuously updated view that combines sources such as GA4, Search Console, advertising platforms and consent status, so you can see performance and problems without building reports manually.' },
     ],
     seo: {
-      title: 'Data & Business Intelligence — Dashboards, Analytics, Forecasting',
-      description: 'Business intelligence, interactive dashboards, automated reporting and predictive analytics that turn operational data into reliable decisions.',
+      title: 'GA4, Google Tag Manager, Consent Mode & Analytics Dashboards',
+      description: 'GA4 and Google Tag Manager implementation and audits, Consent Mode v2 and cookie compliance, Search Console, live dashboards and conversion rate optimisation.',
     },
   },
   {
     slug: 'cloud-platform',
-    index: '04',
-    name: 'Cloud & Platform Engineering',
-    shortName: 'Cloud & Platform',
+    index: '05',
+    name: 'Cloud, Security & Compliance',
+    shortName: 'Cloud & Security',
     shape: 'strata',
     accent: '#7c5cff',
-    summary: 'Cloud architecture, DevOps and performance engineering for systems that stay fast, secure and cost-efficient.',
-    headline: 'Infrastructure that stays out of the way — and never falls over.',
+    summary: 'Cloud architecture, DevOps, website and application security, and privacy compliance — systems that stay fast, safe and lawful.',
+    headline: 'Secure, compliant infrastructure that never gets in the way.',
     intro:
-      'We design cloud foundations that are secure by default, observable and sized to real demand. Whether you are moving to the cloud, modernising a legacy platform or reducing costs, the goal is the same: dependable systems that teams can deploy to with confidence.',
+      'We design cloud foundations that are secure by default, observable and sized to real demand — and we harden the websites and applications running on them. Security and privacy compliance are part of the architecture, not an afterthought.',
     offerings: [
       { title: 'Cloud architecture', text: 'Well-structured environments on major cloud providers, designed around security, resilience and cost.' },
       { title: 'DevOps & CI/CD', text: 'Automated build, test and deployment pipelines that make releases routine instead of risky.' },
-      { title: 'Infrastructure as code', text: 'Reproducible, version-controlled infrastructure that can be reviewed like application code.' },
-      { title: 'Migration & modernisation', text: 'Planned migration of legacy systems with minimal disruption to the business.' },
+      { title: 'Website & application security', text: 'Security audits, hardening, security headers, dependency and vulnerability management, and incident response.' },
+      { title: 'Privacy & GDPR compliance', text: 'Privacy-by-design implementation, cookie consent, data-processing reviews and compliant data flows.' },
       { title: 'Performance & optimisation', text: 'Profiling and tuning of applications, databases and infrastructure — including cost optimisation.' },
-      { title: 'Monitoring & reliability', text: 'Logging, metrics and alerting that surface problems before your customers notice them.' },
+      { title: 'Monitoring & reliability', text: 'Logging, uptime monitoring and alerting that surface problems before customers notice them.' },
     ],
     problems: [
+      'Your website or application has never had a security review.',
       'Deployments are manual, infrequent and stressful.',
-      'Cloud costs are rising without clear visibility.',
-      'Legacy infrastructure limits what the business can build next.',
+      'You are unsure whether your data handling is GDPR-compliant.',
     ],
-    outcomes: ['Frequent, low-risk releases', 'Predictable infrastructure costs', 'Measurable reliability and security'],
+    outcomes: ['Measurably stronger security posture', 'Frequent, low-risk releases', 'Documented, compliant data handling'],
     connections: [
-      { to: 'software-engineering', label: 'The platform every application is deployed on.' },
-      { to: 'ai-automation', label: 'Secure, governed environments for AI workloads.' },
-      { to: 'data-intelligence', label: 'Data platforms that scale with your volume.' },
-      { to: 'digital-growth', label: 'Fast, resilient websites that convert and rank.' },
+      { to: 'software-engineering', label: 'The secure platform every application runs on.' },
+      { to: 'data-intelligence', label: 'Compliant tracking and consent infrastructure.' },
+      { to: 'ai-automation', label: 'Governed environments for AI workloads.' },
+      { to: 'search-visibility', label: 'Speed and stability that search engines reward.' },
+    ],
+    faq: [
+      { q: 'What does a website security audit include?', a: 'A review of server and application configuration, security headers, authentication, dependencies and known vulnerabilities, data handling and backups — followed by a prioritised remediation plan.' },
+      { q: 'Can you help with GDPR compliance for our website?', a: 'Yes, on the technical side: cookie consent, consent mode, data flows, processor configuration and privacy-by-design implementation. We work alongside your legal advisers for legal documentation.' },
+      { q: 'Which cloud providers do you work with?', a: 'We work with the major cloud providers as well as managed hosting, and choose based on your requirements for performance, cost, compliance and data location.' },
     ],
     seo: {
-      title: 'Cloud & Platform Engineering — Cloud Architecture, DevOps',
-      description: 'Cloud architecture, DevOps, CI/CD, migration and performance optimisation for secure, observable and cost-efficient platforms.',
+      title: 'Cloud, DevOps, Website Security & GDPR Compliance',
+      description: 'Cloud architecture, DevOps and CI/CD, website and application security audits and hardening, GDPR and cookie compliance, performance optimisation and monitoring.',
     },
   },
   {
     slug: 'digital-growth',
-    index: '05',
+    index: '06',
     name: 'Digital Growth & Brand',
     shortName: 'Growth & Brand',
     shape: 'radiance',
     accent: '#22d3ee',
-    summary: 'Brand, content, SEO, GEO and performance marketing — engineered and measured like any other system.',
+    summary: 'Digital strategy, brand, content and performance marketing — engineered and measured like any other system.',
     headline: 'Growth built on brand clarity and measurable systems.',
     intro:
-      'Visibility is now earned across search engines, AI assistants and social platforms at once. We connect brand, content and performance marketing into one measurable system — and because we also engineer software, the experiences we create are fast, accessible and properly instrumented.',
+      'We connect brand, content and performance marketing into one measurable growth system. Because we also engineer software and analytics, campaigns land on fast pages, every result is tracked correctly and budgets follow evidence.',
     offerings: [
       { title: 'Digital strategy', text: 'Positioning, audience and channel strategy grounded in data rather than assumptions.' },
-      { title: 'SEO & GEO', text: 'Technical and content optimisation for search engines and generative AI answer engines.' },
-      { title: 'Content strategy & production', text: 'Editorial planning and production that builds authority in your market.' },
       { title: 'Brand development', text: 'Identity, messaging and design systems that stay consistent across every touchpoint.' },
-      { title: 'Performance marketing', text: 'Paid acquisition with clear attribution, testing discipline and budget control.' },
-      { title: 'Marketing automation & creative experiences', text: 'Lifecycle automation and interactive digital experiences that engage and convert.' },
+      { title: 'Content strategy & production', text: 'Editorial planning and production that builds authority in your market.' },
+      { title: 'Performance marketing', text: 'Paid search and paid social campaigns with clear attribution, testing discipline and budget control.' },
+      { title: 'Marketing automation', text: 'Lifecycle email, lead nurturing and CRM automation that turn interest into customers.' },
+      { title: 'Creative digital experiences', text: 'Interactive campaigns, product launches and immersive web experiences that people remember.' },
     ],
     problems: [
-      'Strong products are invisible in search and AI answers.',
       'Marketing spend is hard to connect to revenue.',
       'Brand presentation is inconsistent across channels.',
+      'Leads arrive but are not followed up systematically.',
     ],
-    outcomes: ['Higher qualified visibility', 'Attribution you can act on', 'A consistent, recognisable brand'],
+    outcomes: ['Attribution you can act on', 'A consistent, recognisable brand', 'More leads converted into customers'],
     connections: [
+      { to: 'search-visibility', label: 'Organic visibility that compounds over time.' },
       { to: 'data-intelligence', label: 'Attribution and performance dashboards.' },
       { to: 'ai-automation', label: 'Automated lead qualification and personalisation.' },
-      { to: 'software-engineering', label: 'High-performance websites and campaign platforms.' },
-      { to: 'cloud-platform', label: 'Infrastructure that keeps digital experiences fast.' },
+      { to: 'software-engineering', label: 'High-performance landing pages and campaign sites.' },
+    ],
+    faq: [
+      { q: 'Do you run paid advertising campaigns?', a: 'Yes — paid search and paid social campaigns, built on correct conversion tracking so budget decisions are based on real results.' },
+      { q: 'Can you help with branding as well as marketing?', a: 'Yes. We develop brand identity, messaging and design systems, then apply them consistently across the website, content and campaigns.' },
+      { q: 'How do you measure marketing results?', a: 'With properly configured GA4, Tag Manager and consent mode, combined into dashboards that connect campaigns to leads and revenue.' },
     ],
     seo: {
-      title: 'Digital Growth & Brand — SEO, GEO, Content, Performance Marketing',
-      description: 'Digital strategy, SEO and GEO, content, brand development and performance marketing connected into one measurable growth system.',
+      title: 'Digital Marketing, Branding & Performance Marketing',
+      description: 'Digital strategy, brand development, content, performance marketing and marketing automation connected into one measurable growth system.',
     },
   },
 ];
 
 export const advisory = {
-  name: 'Strategy & Advisory',
+  name: 'Strategy & Consulting',
   summary:
-    'A focused discovery and architecture engagement that turns an idea or a problem into a clear technical roadmap — scope, priorities, architecture and budget — before any large commitment.',
-  steps: ['Stakeholder & process discovery', 'Technical and data assessment', 'Solution architecture & roadmap', 'Estimate and delivery plan'],
+    'Independent technology and digital consulting: we turn an idea or a problem into a clear roadmap — scope, priorities, architecture and budget — before any large commitment.',
+  steps: ['Business & process discovery', 'Technical, data and search audit', 'Solution architecture & roadmap', 'Estimate and delivery plan'],
 };
 
 export const getCapability = (slug: string) => capabilities.find((c) => c.slug === slug);

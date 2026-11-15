@@ -9,6 +9,8 @@ Corporate website for NSB INVICTUS — **https://nsbinvictus.tech**: a static As
 | Framework | [Astro](https://astro.build) (static output) + TypeScript |
 | Styling | Tailwind CSS v4, design tokens in `src/styles/global.css` |
 | 3D | three.js (custom shaders), lazy-loaded after first paint |
+| Motion | Ambient 2D canvas (packets, comets), neon CSS layer, view transitions — all off for reduced motion |
+| Analytics | GTM + Consent Mode v2 via `src/components/layout/CookieConsent.astro` |
 | Forms | `public/api/inquiry.php` (PHP 7.4+/8.x, PHPMailer over SMTP) |
 | Fonts | Self-hosted via Fontsource (no Google Fonts requests) |
 | Hosting | Hostinger Premium — static files + PHP |
@@ -32,7 +34,7 @@ To test the contact form locally, create `private/nsb-config.php` (git-ignored) 
 src/
   data/            ← ALL editable content and configuration
     site.ts          global settings, contact & legal details, navigation
-    capabilities.ts  the five capabilities + Strategy & Advisory
+    capabilities.ts  the six capabilities (+ FAQ) + Strategy & Consulting
     industries.ts    industry verticals (add an object → new page)
     products.ts      proprietary products with status labels
     approach.ts      process, engagement models, principles, technology
@@ -62,16 +64,16 @@ scripts/           post-build, dist verification, local PHP preview
 
 - Domain `nsbinvictus.tech` (canonical URLs, sitemap, robots, `.htaccess` www→apex redirect)
 - Contact: nikola.bera@gmail.com (temporary), +353 87 443 3160 (Ireland), +387 64 191 4707
-- Jurisdiction: Republic of Serbia. The privacy policy covers ZZPL (Serbia) and GDPR (EU visitors).
+- Jurisdiction: Republic of Serbia (Kikinda). The privacy policy covers ZZPL (Serbia) and GDPR (EU visitors).
+- Google Tag Manager `GTM-WWSDNF2G`, loaded only after cookie consent (Consent Mode v2). Configure GA4 inside GTM.
+- Proprietary tools (SEODREAM, Analytics Command Center) — `products.ts`; names marked as working names.
 
 ## Outstanding placeholders
 
 Search for `PLACEHOLDER` in the code. Yellow "Input required" markers stay visible until `site.showPlaceholders` is set to `false`.
 
-1. Registered company name, address, MB (registration no.) and PIB (tax ID) from APR — `site.ts`, then set `legal.isPlaceholder: false`
-2. Real products and statuses — `products.ts`
-3. Property panorama for the 360° demo — `industries.ts`
-4. *(Later)* domain mailbox to replace the Gmail address, and social profiles — `site.ts`
+1. Registered company name, street address, MB (registration no.) and PIB (tax ID) from APR — `site.ts`, then set `legal.isPlaceholder: false`
+2. *(Later)* domain mailbox to replace the Gmail address, and social profiles — `site.ts`
 
 ## Deployment
 

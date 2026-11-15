@@ -2,7 +2,6 @@
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/ui/PageHero.astro';
 import FinalCta from '../../components/cta/FinalCta.astro';
-import TourDemo from '../../components/visual/TourDemo.astro';
 import Arrow from '../../components/ui/Arrow.astro';
 import { industries, type Industry } from '../../data/industries';
 import { capabilities } from '../../data/capabilities';
@@ -13,7 +12,6 @@ export function getStaticPaths() {
 interface Props { ind: Industry }
 const { ind } = Astro.props;
 const capName = (slug: string) => capabilities.find((c) => c.slug === slug)!;
-const isProp = ind.slug === 'property-technology';
 const ld = { '@context': 'https://schema.org', '@type': 'Service', name: ind.name, description: ind.seo.description, provider: { '@type': 'Organization', name: 'NSB INVICTUS' } };
 ---
 <Base title={ind.seo.title} description={ind.seo.description} jsonLd={ld}>
@@ -66,25 +64,6 @@ const ld = { '@context': 'https://schema.org', '@type': 'Service', name: ind.nam
     </div>
   </section>
 
-  {isProp && (
-    <section class="py-20" aria-labelledby="tour-h">
-      <div class="container-x grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-        <div data-reveal>
-          <p class="eyebrow mb-5">Virtual viewing</p>
-          <h2 id="tour-h" class="text-display-md">Let buyers walk through before they visit.</h2>
-          <p class="mt-6 text-lg leading-relaxed text-mist-400">
-            360° tours run directly in the browser and can be embedded in listings, project sites and portals. Hotspots, floor plans and property information turn a viewing into an informed decision.
-          </p>
-          <ul class="mt-6 space-y-2 text-mist-200">
-            <li>— Self-hosted viewer, no third-party licence required</li>
-            <li>— Mobile, desktop and embeddable in any website</li>
-            <li>— Can connect to listing data and lead capture</li>
-          </ul>
-        </div>
-        <div data-reveal data-reveal-delay="100"><TourDemo /></div>
-      </div>
-    </section>
-  )}
 
   <FinalCta title={`Let’s build your <span class="text-gradient">${ind.shortName.toLowerCase()}</span> solution.`} topic={ind.slug} />
 </Base>

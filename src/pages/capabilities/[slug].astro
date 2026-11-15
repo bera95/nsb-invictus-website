@@ -14,17 +14,23 @@ interface Props { cap: Capability }
 const { cap } = Astro.props;
 const related = cap.connections.map((c) => ({ ...c, cap: capabilities.find((x) => x.slug === c.to)! }));
 const relevantIndustries = industries.filter((i) => i.solutions.some((s) => s.capability === cap.slug));
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: cap.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
 const service = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: cap.name,
   description: cap.seo.description,
   serviceType: cap.name,
-  provider: { '@type': 'Organization', name: 'NSB INVICTUS' },
+  provider: { '@type': 'Organization', name: 'NSB INVICTUS', url: new URL('/', Astro.site).toString() },
+  areaServed: ['Europe', 'United States', 'Canada', 'Worldwide'],
   hasOfferCatalog: { '@type': 'OfferCatalog', name: cap.name, itemListElement: cap.offerings.map((o) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: o.title, description: o.text } })) },
 };
 ---
-<Base title={cap.seo.title} description={cap.seo.description} jsonLd={service}>
+<Base title={cap.seo.title} description={cap.seo.description} jsonLd={[service, faqLd]}>
   <PageHero
     eyebrow={`Capability ${cap.index}`}
     title={cap.headline}
@@ -119,6 +125,26 @@ const service = {
           ))}
         </p>
       )}
+    </div>
+  </section>
+
+  <section class="relative py-20" aria-labelledby="faq-h">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <div data-reveal>
+        <p class="eyebrow mb-5">FAQ</p>
+        <h2 id="faq-h" class="text-display-md">Questions we hear about {cap.shortName}.</h2>
+      </div>
+      <div class="space-y-3">
+        {cap.faq.map((f, i) => (
+          <details class="faq panel group p-6" data-reveal data-reveal-delay={i * 80} open={i === 0}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-lg text-mist-50">
+              <h3 class="text-lg">{f.q}</h3>
+              <span class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line-strong text-signal-soft transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-4 leading-relaxed text-mist-400">{f.a}</p>
+          </details>
+        ))}
+      </div>
     </div>
   </section>
 

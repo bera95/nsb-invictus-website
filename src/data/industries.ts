@@ -27,16 +27,16 @@ export const industries: Industry[] = [
     shape: 'building',
     flagship: true,
     summary:
-      'Virtual tours, interactive property experiences, management software and real estate platforms — designed and engineered by one team.',
+      'Real estate platforms, property management software, interactive property experiences and digital property marketing — designed and engineered by one team.',
     headline: 'Real estate, experienced and managed digitally.',
     intro:
-      'Buyers and tenants now expect to explore a property long before they visit it, and property businesses need systems that keep up with portfolios, leads and paperwork. NSB INVICTUS brings immersive experiences, software engineering, automation and marketing together for developers, agencies and property managers.',
+      'Buyers and tenants now research properties online long before they visit, and property businesses need systems that keep up with portfolios, leads and paperwork. NSB INVICTUS brings software engineering, automation, search visibility and marketing together for developers, agencies and property managers.',
     solutions: [
-      { title: '360° virtual property tours', text: 'Navigable panoramic tours with hotspots, floor-plan navigation and embedded property information, viewable on any device without an app.', capability: 'digital-growth' },
       { title: 'Interactive property experiences', text: 'Interactive building and unit selectors, availability maps and visual presentations for developments and off-plan projects.', capability: 'software-engineering' },
       { title: 'Property management software', text: 'Custom systems for leases, tenants, maintenance requests, documents and payments — shaped around your portfolio.', capability: 'software-engineering' },
       { title: 'Real estate platforms', text: 'Listing portals, agent tools and client portals with search, filtering, CRM integration and lead capture.', capability: 'software-engineering' },
-      { title: 'Digital property marketing', text: 'Listing content, local SEO, campaigns and lead generation built around each property and development.', capability: 'digital-growth' },
+      { title: 'Digital property marketing', text: 'Listing content, campaigns and lead generation built around each property and development.', capability: 'digital-growth' },
+      { title: 'Real estate SEO & local visibility', text: 'Local and international search visibility for agencies and developments — on Google, on maps and in AI assistants.', capability: 'search-visibility' },
       { title: 'Real estate workflow automation', text: 'Automated lead routing, viewing scheduling, document preparation and follow-ups using AI where it adds value.', capability: 'ai-automation' },
     ],
     challenges: [
@@ -46,8 +46,8 @@ export const industries: Industry[] = [
       'Leads arrive from many channels and are followed up inconsistently.',
     ],
     seo: {
-      title: 'Property Technology — 360° Virtual Tours & Real Estate Software',
-      description: '360° virtual property tours, interactive property experiences, property management software and real estate platforms for developers, agencies and property managers.',
+      title: 'Property Technology — Real Estate Software, Platforms & Marketing',
+      description: 'Real estate platforms, property management software, interactive property experiences, real estate SEO and workflow automation for developers, agencies and property managers.',
     },
   },
   {
@@ -64,7 +64,8 @@ export const industries: Industry[] = [
       { title: 'Systems integration', text: 'Connections between store, ERP, inventory, logistics, payments and marketplaces.', capability: 'software-engineering' },
       { title: 'Commerce analytics', text: 'Dashboards for revenue, margin, inventory, customer lifetime value and campaign performance.', capability: 'data-intelligence' },
       { title: 'Operations automation', text: 'Automated order handling, customer service triage, product content and catalogue enrichment.', capability: 'ai-automation' },
-      { title: 'Search, SEO & GEO', text: 'Product and category visibility in search engines and AI shopping assistants.', capability: 'digital-growth' },
+      { title: 'E-commerce SEO, AEO & GEO', text: 'Product and category visibility in search engines and AI shopping assistants.', capability: 'search-visibility' },
+      { title: 'Tracking & conversion optimisation', text: 'GA4 e-commerce tracking, consent mode and conversion rate optimisation across the funnel.', capability: 'data-intelligence' },
       { title: 'Performance marketing', text: 'Paid acquisition, retention and lifecycle campaigns with clear attribution.', capability: 'digital-growth' },
     ],
     challenges: [
@@ -78,15 +79,5 @@ export const industries: Industry[] = [
     },
   },
 ];
-
-/** Optional demo content for the Property Technology page. */
-export const propertyTourDemo = {
-  /**
-   * PLACEHOLDER — add an equirectangular panorama (e.g. /media/tours/demo-living-room.jpg,
-   * 2:1 ratio, ~6000×3000) to enable the interactive 360° viewer.
-   */
-  panorama: '' as string,
-  title: 'Sample property tour',
-};
 
 export const getIndustry = (slug: string) => industries.find((i) => i.slug === slug);

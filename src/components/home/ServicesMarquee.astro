@@ -1,0 +1,27 @@
+---
+/** Infinite neon ticker of everything we do. */
+const rowA = ['AI agents', 'LLM integration', 'SEO', 'AEO', 'GEO', 'Local SEO', 'Technical SEO', 'GA4', 'Google Tag Manager', 'Consent Mode v2', 'Search Console', 'Live dashboards'];
+const rowB = ['Websites', 'Web apps', 'Mobile apps', 'SaaS platforms', 'E-commerce tools', 'Cloud & DevOps', 'Web security', 'GDPR compliance', 'CRO', 'Performance marketing', 'Branding', 'Consulting'];
+---
+<section class="marquee relative z-10 overflow-hidden border-y border-line bg-void/60 py-6 backdrop-blur-sm" aria-label="What we do">
+  <ul class="sr-only">{[...rowA, ...rowB].map((t) => <li>{t}</li>)}</ul>
+  {[rowA, rowB].map((row, r) => (
+    <div class:list={['track flex w-max gap-10 whitespace-nowrap', r === 1 && 'reverse mt-4']} aria-hidden="true">
+      {[...row, ...row].map((t, i) => (
+        <span class:list={['flex items-center gap-10 font-display text-2xl md:text-4xl', i % 3 === 0 ? 'text-gradient' : i % 3 === 1 ? 'outline-text' : 'text-mist-200']}>
+          {t}<span class="star text-base text-neon">✦</span>
+        </span>
+      ))}
+    </div>
+  ))}
+</section>
+
+<style>
+  .outline-text { color: transparent; -webkit-text-stroke: 1px rgb(169 150 255 / 0.75); }
+  .star { text-shadow: 0 0 10px #ff4fd8, 0 0 22px #ff4fd8; }
+  :global(.motion-ok) .track { animation: marquee 42s linear infinite; }
+  :global(.motion-ok) .track.reverse { animation-direction: reverse; animation-duration: 50s; }
+  .marquee:hover .track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  .marquee { mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+</style>

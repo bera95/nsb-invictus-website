@@ -27,7 +27,8 @@ export const site = {
     /** PLACEHOLDER — registered legal entity name as in the Serbian Business Registers Agency (APR), e.g. "NSB INVICTUS d.o.o." */
     entityName: '[Registered company name]',
     /** PLACEHOLDER — registered address in Serbia. */
-    address: '[Registered address], Serbia',
+    address: 'Kikinda, Serbia',
+    city: 'Kikinda',
     /** PLACEHOLDER — Serbian company registration number (matični broj) and tax ID (PIB). */
     registration: 'Registration no. (MB): [—] · Tax ID (PIB): [—]',
     jurisdiction: 'Republic of Serbia',
@@ -39,6 +40,12 @@ export const site = {
   social: [
     // Add real profiles when available, e.g. { label: 'LinkedIn', href: 'https://www.linkedin.com/company/...' }
   ] as { label: string; href: string }[],
+
+  /** Where we serve clients (local & international SEO). */
+  areaServed: ['Europe', 'United States', 'Canada', 'Serbia', 'Ireland', 'Worldwide'],
+
+  /** Google Tag Manager container. Loaded only after cookie consent (Consent Mode v2). */
+  gtmId: 'GTM-WWSDNF2G',
 
   /** Show yellow "input required" markers. Set to false only when every placeholder is resolved. */
   showPlaceholders: true,

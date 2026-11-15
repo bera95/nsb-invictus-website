@@ -50,6 +50,13 @@
 - `sitemap-index.xml` generated at build time. `robots.txt` gets an absolute sitemap URL in post-build.
 - Trailing-slash URLs everywhere, enforced by `.htaccess`.
 
-## Privacy
+## Privacy, consent & analytics
 
-No tracking cookies are set, so no consent banner is required for the current build. If you add analytics, prefer a cookieless tool (Plausible, Umami). If you add Google Analytics or ad pixels, add a consent manager first.
+`src/components/layout/CookieConsent.astro` sets Google Consent Mode v2 defaults to *denied* before anything else, shows a banner (Accept all / Reject optional / Customise), stores the choice in `localStorage` (`nsb-consent`, 12 months) and loads Google Tag Manager (`site.gtmId`) **only after** analytics or marketing consent. The footer "Cookie settings" button reopens it. GA4 is configured inside GTM with a Google tag. The CSP in `public/.htaccess` allows the Google Tag Manager and Google Analytics endpoints.
+
+## Motion layer
+
+- `AmbientLayer.astro` + `scripts/ambient.ts` — drifting neon orbs, data packets that link into constellations, and comets. A 2D canvas on every page, paused when the tab is hidden.
+- `scripts/effects.ts` — cursor glow, card spotlight, 3D tilt (`data-tilt`), magnetic buttons, text scramble on eyebrows, and a scroll progress bar.
+- `global.css` "NEON & MOTION LAYER" — neon gradient text, glitch (`.glitch` + `data-text`), animated conic neon frames (`.neon-frame`), button shine, neon grid floor and cross-document view transitions.
+- With `prefers-reduced-motion`, every decorative animation is disabled.
