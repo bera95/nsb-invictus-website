@@ -70,7 +70,7 @@ scripts/           post-build, dist verification, local PHP preview
 - Domain `nsbinvictus.tech` (canonical URLs, sitemap, robots, `.htaccess` www→apex redirect)
 - Contact: nikola.bera@gmail.com (temporary), +353 87 443 3160 (Ireland), +387 64 191 4707
 - Jurisdiction: Republic of Serbia (Kikinda). The privacy policy covers ZZPL (Serbia) and GDPR (EU visitors).
-- Google Tag Manager `GTM-WWSDNF2G`, loaded only after cookie consent (Consent Mode v2). Configure GA4 inside GTM.
+- GA4 `G-TVMB41JF0P` (loaded directly) and Google Tag Manager `GTM-NRSWNFPN`, both only after cookie consent (Consent Mode v2). Do not add a second GA4 tag inside GTM.
 - Proprietary tools (SEODREAM, Analytics Command Center) — `products.ts`; names marked as working names.
 
 ## Outstanding placeholders

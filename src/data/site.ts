@@ -45,7 +45,12 @@ export const site = {
   areaServed: ['Europe', 'United States', 'Canada', 'Serbia', 'Ireland', 'Worldwide'],
 
   /** Google Tag Manager container. Loaded only after cookie consent (Consent Mode v2). */
-  gtmId: 'GTM-WWSDNF2G',
+  gtmId: 'GTM-NRSWNFPN',
+  /**
+   * GA4 measurement ID, loaded directly (gtag.js) after analytics consent.
+   * Do NOT also add a GA4 "Google tag" with this ID inside GTM — that would count every visit twice.
+   */
+  ga4Id: 'G-TVMB41JF0P',
 
   /** Show yellow "input required" markers. Set to false only when every placeholder is resolved. */
   showPlaceholders: true,

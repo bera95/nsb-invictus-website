@@ -6,12 +6,13 @@
  * - GTM is loaded ONLY after the visitor grants analytics or marketing consent.
  * - The choice is stored in localStorage ("nsb-consent") for 12 months and can be
  *   changed at any time via any element with [data-cookie-settings].
- * - GA4 is configured inside GTM (Google tag with the G- measurement ID).
+ * - GA4 (site.ga4Id) is loaded directly via gtag.js after analytics consent; GTM is for any other tags.
  */
 import { site } from '../../data/site';
 const gtmId = site.gtmId;
+const ga4Id = site.ga4Id;
 ---
-<script is:inline define:vars={{ gtmId }}>
+<script is:inline define:vars={{ gtmId, ga4Id }}>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   window.gtag = gtag;
@@ -32,6 +33,16 @@ const gtmId = site.gtmId;
     s.src = 'https://www.googletagmanager.com/gtm.js?id=' + gtmId;
     document.head.appendChild(s);
   };
+  window.nsbLoadGA4 = function () {
+    if (window.__nsbGa4Loaded || !ga4Id) return;
+    window.__nsbGa4Loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+    document.head.appendChild(s);
+    gtag('js', new Date());
+    gtag('config', ga4Id, { anonymize_ip: true });
+  };
   window.nsbApplyConsent = function (c) {
     gtag('consent', 'update', {
       analytics_storage: c.analytics ? 'granted' : 'denied',
@@ -40,6 +51,7 @@ const gtmId = site.gtmId;
       ad_personalization: c.marketing ? 'granted' : 'denied',
     });
     dataLayer.push({ event: 'consent_update', consent_analytics: !!c.analytics, consent_marketing: !!c.marketing });
+    if (c.analytics) window.nsbLoadGA4();
     if (c.analytics || c.marketing) window.nsbLoadGTM();
   };
   try {

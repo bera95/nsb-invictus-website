@@ -52,7 +52,7 @@
 
 ## Privacy, consent & analytics
 
-`src/components/layout/CookieConsent.astro` sets Google Consent Mode v2 defaults to *denied* before anything else, shows a banner (Accept all / Reject optional / Customise), stores the choice in `localStorage` (`nsb-consent`, 12 months) and loads Google Tag Manager (`site.gtmId`) **only after** analytics or marketing consent. The footer "Cookie settings" button reopens it. GA4 is configured inside GTM with a Google tag. The CSP in `public/.htaccess` allows the Google Tag Manager and Google Analytics endpoints.
+`src/components/layout/CookieConsent.astro` sets Google Consent Mode v2 defaults to *denied* before anything else, shows a banner (Accept all / Reject optional / Customise), stores the choice in `localStorage` (`nsb-consent`, 12 months) loads GA4 directly (`site.ga4Id`, gtag.js) after analytics consent and Google Tag Manager (`site.gtmId`) after analytics or marketing consent. The footer "Cookie settings" button reopens it. Do not add a second GA4 Google tag inside GTM (double counting). The CSP in `public/.htaccess` allows the Google Tag Manager and Google Analytics endpoints.
 
 ## Motion layer
 
