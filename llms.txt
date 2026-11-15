@@ -1,0 +1,20 @@
+# NSB INVICTUS
+
+> NSB INVICTUS is a technology and digital innovation company. Tagline: "Where vision becomes reality." It designs, engineers and grows digital solutions, and develops its own software products. Based in Serbia, working with clients internationally.
+
+## Capabilities
+- [AI & Intelligent Automation](https://nsbinvictus.tech/capabilities/ai-automation/): AI agents, LLM integrations, intelligent automation, AI-powered workflows, custom AI applications.
+- [Software & Product Engineering](https://nsbinvictus.tech/capabilities/software-engineering/): custom software, SaaS platforms, web applications, business management systems, APIs and integrations.
+- [Data & Business Intelligence](https://nsbinvictus.tech/capabilities/data-intelligence/): BI, analytics, interactive dashboards, reporting, predictive analytics.
+- [Cloud & Platform Engineering](https://nsbinvictus.tech/capabilities/cloud-platform/): cloud architecture, DevOps, CI/CD, migration, performance optimisation.
+- [Digital Growth & Brand](https://nsbinvictus.tech/capabilities/digital-growth/): digital strategy, SEO and GEO, content, brand development, performance marketing.
+- [Strategy & Advisory](https://nsbinvictus.tech/approach/#advisory): discovery and architecture engagements.
+
+## Industries
+- [Property Technology & Digital Real Estate](https://nsbinvictus.tech/industries/property-technology/): 360° virtual property tours, interactive property experiences, property management software, real estate platforms.
+- [E-commerce & Retail](https://nsbinvictus.tech/industries/ecommerce-retail/)
+
+## Company
+- [Approach](https://nsbinvictus.tech/approach/)
+- [Products](https://nsbinvictus.tech/products/)
+- [Contact](https://nsbinvictus.tech/contact/)
