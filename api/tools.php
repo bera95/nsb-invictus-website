@@ -157,6 +157,18 @@ function check(string $id, string $cat, string $label, string $status, string $d
     return ['id' => $id, 'category' => $cat, 'label' => $label, 'status' => $status, 'detail' => $detail];
 }
 
+/** Free tier: keep full detail for the first $free findings; the rest only reveal that they exist. */
+function lock_after(array $checks, int $free): array
+{
+    $order = ['fail' => 0, 'warn' => 1, 'info' => 2, 'pass' => 3];
+    usort($checks, static function ($a, $b) use ($order) { return $order[$a['status']] <=> $order[$b['status']]; });
+    $outList = [];
+    foreach ($checks as $i => $c) {
+        $outList[] = $i < $free ? $c : ['id' => 'locked-' . $i, 'category' => $c['category'], 'label' => 'Locked finding', 'status' => 'locked', 'detail' => '', 'locked' => true];
+    }
+    return $outList;
+}
+
 function score(array $checks): int
 {
     $w = ['pass' => 1, 'warn' => 0.5, 'fail' => 0];
@@ -384,24 +396,20 @@ switch ($tool) {
             $cats[] = ['id' => $k, 'label' => $label, 'score' => score($sub), 'count' => count($sub)];
         }
 
-        // Free version: full detail for the most important issues, the rest locked.
-        $order = ['fail' => 0, 'warn' => 1, 'info' => 2, 'pass' => 3];
-        usort($checks, static function ($a, $b) use ($order) { return $order[$a['status']] <=> $order[$b['status']]; });
-        $freeDetails = 5;
-        $public = [];
-        foreach ($checks as $i => $c) {
-            if ($i >= $freeDetails && $c['status'] !== 'pass') { $c['detail'] = ''; $c['locked'] = true; }
-            $public[] = $c;
-        }
+        // Free version: only the 3 most important findings in full; everything else is locked.
+        $public = lock_after($checks, 3);
         $issues = count(array_filter($checks, static function ($c) { return $c['status'] === 'fail' || $c['status'] === 'warn'; }));
-        out(['ok' => true, 'url' => $r['url'], 'score' => score($checks), 'issues' => $issues, 'categories' => $cats, 'checks' => $public, 'fetchedMs' => $r['time']]);
+        out(['ok' => true, 'url' => $r['url'], 'score' => score($checks), 'issues' => $issues, 'total' => count($checks), 'categories' => $cats, 'checks' => $public, 'fetchedMs' => $r['time']]);
     }
 
     case 'ai-crawlers': {
         $url = normalize_url((string) ($input['url'] ?? ''));
         $origin = preg_replace('#^(https?://[^/]+).*$#i', '$1', $url);
         $rb = robots_report($origin, $allowPrivate);
-        out(['ok' => true, 'url' => $origin, 'robots' => $rb]);
+        $total = count($rb['bots']);
+        $blocked = count(array_filter($rb['bots'], static function ($b) { return $b['access'] === 'blocked'; }));
+        $rb['bots'] = array_slice($rb['bots'], 0, 6); // free: the six most important crawlers
+        out(['ok' => true, 'url' => $origin, 'robots' => $rb, 'totalBots' => $total, 'blockedTotal' => $blocked]);
     }
 
     case 'headers': {
@@ -410,7 +418,7 @@ switch ($tool) {
         $checks = security_checks($r['headers'], $r['url']);
         $s = score($checks);
         $grade = $s >= 90 ? 'A' : ($s >= 75 ? 'B' : ($s >= 60 ? 'C' : ($s >= 40 ? 'D' : 'F')));
-        out(['ok' => true, 'url' => $r['url'], 'score' => $s, 'grade' => $grade, 'checks' => $checks]);
+        out(['ok' => true, 'url' => $r['url'], 'score' => $s, 'grade' => $grade, 'checks' => lock_after($checks, 4)]);
     }
 
     case 'tracking': {

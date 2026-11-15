@@ -22,6 +22,10 @@
 - [Email Deliverability Checker (SPF, DMARC, MX)](https://nsbinvictus.tech/tools/email-deliverability/)
 - [Tracking & Consent Checker (GA4, GTM)](https://nsbinvictus.tech/tools/tracking-checker/)
 - [SERP Snippet Preview](https://nsbinvictus.tech/tools/serp-preview/)
+- [UTM Campaign URL Builder](https://nsbinvictus.tech/tools/utm-builder/)
+- [Word & Character Counter](https://nsbinvictus.tech/tools/word-counter/)
+- [Strong Password Generator](https://nsbinvictus.tech/tools/password-generator/)
+- [Image Compressor & Resizer](https://nsbinvictus.tech/tools/image-compressor/)
 
 ## Industries
 - [Property Technology & Digital Real Estate](https://nsbinvictus.tech/industries/property-technology/)
