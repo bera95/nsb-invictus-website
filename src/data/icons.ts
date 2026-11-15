@@ -24,6 +24,15 @@ export const iconPaths = {
   key: 'M14 10a5 5 0 1 1-1.4-3.5L21 3v4h-3v3h-3l-1 .9M8.5 13.5h.01',
   image: 'M4 5h16v14H4V5ZM4 16l5-5 4 4 3-3 4 4M15.5 9a1 1 0 1 0 0 .01',
   serp: 'M4 5h16v14H4V5ZM7 9h10M7 13h6',
+  robot: 'M12 3v3M8 6h8a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3ZM9.5 11h.01M14.5 11h.01M9.5 15h5M2 11v3M22 11v3',
+  users: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM2 21v-1a6 6 0 0 1 12 0v1M16 3.5a4 4 0 0 1 0 7.5M18 14a5.5 5.5 0 0 1 4 5.5V21',
+  palette: 'M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.6 0-1.3-1-1.6-1-2.9 0-1 .8-1.5 1.8-1.5H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8ZM7.5 12h.01M9.5 8h.01M14.5 8h.01',
+  phone: 'M7 2h10v20H7V2ZM11 18h2',
+  cloud: 'M7 18a5 5 0 1 1 .9-9.9A6 6 0 0 1 19.5 10 4 4 0 0 1 18 18H7Z',
+  photo: 'M3 6h4l2-2h6l2 2h4v13H3V6ZM12 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z',
+  headset: 'M4 15v-3a8 8 0 0 1 16 0v3M4 15a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2ZM20 15a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2ZM18 17c0 2-2 3.5-6 3.5',
+  briefcase: 'M3 8h18v12H3V8ZM8 8V5h8v3M3 13h18',
+  workflow: 'M4 4h6v6H4V4ZM14 14h6v6h-6v-6ZM10 7h4a3 3 0 0 1 3 3v4M7 10v4a3 3 0 0 0 3 3h4',
 } as const;
 
 export type IconName = keyof typeof iconPaths;

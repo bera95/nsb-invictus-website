@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import AgentWorkforce from '../components/home/AgentWorkforce.astro';
+import FinalCta from '../components/cta/FinalCta.astro';
+import IconBadge from '../components/ui/IconBadge.astro';
+import Arrow from '../components/ui/Arrow.astro';
+import { agentRoles, agentPlatformSteps } from '../data/agents';
+
+const faq = [
+  { q: 'Can AI agents really replace a whole team?', a: 'AI agents can take over a large share of the repetitive, rule-based and research-heavy work that teams spend most of their time on — drafting, sorting, reporting, answering and moving data. People stay in control of decisions, approvals and relationships, so a small team can do the work of a much larger one.' },
+  { q: 'What does an AI agent platform look like?', a: 'One secure web app with a dashboard of your agents, the tasks they are working on, approvals waiting for your team, a full activity history and role-based permissions. It connects to the tools you already use — email, CRM, CMS, analytics, accounting and more.' },
+  { q: 'Is our data safe?', a: 'Agents only access the systems and data you allow. We use enterprise model providers, keep data in your chosen region where possible, log every action and apply the same security standards as any business application.' },
+  { q: 'How long does it take to launch?', a: 'A first agent for one department is typically live within weeks after a short discovery phase. More agents and skills are added step by step, based on measured time savings.' },
+];
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'AI Agent Workforce Platforms', serviceType: 'Custom AI agent development', description: 'Custom AI agent platforms that automate the repetitive work of marketing, content, SEO, sales, support, analytics and operations teams in one secure app.', provider: { '@type': 'Organization', name: 'NSB INVICTUS' }, areaServed: ['Europe', 'United States', 'Canada', 'Worldwide'] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+<Base title="AI Agent Workforce — One App, a Whole Team of AI Agents" description="Custom AI agent platforms: marketing, content, SEO, sales, support, analytics and operations agents in one secure app. Do the work of entire departments — your team stays in control." jsonLd={ld}>
+  <PageHero
+    eyebrow="AI agent workforce"
+    title="Your next team <span class='text-gradient'>runs on AI agents.</span>"
+    intro="We design and build custom apps where AI agents handle the repetitive work of whole departments — creating content and images, managing social media, qualifying leads, answering customers, reporting and running back-office tasks. Your people approve, decide and grow the business."
+    shape="neural"
+    icon="robot"
+    iconColor="#ff4fd8"
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'AI Agents' }]}
+  >
+    <a href="/contact/?topic=ai-automation" class="btn btn-primary">Plan your AI team <Arrow /></a>
+    <a href="#roles" class="btn btn-ghost">Meet the agents</a>
+  </PageHero>
+
+  <AgentWorkforce showCta={false} />
+
+  <section id="roles" class="py-20" aria-labelledby="roles-h">
+    <div class="container-x">
+      <div class="max-w-2xl" data-reveal>
+        <p class="eyebrow mb-5">Agent roles</p>
+        <h2 id="roles-h" class="text-display-md">A specialist for every department.</h2>
+        <p class="mt-5 text-lg text-mist-400">Start with one agent or a full team. Each is configured for your business, your tone of voice and your tools.</p>
+      </div>
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {agentRoles.map((a, i) => (
+          <li class="glass-card flex flex-col p-7" data-reveal data-reveal-delay={(i % 3) * 80}>
+            <div class="flex items-center gap-4">
+              <IconBadge name={a.icon} color={a.color} />
+              <div><h3 class="text-xl">{a.name}</h3><p class="text-sm text-mist-500">{a.role}</p></div>
+            </div>
+            <ul class="mt-5 space-y-2 text-sm text-mist-200">
+              {a.does.map((d) => <li class="flex gap-2"><span style={`color:${a.color}`}>›</span>{d}</li>)}
+            </ul>
+          </li>
+        ))}
+        <li class="glass-card neon-frame flex flex-col justify-center p-7" data-reveal>
+          <h3 class="text-xl">Need a different role?</h3>
+          <p class="mt-3 text-sm text-mist-400">HR screening, procurement, legal document review, project coordination — if the work follows rules and uses data, we can build an agent for it.</p>
+          <a href="/contact/?topic=ai-automation" class="btn btn-ghost mt-6 self-start">Describe your use case</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-20" aria-labelledby="how-h">
+    <div class="container-x">
+      <p class="eyebrow mb-5" data-reveal>How we build it</p>
+      <h2 id="how-h" class="text-display-md" data-reveal>From first agent to AI-powered company.</h2>
+      <ol class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {agentPlatformSteps.map((s, i) => (
+          <li class="glass-card p-7" data-reveal data-reveal-delay={i * 80}>
+            <span class="font-mono text-sm text-neon-soft">0{i + 1}</span>
+            <h3 class="mt-3 text-xl">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-mist-400">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="py-20" aria-labelledby="faq-h">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <div data-reveal><p class="eyebrow mb-5">FAQ</p><h2 id="faq-h" class="text-display-md">Questions about AI agents.</h2></div>
+      <div class="space-y-3">
+        {faq.map((f, i) => (
+          <details class="panel group p-6" open={i === 0} data-reveal>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="text-lg">{f.q}</h3><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line-strong text-signal-soft transition-transform group-open:rotate-45" aria-hidden="true">+</span></summary>
+            <p class="mt-4 leading-relaxed text-mist-400">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FinalCta title="Let’s build your <span class='text-gradient'>AI team.</span>" text="Tell us which department spends the most time on repetitive work. We will show you what an AI agent could take over — and how fast." topic="ai-automation" />
+</Base>

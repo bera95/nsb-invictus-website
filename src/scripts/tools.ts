@@ -247,10 +247,14 @@ export function initTool(root: HTMLElement) {
     const btn = form.querySelector<HTMLButtonElement>('button')!;
     btn.disabled = true;
     out.replaceChildren();
+    out.style.overflowAnchor = 'none';
     const loading = el('div', 'panel flex items-center gap-4 p-6');
     loading.append(el('span', 'tool-spinner'), el('span', 'text-mist-200', 'Running live checks…'));
     out.append(loading);
-    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    {
+      const top = out.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
     try {
       const body = api === 'email' ? { tool: api, domain: value } : { tool: api, url: value };
       const res = await fetch('/api/tools.php', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-NSB-Client': 'web' }, body: JSON.stringify(body) });
@@ -262,6 +266,11 @@ export function initTool(root: HTMLElement) {
       } else {
         renderers[api](out, data, capHref);
         out.prepend(copyResultsButton(out));
+        // Keep the visitor at the top of the results (score and summary first).
+        requestAnimationFrame(() => {
+          const top = out.getBoundingClientRect().top + window.scrollY - (document.querySelector('[data-header]')?.getBoundingClientRect().height ?? 72) - 24;
+          window.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        });
         (window as any).dataLayer?.push({ event: 'free_tool_run', tool_name: api });
       }
     } catch {

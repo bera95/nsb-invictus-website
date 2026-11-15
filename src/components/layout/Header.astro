@@ -18,24 +18,24 @@ const menus: Record<string, { label: string; href: string; icon?: IconName }[]> 
 };
 ---
 <header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 border-b border-transparent" data-header>
-  <div class="container-x flex h-[var(--header-h)] items-center justify-between gap-6">
+  <div class="container-x flex h-[var(--header-h)] items-center justify-between gap-3 xl:gap-6">
     <a href="/" class="relative z-10 -m-1 p-1" aria-label="NSB INVICTUS — home">
       <Wordmark id="hdr" />
     </a>
 
     <nav aria-label="Primary" class="hidden lg:block">
-      <ul class="flex items-center gap-1">
+      <ul class="flex items-center gap-0 xl:gap-1">
         {navigation.map((item) => {
           const sub = menus[item.href];
           return (
             <li class="group relative">
               <a
                 href={item.href}
-                class:list={['flex items-center gap-1.5 rounded-full px-4 py-2 text-[0.92rem] transition-colors', isActive(item.href) ? 'text-mist-50' : 'text-mist-200 hover:text-mist-50']}
+                class:list={['flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-2 text-[0.85rem] transition-colors xl:px-4 xl:text-[0.92rem]', isActive(item.href) ? 'text-mist-50' : 'text-mist-200 hover:text-mist-50']}
                 aria-current={isActive(item.href) ? 'page' : undefined}
               >
                 {item.label}
-                {item.href === '/tools/' && <span class="h-1.5 w-1.5 rounded-full bg-neon shadow-[0_0_8px_#ff4fd8]" aria-hidden="true"></span>}
+                {(item.href === '/tools/' || item.href === '/ai-agents/') && <span class="h-1.5 w-1.5 rounded-full bg-neon shadow-[0_0_8px_#ff4fd8]" aria-hidden="true"></span>}
                 {sub && <svg class="h-3 w-3 opacity-60 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>}
               </a>
               {isActive(item.href) && <span class="absolute inset-x-4 -bottom-0.5 h-px bg-gradient-to-r from-vision to-signal" aria-hidden="true" />}
@@ -60,7 +60,7 @@ const menus: Record<string, { label: string; href: string; icon?: IconName }[]> 
     </nav>
 
     <div class="flex items-center gap-3">
-      <a href="/contact/" class="btn btn-primary hidden !min-h-10 !px-5 !py-2.5 sm:inline-flex">Start a project <Arrow /></a>
+      <a href="/contact/" class="btn btn-primary hidden !min-h-10 whitespace-nowrap !px-4 !py-2.5 sm:inline-flex xl:!px-5">Start a project <Arrow /></a>
       <button
         type="button"
         class="relative z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-line-strong lg:hidden"

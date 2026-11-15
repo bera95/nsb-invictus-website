@@ -57,6 +57,7 @@ export const site = {
 export const navigation = [
   { label: 'Capabilities', href: '/capabilities/' },
   { label: 'Industries', href: '/industries/' },
+  { label: 'AI Agents', href: '/ai-agents/' },
   { label: 'Products', href: '/products/' },
   { label: 'Approach', href: '/approach/' },
   { label: 'Free tools', href: '/tools/' },

@@ -249,8 +249,8 @@ export const capabilities: Capability[] = [
       'Our team plans, writes, designs and runs marketing across every channel — from SEO-driven blog content and website copy to social media and paid campaigns. Because we also build software and analytics, every campaign lands on fast pages and every result is tracked correctly.',
     offerings: [
       { title: 'Digital marketing strategy', text: 'Positioning, audience and channel strategy grounded in data rather than assumptions.' },
-      { title: 'Website & blog content', text: 'SEO copywriting, blog articles, landing pages and long-form content that build authority and rank — written for people, search engines and AI answers.' },
-      { title: 'Social media management', text: 'Content calendars, posts, short-form video, community management and reporting across LinkedIn, Instagram, Facebook and TikTok.' },
+      { title: 'Website & blog content', text: 'SEO copywriting, blog articles, landing pages and long-form content — produced at scale with our AI content workflows and edited by people, for readers, search engines and AI answers.' },
+      { title: 'Social media — images & text', text: 'Content calendars, post copy, branded images, carousels and short-form video, community management and reporting across LinkedIn, Instagram, Facebook and TikTok.' },
       { title: 'Performance marketing', text: 'Google Ads, Meta, LinkedIn and TikTok campaigns with clear attribution, testing discipline and budget control.' },
       { title: 'Brand & creative', text: 'Brand identity, messaging, design systems and creative assets that stay consistent across every touchpoint.' },
       { title: 'Email & marketing automation', text: 'Newsletters, lead nurturing and CRM automation that turn interest into customers.' },

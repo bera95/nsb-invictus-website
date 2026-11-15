@@ -1,0 +1,43 @@
+---
+/** "Everything your business needs online" — the full range at a glance. */
+import IconBadge from '../ui/IconBadge.astro';
+import type { IconName } from '../../data/icons';
+const items: { t: string; d: string; icon: IconName; href: string; c: string }[] = [
+  { t: 'Websites', d: 'Fast, modern company sites and landing pages', icon: 'code', href: '/capabilities/software-engineering/', c: '#7fe6f6' },
+  { t: 'Web & mobile apps', d: 'Portals, dashboards, iOS and Android apps', icon: 'phone', href: '/capabilities/software-engineering/', c: '#7fe6f6' },
+  { t: 'SaaS platforms', d: 'Subscription products built to scale', icon: 'layers', href: '/capabilities/software-engineering/', c: '#7fe6f6' },
+  { t: 'E-commerce', d: 'Online stores and custom commerce tools', icon: 'cart', href: '/industries/ecommerce-retail/', c: '#7fe6f6' },
+  { t: 'AI agents', d: 'A digital workforce for whole departments', icon: 'robot', href: '/ai-agents/', c: '#a996ff' },
+  { t: 'Automation', d: 'Workflows that remove manual work', icon: 'workflow', href: '/capabilities/ai-automation/', c: '#a996ff' },
+  { t: 'SEO · AEO · GEO', d: 'Visibility on Google and in AI answers', icon: 'search', href: '/capabilities/search-visibility/', c: '#ff4fd8' },
+  { t: 'Local SEO', d: 'Europe, the US, Canada and beyond', icon: 'globe', href: '/capabilities/search-visibility/', c: '#ff4fd8' },
+  { t: 'Blog & website content', d: 'Articles and copy that rank and convert', icon: 'text', href: '/capabilities/digital-growth/', c: '#22d3ee' },
+  { t: 'Social media', d: 'Posts, images and video for every network', icon: 'photo', href: '/capabilities/digital-growth/', c: '#22d3ee' },
+  { t: 'Performance ads', d: 'Google, Meta, LinkedIn and TikTok', icon: 'megaphone', href: '/capabilities/digital-growth/', c: '#22d3ee' },
+  { t: 'Branding & design', d: 'Identity, design systems and creative', icon: 'palette', href: '/capabilities/digital-growth/', c: '#22d3ee' },
+  { t: 'Analytics & tracking', d: 'GA4, GTM, consent and live dashboards', icon: 'chart', href: '/capabilities/data-intelligence/', c: '#5fdcb0' },
+  { t: 'Security & GDPR', d: 'Audits, hardening and compliance', icon: 'shield', href: '/capabilities/cloud-platform/', c: '#7c5cff' },
+  { t: 'Cloud & DevOps', d: 'Reliable hosting and automated releases', icon: 'cloud', href: '/capabilities/cloud-platform/', c: '#7c5cff' },
+  { t: 'Consulting', d: 'Strategy and digital transformation', icon: 'compass', href: '/approach/#advisory', c: '#f5b544' },
+];
+---
+<section class="relative py-24 md:py-32" data-scene="1" data-dim="0.15" data-offset="0" aria-labelledby="all-h">
+  <div class="container-x">
+    <div class="mx-auto max-w-3xl text-center" data-reveal>
+      <p class="eyebrow mb-5">One partner</p>
+      <h2 id="all-h" class="text-display-md">Everything your business needs <span class="text-gradient">to grow online.</span></h2>
+      <p class="mt-6 text-lg leading-relaxed text-mist-400">From the first idea to daily operations: our team designs, builds, markets and runs your digital business — so you don’t have to coordinate five different agencies.</p>
+    </div>
+    <ul class="mt-14 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+      {items.map((it, i) => (
+        <li data-reveal data-reveal-delay={(i % 4) * 60}>
+          <a href={it.href} class="glass-card group flex h-full flex-col gap-3 p-4 transition-transform hover:-translate-y-1 sm:p-6">
+            <IconBadge name={it.icon} color={it.c} size="sm" />
+            <span class="font-display text-base text-mist-50 sm:text-lg">{it.t}</span>
+            <span class="hidden text-sm leading-snug text-mist-400 sm:block">{it.d}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,89 @@
+---
+/** "One app. A team of AI agents." — animated orchestration with a live activity feed (illustrative). */
+import Icon from '../ui/Icon.astro';
+import Arrow from '../ui/Arrow.astro';
+import { agentRoles } from '../../data/agents';
+interface Props { showCta?: boolean; headingLevel?: 'h1' | 'h2' }
+const { showCta = true, headingLevel: H = 'h2' } = Astro.props;
+const n = agentRoles.length;
+const nodes = agentRoles.map((a, i) => {
+  const ang = (-90 + (i * 360) / n) * (Math.PI / 180);
+  return { ...a, x: 50 + Math.cos(ang) * 40, y: 50 + Math.sin(ang) * 40 };
+});
+---
+<section class="relative py-24 md:py-32" data-scene="2" data-dim="0.12" data-offset="0" aria-labelledby="agents-h">
+  <div class="container-x">
+    <div class="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr]">
+      <div data-reveal>
+        <p class="eyebrow mb-5">AI agent workforce</p>
+        <H id="agents-h" class="text-display-md">One app. <span class="text-gradient">A whole team of AI agents.</span></H>
+        <p class="mt-6 text-lg leading-relaxed text-mist-200">We build custom platforms where AI agents take over the repetitive work of entire departments — marketing, content, SEO, sales, support, analytics and operations — in one secure app your team controls.</p>
+        <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+          {['Works 24/7, in your tools and data', 'People approve what matters', 'Every action logged and auditable', 'Scales without hiring'].map((t) => (
+            <li class="flex items-start gap-3 text-mist-200"><span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-reality/15 text-reality"><Icon name="check" class="h-4 w-4" /></span>{t}</li>
+          ))}
+        </ul>
+        {showCta && (
+          <div class="mt-10 flex flex-wrap gap-3">
+            <a href="/ai-agents/" class="btn btn-primary">See how it works <Arrow /></a>
+            <a href="/contact/?topic=ai-automation" class="btn btn-ghost">Plan your AI team</a>
+          </div>
+        )}
+      </div>
+
+      <div class="space-y-5" data-reveal data-reveal-delay="120">
+        <!-- Orchestration diagram -->
+        <div class="agents glass-card neon-frame relative mx-auto aspect-square w-full max-w-[30rem]" aria-hidden="true">
+          <svg class="absolute inset-0 h-full w-full" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(148,163,210,.12)" stroke-width=".25" stroke-dasharray=".8 1.4" />
+            {nodes.map((a, i) => (
+              <line x1="50" y1="50" x2={a.x} y2={a.y} stroke={a.color} stroke-width=".35" stroke-opacity=".55" class="beam" style={`animation-delay:${i * 0.45}s`} />
+            ))}
+          </svg>
+          {nodes.map((a, i) => (
+            <div class="node absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1" style={`left:${a.x}%;top:${a.y}%;--c:${a.color};animation-delay:${i * 0.45}s`}>
+              <span class="flex h-11 w-11 items-center justify-center rounded-xl border bg-ink-900 sm:h-12 sm:w-12" style={`color:${a.color};border-color:${a.color}66;box-shadow:0 0 22px -6px ${a.color}`}><Icon name={a.icon} class="h-5 w-5" /></span>
+              <span class="hidden w-24 text-center text-[0.68rem] leading-tight text-mist-200 sm:block">{a.name}</span>
+            </div>
+          ))}
+          <div class="core absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-3xl border border-neon/50 bg-ink-900 text-center sm:h-28 sm:w-28">
+            <Icon name="robot" class="h-8 w-8 text-neon-soft" />
+            <span class="mt-1 font-mono text-[0.6rem] tracking-[0.18em] text-mist-200">YOUR AI APP</span>
+          </div>
+        </div>
+        <!-- Live activity feed (illustrative) -->
+        <div class="glass-card p-4" data-copy-ok>
+          <div class="mb-3 flex items-center justify-between font-mono text-[0.65rem] uppercase tracking-[0.18em]">
+            <span class="flex items-center gap-2 text-reality-soft"><span class="live-dot h-1.5 w-1.5 rounded-full bg-reality"></span>Agent activity</span>
+            <span class="text-mist-500">Illustrative example</span>
+          </div>
+          <ul class="feed relative h-[7.5rem] overflow-hidden text-sm">
+            {[...agentRoles, ...agentRoles].map((a) => (
+              <li class="flex h-10 items-center gap-3 border-b border-white/5">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md" style={`color:${a.color};background:${a.color}1f`}><Icon name={a.icon} class="h-3.5 w-3.5" /></span>
+                <span class="min-w-0 truncate"><span class="text-mist-50">{a.name}:</span> <span class="text-mist-400">{a.example}</span></span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .core { box-shadow: 0 0 60px -10px rgb(255 79 216 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.08); }
+  :global(.motion-ok) .core { animation: core-pulse 3s ease-in-out infinite; }
+  @keyframes core-pulse { 50% { box-shadow: 0 0 90px -6px rgb(255 79 216 / 0.8), inset 0 1px 0 rgb(255 255 255 / 0.08); } }
+  .beam { stroke-dasharray: 2 2.5; }
+  :global(.motion-ok) .beam { animation: beam 1.6s linear infinite; }
+  @keyframes beam { to { stroke-dashoffset: -9; } }
+  :global(.motion-ok) .node > span:first-child { animation: node-blink 3.15s ease-in-out infinite; animation-delay: inherit; }
+  @keyframes node-blink { 0%, 80%, 100% { transform: scale(1); } 88% { transform: scale(1.15); box-shadow: 0 0 34px -2px var(--c); } }
+  .feed { mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent); }
+  :global(.motion-ok) .feed > li { animation: feed-scroll 21s linear infinite; }
+  @keyframes feed-scroll { to { transform: translateY(calc(-2.5rem * 7)); } }
+  .live-dot { box-shadow: 0 0 8px #10b981; }
+  :global(.motion-ok) .live-dot { animation: live 1.2s ease-in-out infinite; }
+  @keyframes live { 50% { opacity: 0.2; } }
+</style>

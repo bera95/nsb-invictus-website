@@ -42,6 +42,7 @@ const year = new Date().getFullYear();
       <h2 class="font-mono text-xs uppercase tracking-[0.18em] text-mist-500">Explore</h2>
       <ul class="mt-5 space-y-3 text-sm">
         {industries.map((i) => <li><a href={`/industries/${i.slug}/`} class="text-mist-200 hover:text-mist-50">{i.shortName}</a></li>)}
+        <li><a href="/ai-agents/" class="text-mist-200 hover:text-mist-50">AI agent workforce</a></li>
         <li><a href="/tools/" class="text-mist-200 hover:text-mist-50">Free tools</a></li>
         <li><a href="/products/" class="text-mist-200 hover:text-mist-50">Products</a></li>
         <li><a href="/approach/" class="text-mist-200 hover:text-mist-50">Approach</a></li>
