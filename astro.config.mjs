@@ -11,7 +11,16 @@ export default defineConfig({
   output: 'static',
   devToolbar: { enabled: false },
   trailingSlash: 'always',
-  build: { format: 'directory', assets: '_assets' },
+  build: { format: 'directory', assets: '_a' },
   integrations: [sitemap({ filter: (page) => !page.includes('/404'), lastmod: new Date(), changefreq: 'monthly' })],
-  vite: { plugins: [tailwindcss()] },
+  // Neutral, hash-only asset names (no framework or component names in production URLs).
+  vite: {
+    plugins: [tailwindcss()],
+    build: {
+      sourcemap: false,
+      rolldownOptions: {
+        output: { entryFileNames: '_a/[hash].js', chunkFileNames: '_a/[hash].js', assetFileNames: '_a/[hash][extname]' },
+      },
+    },
+  },
 });

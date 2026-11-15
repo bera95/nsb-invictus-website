@@ -21,7 +21,7 @@ const year = new Date().getFullYear();
       <p class="mt-4 max-w-sm text-sm leading-relaxed text-mist-400">
         AI and agents, SEO · AEO · GEO, websites, apps and SaaS, analytics, cloud and security, growth and consulting — from Kikinda, Serbia, for clients worldwide.
       </p>
-      <div class="mt-6 space-y-2 text-sm">
+      <div class="mt-6 space-y-2 text-sm" data-copy-ok>
         <a href={`mailto:${site.contact.email}`} class="link-underline text-mist-200">{site.contact.email}</a>
         {site.contact.phones.map((p) => (
           <div><a href={`tel:${p.tel}`} class="text-mist-400 hover:text-mist-200">{p.display}</a> <span class="text-xs text-mist-500">· {p.label}</span></div>

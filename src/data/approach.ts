@@ -23,7 +23,7 @@ export const principles = [
 ];
 
 export const standards = [
-  { area: 'Frontend', items: ['TypeScript', 'React / Astro / Next.js', 'Accessible, responsive UI', 'Performance budgets'] },
+  { area: 'Frontend', items: ['TypeScript', 'React, Next.js & modern frameworks', 'Accessible, responsive UI', 'Performance budgets'] },
   { area: 'Backend & APIs', items: ['Node.js, Python, PHP', 'REST & GraphQL APIs', 'Event-driven integrations', 'Automated testing'] },
   { area: 'AI & Data', items: ['LLM integration & retrieval', 'Evaluation & guardrails', 'Data pipelines', 'BI & visualisation'] },
   { area: 'Cloud & Ops', items: ['Infrastructure as code', 'CI/CD pipelines', 'Monitoring & alerting', 'Security reviews'] },

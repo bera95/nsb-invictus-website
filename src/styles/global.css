@@ -236,6 +236,12 @@
   -webkit-backdrop-filter: blur(22px) saturate(170%);
 }
 
+/* Content protection: page text is not selectable; fields and tool results are. */
+body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, select, [contenteditable="true"], [data-copy-ok], [data-copy-ok] * { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+img, svg, canvas { -webkit-user-drag: none; user-drag: none; }
+@media print { body * { visibility: hidden !important; } body::after { content: 'Printing is disabled. Visit nsbinvictus.tech'; visibility: visible; } }
+
 /* Reveal-on-scroll (progressive enhancement: visible without JS) */
 .js [data-reveal] { opacity: 0; transform: translateY(24px); }
 @media (prefers-reduced-motion: reduce) {

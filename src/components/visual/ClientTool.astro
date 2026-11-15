@@ -5,7 +5,7 @@ const { kind } = Astro.props;
 const stat = (label: string, key: string) => ({ label, key });
 const wordStats = [stat('Words', 'words'), stat('Characters', 'chars'), stat('No spaces', 'charsNoSpace'), stat('Sentences', 'sentences'), stat('Paragraphs', 'paragraphs'), stat('Reading time', 'read'), stat('Speaking time', 'speak'), stat('Readability', 'flesch')];
 ---
-<div class="panel neon-frame p-6 sm:p-8" data-client-tool={kind}>
+<div class="panel neon-frame p-6 sm:p-8" data-client-tool={kind} data-copy-ok>
   {kind === 'utm' && (
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="sm:col-span-2"><label class="field-label" for="utm-url">Website URL *</label><input class="field" id="utm-url" name="url" placeholder="https://yourwebsite.com/landing-page" inputmode="url" /></div>

@@ -1,17 +1,50 @@
-# NSB INVICTUS — Apache / LiteSpeed configuration for Hostinger shared hosting
-Options -Indexes
+# ---------------------------------------------------------------------------
+# Web server configuration (Hostinger / LiteSpeed / Apache)
+# ---------------------------------------------------------------------------
+Options -Indexes -MultiViews
+ServerSignature Off
+ErrorDocument 403 /404.html
 ErrorDocument 404 /404.html
 DirectoryIndex index.html index.php
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Block TRACE/TRACK and unusual methods
+  RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|DEBUG|CONNECT|PUT|DELETE|PATCH) [NC]
+  RewriteRule .* - [F,L]
+
   # Force HTTPS
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-  # Canonical host: redirect www.nsbinvictus.tech → nsbinvictus.tech
+  # Canonical host: www -> apex
   RewriteCond %{HTTP_HOST} ^www\.nsbinvictus\.tech$ [NC]
   RewriteRule ^ https://nsbinvictus.tech%{REQUEST_URI} [L,R=301]
+
+  # Hidden files and source/config/backup files are never served
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+  RewriteRule \.(env|ini|log|sql|sqlite|bak|old|orig|swp|dist|lock|yml|yaml|md|ts|map|sh|git)$ - [F,L,NC]
+  RewriteRule (^|/)(composer\.json|package(-lock)?\.json|config\.php)$ - [F,L,NC]
+
+  # Website copiers, vulnerability scanners and abusive scrapers
+  RewriteCond %{HTTP_USER_AGENT} (HTTrack|WebCopier|WebZIP|Offline\ Explorer|Teleport|SiteSnagger|SiteSucker|WebStripper|WebReaper|Wget|GrabNet|ExtractorPro|EmailCollector|EmailSiphon|sqlmap|nikto|nmap|masscan|zgrab|WPScan|acunetix|nessus|dirbuster|gobuster|ffuf|nuclei|Bytespider|PetalBot|MJ12bot|DotBot|BLEXBot|serpstatbot|SeekportBot|MegaIndex|AspiegelBot|ZoominfoBot|Scrapy|python-requests|Go-http-client|aiohttp|libwww-perl|PhantomJS) [NC]
+  RewriteRule .* - [F,L]
+  # Empty user agent
+  RewriteCond %{HTTP_USER_AGENT} ^-?$
+  RewriteRule .* - [F,L]
+
+  # Common attack probes (CMS admin scans, path traversal, injection attempts)
+  RewriteCond %{REQUEST_URI} (wp-admin|wp-login|xmlrpc\.php|phpmyadmin|/\.git|/vendor/phpunit|/cgi-bin|eval-stdin) [NC,OR]
+  RewriteCond %{QUERY_STRING} (\.\./|%2e%2e|<script|%3Cscript|union.*select|base64_encode|/etc/passwd|GLOBALS=|_REQUEST=) [NC]
+  RewriteRule .* - [F,L]
+
+  # Hotlink protection for images and fonts (own domain, empty referrers and search/social allowed)
+  RewriteCond %{HTTP_REFERER} !^$
+  RewriteCond %{HTTP_REFERER} !^https?://(www\.)?nsbinvictus\.tech/ [NC]
+  RewriteCond %{HTTP_REFERER} !(google|bing|duckduckgo|yahoo|yandex|linkedin|facebook|twitter|x\.com) [NC]
+  RewriteRule \.(png|jpe?g|webp|avif|gif|svg|woff2)$ - [F,NC,L]
+
   # Add trailing slash to directory-style URLs
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$
@@ -19,16 +52,24 @@ DirectoryIndex index.html index.php
 </IfModule>
 
 <IfModule mod_headers.c>
+  # Hide server technology
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+  Header always unset X-Turbo-Charged-By
+
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://www.googletagmanager.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' data:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com; frame-src https://challenges.cloudflare.com https://www.googletagmanager.com https://tagassistant.google.com; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-site"
+  Header always set X-Permitted-Cross-Domain-Policies "none"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://www.googletagmanager.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' data:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com; frame-src https://challenges.cloudflare.com https://www.googletagmanager.com https://tagassistant.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
 
-  # Fingerprinted build assets: cache for a year
   <FilesMatch "\.(js|css|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set X-Robots-Tag "noindex, noai"
   </FilesMatch>
   <FilesMatch "\.(png|jpe?g|webp|avif|svg|ico)$">
     Header set Cache-Control "public, max-age=2592000"

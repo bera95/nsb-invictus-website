@@ -115,6 +115,7 @@ const topics = [
         </div>
         <div class="panel p-8">
           <h2 class="text-xl">Direct contact</h2>
+          <div data-copy-ok>
           <a href={`mailto:${site.contact.email}`} class="mt-4 block text-signal-soft link-underline">{site.contact.email}</a>
           <ul class="mt-4 space-y-2">
             {site.contact.phones.map((p) => (
@@ -125,6 +126,7 @@ const topics = [
             ))}
           </ul>
           {site.contact.emailIsPlaceholder && <div class="mt-4"><Placeholder label="contact email" /></div>}
+          </div>
           {!site.legal.isPlaceholder && <p class="mt-6 text-sm text-mist-500">{site.legal.entityName}<br />{site.legal.address}</p>}
         </div>
       </div>

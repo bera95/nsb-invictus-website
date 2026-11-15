@@ -72,6 +72,24 @@ function lockedNote(count: number, text: string) {
   return n;
 }
 
+/** Copies the visible (unlocked) results as plain text. */
+function copyResultsButton(out: HTMLElement) {
+  const bar = el('div', 'mb-4 flex justify-end');
+  const btn = el('button', 'btn btn-ghost !min-h-10 !py-2 text-sm', 'Copy results');
+  btn.setAttribute('type', 'button');
+  btn.addEventListener('click', async () => {
+    const lines: string[] = [];
+    out.querySelectorAll('li:not(.locked), .panel p').forEach((n) => {
+      if (n.closest('form, .locked-note')) return;
+      const t = (n.textContent || '').replace(/\s+/g, ' ').trim();
+      if (t && !lines.includes(t)) lines.push(t);
+    });
+    try { await navigator.clipboard.writeText(lines.join('\n') + '\n\nChecked with nsbinvictus.tech/tools/'); btn.textContent = 'Copied ✓'; setTimeout(() => (btn.textContent = 'Copy results'), 1500); } catch { /* blocked */ }
+  });
+  bar.append(btn);
+  return bar;
+}
+
 function ctaBox(capHref: string, text: string) {
   const box = el('div', 'panel neon-frame mt-8 flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between');
   box.append(el('p', 'text-mist-200', text));
@@ -235,7 +253,7 @@ export function initTool(root: HTMLElement) {
     out.scrollIntoView({ behavior: 'smooth', block: 'start' });
     try {
       const body = api === 'email' ? { tool: api, domain: value } : { tool: api, url: value };
-      const res = await fetch('/api/tools.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const res = await fetch('/api/tools.php', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-NSB-Client': 'web' }, body: JSON.stringify(body) });
       const data = await res.json().catch(() => ({ ok: false, error: 'The service is not available right now.' }));
       out.replaceChildren();
       if (!data.ok) {
@@ -243,6 +261,7 @@ export function initTool(root: HTMLElement) {
         out.append(err);
       } else {
         renderers[api](out, data, capHref);
+        out.prepend(copyResultsButton(out));
         (window as any).dataLayer?.push({ event: 'free_tool_run', tool_name: api });
       }
     } catch {

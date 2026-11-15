@@ -101,7 +101,9 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
     <CookieConsent />
     <script>
       import { initReveals } from '../scripts/reveal';
+      import { initProtection } from '../scripts/protect';
       initReveals();
+      initProtection();
     </script>
   </body>
 </html>

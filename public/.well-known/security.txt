@@ -1,0 +1,5 @@
+Contact: https://nsbinvictus.tech/contact/
+Expires: 2027-11-15T00:00:00.000Z
+Preferred-Languages: en, sr
+Canonical: https://nsbinvictus.tech/.well-known/security.txt
+Policy: https://nsbinvictus.tech/legal/

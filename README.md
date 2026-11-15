@@ -90,3 +90,4 @@ See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — technical decisions and the Living Architecture system
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Hostinger setup, email, secrets, rollback
 - [docs/QA-CHECKLIST.md](docs/QA-CHECKLIST.md) — pre-launch checklist
+- [docs/SECURITY.md](docs/SECURITY.md) — bot, scraper and copy protection; Cloudflare setup
