@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import ToolCard from '../../components/ui/ToolCard.astro';
 import FinalCta from '../../components/cta/FinalCta.astro';
+import ClientTool from '../../components/visual/ClientTool.astro';
 import { tools, type Tool } from '../../data/tools';
 import { getCapability } from '../../data/capabilities';
 
@@ -31,7 +32,9 @@ const ld = [
       </div>
 
       <div class="mx-auto mt-10 max-w-3xl" data-tool data-api={tool.api} data-cap={capHref}>
-        {tool.input === 'serp' ? (
+        {['utm', 'words', 'password', 'image'].includes(tool.input) ? (
+          <ClientTool kind={tool.input as 'utm' | 'words' | 'password' | 'image'} />
+        ) : tool.input === 'serp' ? (
           <div class="panel neon-frame space-y-5 p-6 sm:p-8" data-serp>
             <div><label class="field-label" for="serp-title">Title tag</label><input class="field" id="serp-title" name="serp-title" value="NSB INVICTUS — Where Vision Becomes Reality" /><p class="mt-1 font-mono text-xs" data-serp-tmeter></p></div>
             <div><label class="field-label" for="serp-desc">Meta description</label><textarea class="field min-h-24" id="serp-desc" name="serp-desc">AI agents, SEO, AEO and GEO, websites, apps and SaaS, GA4 and GTM analytics, cloud and security — serving clients worldwide.</textarea><p class="mt-1 font-mono text-xs" data-serp-dmeter></p></div>
@@ -58,7 +61,7 @@ const ld = [
     <div class="container-x grid gap-12 lg:grid-cols-2">
       <div data-reveal>
         <p class="eyebrow mb-5">How it works</p>
-        <h2 id="how-h" class="text-display-md">Live checks. No sign-up.</h2>
+        <h2 id="how-h" class="text-display-md">{tool.api === 'client' ? 'Private. Instant. Free.' : 'Live checks. No sign-up.'}</h2>
         <ol class="mt-8 space-y-4">
           {tool.howItWorks.map((s, i) => <li class="flex gap-4"><span class="font-mono text-signal-soft">0{i + 1}</span><span class="text-mist-200">{s}</span></li>)}
         </ol>
@@ -85,14 +88,19 @@ const ld = [
 </Base>
 
 <style>
+  :global(.locked-note) { background: linear-gradient(180deg, transparent, rgb(5 6 10 / 0.92) 45%); }
+  :global(li.locked) { position: relative; overflow: hidden; }
   :global(.tool-spinner) { width: 22px; height: 22px; border-radius: 9999px; border: 2px solid rgb(255 79 216 / 0.25); border-top-color: #ff4fd8; box-shadow: 0 0 14px #ff4fd8; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 
 <script>
-  import { initTool, initSerp } from '../../scripts/tools';
+  import { initTool, initSerp, initClientTool } from '../../scripts/tools';
   document.querySelectorAll<HTMLElement>('[data-tool]').forEach((root) => {
     const serp = root.querySelector<HTMLElement>('[data-serp]');
-    serp ? initSerp(serp) : initTool(root);
+    const client = root.querySelector<HTMLElement>('[data-client-tool]');
+    if (client) initClientTool(client);
+    else if (serp) initSerp(serp);
+    else initTool(root);
   });
 </script>

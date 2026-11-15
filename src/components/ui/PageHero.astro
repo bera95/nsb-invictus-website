@@ -2,6 +2,8 @@
 import ArchitectureCanvas from '../visual/ArchitectureCanvas.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import type { ShapeName } from '../../scripts/architecture/shapes';
+import IconBadge from './IconBadge.astro';
+import type { IconName } from '../../data/icons';
 interface Props {
   eyebrow?: string;
   title: string;
@@ -9,8 +11,10 @@ interface Props {
   shape?: ShapeName;
   breadcrumbs?: { label: string; href?: string }[];
   compact?: boolean;
+  icon?: IconName;
+  iconColor?: string;
 }
-const { eyebrow, title, intro, shape, breadcrumbs, compact = false } = Astro.props;
+const { eyebrow, title, intro, shape, breadcrumbs, compact = false, icon, iconColor } = Astro.props;
 ---
 <section class:list={['relative overflow-hidden', compact ? 'pt-36 pb-16 md:pt-44' : 'flex min-h-[88svh] items-center pt-32 pb-20']}>
   {shape && <ArchitectureCanvas sequence={['vision', shape]} offset={2.2} zoom={1.05} class="opacity-90" />}
@@ -19,6 +23,7 @@ const { eyebrow, title, intro, shape, breadcrumbs, compact = false } = Astro.pro
   <div class="container-x relative">
     {breadcrumbs && <div class="mb-10"><Breadcrumbs items={breadcrumbs} /></div>}
     <div class="max-w-3xl">
+      {icon && <IconBadge name={icon} color={iconColor} size="lg" class="mb-6" />}
       {eyebrow && <p class="eyebrow mb-6">{eyebrow}</p>}
       <h1 class="text-display-lg" set:html={title} />
       {intro && <p class="mt-8 max-w-2xl text-lg leading-relaxed text-mist-200 md:text-xl">{intro}</p>}

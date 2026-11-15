@@ -4,15 +4,17 @@ import Arrow from '../ui/Arrow.astro';
 import { navigation } from '../../data/site';
 import { capabilities, advisory } from '../../data/capabilities';
 import { industries } from '../../data/industries';
+import Icon from '../ui/Icon.astro';
+import { capabilityIcon, industryIcon, type IconName } from '../../data/icons';
 
 const path = Astro.url.pathname;
 const isActive = (href: string) => path.startsWith(href);
-const menus: Record<string, { label: string; href: string; note?: string }[]> = {
+const menus: Record<string, { label: string; href: string; icon?: IconName }[]> = {
   '/capabilities/': [
-    ...capabilities.map((c) => ({ label: c.name, href: `/capabilities/${c.slug}/`, note: c.index })),
-    { label: advisory.name, href: '/approach/#advisory', note: '+' },
+    ...capabilities.map((c) => ({ label: c.name, href: `/capabilities/${c.slug}/`, icon: capabilityIcon[c.slug] })),
+    { label: advisory.name, href: '/approach/#advisory', icon: 'compass' as IconName },
   ],
-  '/industries/': industries.map((i) => ({ label: i.shortName, href: `/industries/${i.slug}/` })),
+  '/industries/': industries.map((i) => ({ label: i.shortName, href: `/industries/${i.slug}/`, icon: industryIcon[i.slug] })),
 };
 ---
 <header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 border-b border-transparent" data-header>
@@ -43,7 +45,7 @@ const menus: Record<string, { label: string; href: string; note?: string }[]> = 
                     {sub.map((s) => (
                       <li>
                         <a href={s.href} class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-mist-200 transition-colors hover:bg-white/5 hover:text-mist-50">
-                          {s.note && <span class="w-5 font-mono text-[0.68rem] text-signal-soft">{s.note}</span>}
+                          {s.icon && <span class="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-signal-soft"><Icon name={s.icon} class="h-4 w-4" /></span>}
                           {s.label}
                         </a>
                       </li>

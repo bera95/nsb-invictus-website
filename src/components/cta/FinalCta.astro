@@ -9,10 +9,10 @@ const {
 } = Astro.props;
 const href = topic ? `/contact/?topic=${topic}` : '/contact/';
 ---
-<section class="relative py-28 md:py-40" data-scene={scene} data-dim={scene !== undefined ? '0.6' : undefined} data-offset="0" aria-labelledby="cta-title">
+<section class="relative overflow-hidden py-28 md:py-40" data-scene={scene} data-dim={scene !== undefined ? '0.6' : undefined} data-offset="0" aria-labelledby="cta-title">
   <div class="container-x">
     <div class="relative mx-auto max-w-4xl text-center" data-reveal>
-      <div class="pointer-events-none absolute -inset-x-16 -inset-y-20 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(5,6,10,0.92)_25%,rgba(5,6,10,0.6)_55%,transparent_75%)]" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 -inset-y-20 -z-10 sm:-inset-x-16 bg-[radial-gradient(ellipse_at_center,rgba(5,6,10,0.92)_25%,rgba(5,6,10,0.6)_55%,transparent_75%)]" aria-hidden="true"></div>
       <h2 id="cta-title" class="text-display-lg" set:html={title} />
       <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-mist-400">{text}</p>
       <div class="mt-10 flex flex-wrap justify-center gap-3">

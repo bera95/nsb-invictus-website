@@ -101,7 +101,7 @@ const steps = [
     :global(.motion-ok) .stage-2 ol > li + li { margin-top: 0; }
     :global(.motion-ok) .stage-2 .step p:nth-child(2) { font-size: 1.75rem; }
     :global(.motion-ok) .stage-2 .step p:last-child { font-size: 0.875rem; }
-    :global(.motion-ok) .hero-sticky::after { content: ''; position: absolute; inset: auto 0 0 0; height: 55%; background: linear-gradient(to bottom, transparent, rgb(5 6 10 / 0.9) 40%); pointer-events: none; }
+    :global(.motion-ok) .hero-sticky::after { content: ''; position: absolute; inset: auto 0 0 0; height: 55%; background: linear-gradient(to bottom, transparent, rgb(5 6 10 / 0.9) 40%); pointer-events: none; opacity: clamp(0, calc((var(--p) - 0.15) * 6), 1); }
     :global(.motion-ok) .stage-2 { z-index: 1; }
   }
 </style>

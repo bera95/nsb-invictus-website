@@ -3,8 +3,9 @@
  * or fully in the browser. Add a tool here to create its page, navigation entry and sitemap URL.
  */
 import type { CapabilitySlug } from './capabilities';
+import type { IconName } from './icons';
 
-export type ToolSlug = 'website-audit' | 'ai-crawler-checker' | 'security-headers' | 'email-deliverability' | 'tracking-checker' | 'serp-preview';
+export type ToolSlug = 'website-audit' | 'ai-crawler-checker' | 'security-headers' | 'email-deliverability' | 'tracking-checker' | 'serp-preview' | 'utm-builder' | 'word-counter' | 'password-generator' | 'image-compressor';
 
 export interface Tool {
   slug: ToolSlug;
@@ -12,7 +13,9 @@ export interface Tool {
   name: string;
   short: string;
   badge?: string;
-  input: 'url' | 'domain' | 'serp';
+  input: 'url' | 'domain' | 'serp' | 'utm' | 'words' | 'password' | 'image';
+  icon: IconName;
+  group: 'Search & AI' | 'Security & Email' | 'Analytics & Marketing' | 'Content & Productivity';
   placeholder: string;
   description: string;
   howItWorks: string[];
@@ -25,6 +28,8 @@ export interface Tool {
 export const tools: Tool[] = [
   {
     slug: 'website-audit',
+    icon: 'chart',
+    group: 'Search & AI',
     api: 'audit',
     name: 'Website SEO, AEO & GEO Audit',
     short: 'Score your site for search, AI answers, speed, security and tracking — in seconds.',
@@ -48,6 +53,8 @@ export const tools: Tool[] = [
   },
   {
     slug: 'ai-crawler-checker',
+    icon: 'ai',
+    group: 'Search & AI',
     api: 'ai-crawlers',
     name: 'AI Crawler Access Checker',
     short: 'Can ChatGPT, Claude, Perplexity and Gemini read your website?',
@@ -69,6 +76,8 @@ export const tools: Tool[] = [
   },
   {
     slug: 'security-headers',
+    icon: 'shield',
+    group: 'Security & Email',
     api: 'headers',
     name: 'Security Headers Checker',
     short: 'Grade your website’s HTTP security headers from A to F.',
@@ -89,6 +98,8 @@ export const tools: Tool[] = [
   },
   {
     slug: 'email-deliverability',
+    icon: 'mail',
+    group: 'Security & Email',
     api: 'email',
     name: 'Email Deliverability Checker',
     short: 'Check SPF, DMARC and MX records — and why your emails land in spam.',
@@ -109,6 +120,8 @@ export const tools: Tool[] = [
   },
   {
     slug: 'tracking-checker',
+    icon: 'pulse',
+    group: 'Analytics & Marketing',
     api: 'tracking',
     name: 'Tracking & Consent Checker',
     short: 'Detect GA4, Google Tag Manager, pixels and cookie consent on any site.',
@@ -129,6 +142,8 @@ export const tools: Tool[] = [
   },
   {
     slug: 'serp-preview',
+    icon: 'serp',
+    group: 'Search & AI',
     api: 'client',
     name: 'SERP Snippet Preview',
     short: 'Preview how your title and description appear in Google — with pixel limits.',
@@ -146,6 +161,78 @@ export const tools: Tool[] = [
       title: 'Free SERP Snippet Preview — Title & Meta Description Tool',
       description: 'Free SERP preview tool: test your title tag and meta description with live Google-style preview, pixel width measurement and truncation warnings.',
     },
+  },
+  {
+    slug: 'utm-builder',
+    icon: 'link',
+    group: 'Analytics & Marketing',
+    api: 'client',
+    name: 'UTM Campaign URL Builder',
+    short: 'Build clean, consistent UTM links for GA4 campaign tracking.',
+    input: 'utm',
+    placeholder: '',
+    description: 'Create campaign URLs with utm_source, utm_medium, utm_campaign, utm_term and utm_content — normalised to lowercase so your GA4 reports stay clean. Runs entirely in your browser.',
+    howItWorks: ['Paste your landing page URL', 'Fill in source, medium and campaign', 'Copy the tagged link into your ad, email or post'],
+    capability: 'data-intelligence',
+    faq: [
+      { q: 'What are UTM parameters?', a: 'UTM parameters are tags added to a URL that tell analytics tools such as GA4 where a visit came from — for example a newsletter, a social post or a paid campaign.' },
+      { q: 'Why should UTM values be lowercase?', a: 'GA4 treats "Facebook" and "facebook" as different sources. Consistent lowercase values keep campaign reports clean and comparable.' },
+    ],
+    seo: { title: 'Free UTM Builder — Campaign URL Generator for GA4', description: 'Free UTM campaign URL builder: create clean utm_source, utm_medium and utm_campaign links for Google Analytics 4 tracking in seconds.' },
+  },
+  {
+    slug: 'word-counter',
+    icon: 'text',
+    group: 'Content & Productivity',
+    api: 'client',
+    name: 'Word & Character Counter',
+    short: 'Count words, characters and reading time — plus readability and keyword density.',
+    input: 'words',
+    placeholder: '',
+    description: 'Paste any text to count words, characters, sentences and paragraphs, estimate reading and speaking time, check readability (Flesch score) and see the most frequent keywords. Nothing leaves your browser.',
+    howItWorks: ['Paste or type your text', 'All statistics update live', 'Use the keyword list to balance your content'],
+    capability: 'digital-growth',
+    faq: [
+      { q: 'How is reading time calculated?', a: 'Reading time assumes about 230 words per minute; speaking time assumes about 140 words per minute.' },
+      { q: 'What is the Flesch reading ease score?', a: 'A readability score from 0 to 100 based on sentence length and syllables per word. 60–70 is plain English; higher is easier to read.' },
+    ],
+    seo: { title: 'Free Word Counter — Characters, Readability & Keyword Density', description: 'Free word and character counter with reading time, Flesch readability score and keyword density. Works instantly in your browser.' },
+  },
+  {
+    slug: 'password-generator',
+    icon: 'key',
+    group: 'Security & Email',
+    api: 'client',
+    name: 'Strong Password Generator',
+    short: 'Generate strong, random passwords with an instant strength meter.',
+    input: 'password',
+    placeholder: '',
+    description: 'Generate cryptographically random passwords using your browser’s secure random generator. Choose length and character sets and see the estimated strength — passwords are never sent anywhere.',
+    howItWorks: ['Choose length and character types', 'A secure random password is generated locally', 'Copy it into your password manager'],
+    capability: 'cloud-platform',
+    faq: [
+      { q: 'Is this password generator safe?', a: 'Yes. Passwords are generated in your browser with the Web Crypto API and are never transmitted or stored.' },
+      { q: 'How long should a password be?', a: 'At least 16 characters for important accounts — and always unique per account, stored in a password manager, with two-factor authentication enabled.' },
+    ],
+    seo: { title: 'Free Strong Password Generator — Secure & Random', description: 'Free secure password generator using the Web Crypto API. Choose length and character sets, check strength and copy — nothing is sent or stored.' },
+  },
+  {
+    slug: 'image-compressor',
+    icon: 'image',
+    group: 'Content & Productivity',
+    api: 'client',
+    name: 'Image Compressor & Resizer',
+    short: 'Compress and resize images to WebP or JPEG — faster pages, privately.',
+    input: 'image',
+    placeholder: '',
+    description: 'Shrink images for the web without uploading them anywhere: resize to a maximum width, choose WebP or JPEG and quality, compare file sizes and download. Faster images improve Core Web Vitals and SEO.',
+    howItWorks: ['Choose an image (JPG, PNG or WebP)', 'Set maximum width, format and quality', 'Download the optimised image'],
+    capability: 'software-engineering',
+    faq: [
+      { q: 'Are my images uploaded?', a: 'No. Compression happens entirely in your browser, so your images never leave your device.' },
+      { q: 'Which format should I use for websites?', a: 'WebP usually gives the smallest files at the same visual quality and is supported by all modern browsers.' },
+    ],
+    seo: { title: 'Free Image Compressor — Resize & Convert to WebP', description: 'Free private image compressor: resize and convert images to WebP or JPEG in your browser for faster websites and better Core Web Vitals.' },
   },
 ];
 

@@ -1,23 +1,19 @@
 ---
 import type { Tool } from '../../data/tools';
+import Icon from './Icon.astro';
 interface Props { tool: Tool; i?: number }
 const { tool: t, i = 0 } = Astro.props;
-const icons: Record<string, string> = {
-  audit: 'M4 19h16M7 16V9m5 7V5m5 11v-4', 'ai-crawlers': 'M12 3v3m0 12v3M3 12h3m12 0h3M6 6l2 2m8 8 2 2M6 18l2-2m8-8 2-2M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
-  headers: 'M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3Zm-3 9 2 2 4-4', email: 'M4 6h16v12H4zM4 7l8 6 8-6',
-  tracking: 'M3 12h4l3 7 4-14 3 7h4', client: 'M4 5h16v14H4zM7 9h10M7 13h6',
-};
 ---
 <li class="panel group relative flex flex-col p-7" data-reveal data-reveal-delay={(i % 3) * 80} data-tilt="5">
   <div class="flex items-center justify-between">
     <span class="flex h-12 w-12 items-center justify-center rounded-xl border border-neon/40 bg-neon/10 text-neon-soft shadow-[0_0_24px_-6px_#ff4fd8]">
-      <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[t.api]} /></svg>
+      <Icon name={t.icon} class="h-6 w-6" />
     </span>
     {t.badge && <span class="tag !border-neon/60 !text-neon-soft">{t.badge}</span>}
   </div>
   <h3 class="mt-6 text-xl">{t.name}</h3>
   <p class="mt-2 flex-1 text-sm leading-relaxed text-mist-400">{t.short}</p>
   <a href={`/tools/${t.slug}/`} class="mt-6 inline-flex items-center gap-2 text-sm text-signal-soft after:absolute after:inset-0">
-    <span class="link-underline">Run free check</span><span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+    <span class="link-underline">{t.api === 'client' ? 'Open free tool' : 'Run free check'}</span><span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
   </a>
 </li>

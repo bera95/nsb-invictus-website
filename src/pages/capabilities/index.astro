@@ -4,6 +4,8 @@ import PageHero from '../../components/ui/PageHero.astro';
 import FinalCta from '../../components/cta/FinalCta.astro';
 import Arrow from '../../components/ui/Arrow.astro';
 import { capabilities, advisory } from '../../data/capabilities';
+import IconBadge from '../../components/ui/IconBadge.astro';
+import { capabilityIcon } from '../../data/icons';
 ---
 <Base title="Services — AI, SEO/AEO/GEO, Web & SaaS, Analytics, Security" description="Six connected capabilities: AI agents and automation, SEO, AEO and GEO, websites, apps and SaaS, GA4 and GTM analytics, cloud and security, and digital growth — plus strategy consulting.">
   <PageHero
@@ -19,8 +21,8 @@ import { capabilities, advisory } from '../../data/capabilities';
         {capabilities.map((c, i) => (
           <li class="panel group relative flex flex-col p-8 transition-colors hover:border-line-strong sm:p-10" data-reveal data-reveal-delay={(i % 2) * 80}>
             <div class="flex items-center justify-between">
+              <IconBadge name={capabilityIcon[c.slug]} color={c.accent} size="lg" />
               <span class="font-mono text-xs tracking-[0.18em] text-mist-500">{c.index}</span>
-              <span class="h-2 w-2 rounded-full" style={`background:${c.accent};box-shadow:0 0 14px ${c.accent}`}></span>
             </div>
             <h2 class="mt-8 text-2xl sm:text-3xl">{c.name}</h2>
             <p class="mt-4 flex-1 leading-relaxed text-mist-400">{c.summary}</p>
@@ -32,7 +34,8 @@ import { capabilities, advisory } from '../../data/capabilities';
         ))}
         <li class="glass relative flex flex-col justify-between rounded-[1.25rem] p-8 sm:p-10" data-reveal>
           <div>
-            <span class="font-mono text-xs tracking-[0.18em] text-signal-soft">CROSS-CUTTING</span>
+            <IconBadge name="compass" color="#ff4fd8" size="lg" />
+            <span class="mt-6 block font-mono text-xs tracking-[0.18em] text-signal-soft">CROSS-CUTTING</span>
             <h2 class="mt-8 text-2xl sm:text-3xl">{advisory.name}</h2>
             <p class="mt-4 leading-relaxed text-mist-400">{advisory.summary}</p>
           </div>

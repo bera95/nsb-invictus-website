@@ -1,6 +1,8 @@
 ---
 import SectionHeading from '../ui/SectionHeading.astro';
 import { getCapability } from '../../data/capabilities';
+import IconBadge from '../ui/IconBadge.astro';
+import { capabilityIcon } from '../../data/icons';
 
 const problems = [
   { title: 'Invisible in search and AI answers', text: 'Competitors show up on Google, in AI overviews and in ChatGPT — your business does not.', cap: 'search-visibility' },
@@ -19,7 +21,7 @@ const problems = [
         const cap = getCapability(p.cap)!;
         return (
           <li class="glass-card group relative p-8" data-reveal data-reveal-delay={i * 70}>
-            <span class="font-mono text-xs text-mist-500">0{i + 1}</span>
+            <IconBadge name={capabilityIcon[cap.slug]} color={cap.accent} />
             <h3 class="mt-5 text-xl">{p.title}</h3>
             <p class="mt-3 text-mist-400">{p.text}</p>
             <a href={`/capabilities/${cap.slug}/`} class="mt-6 inline-flex items-center gap-2 text-sm text-signal-soft after:absolute after:inset-0">

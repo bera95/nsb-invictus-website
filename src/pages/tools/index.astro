@@ -4,12 +4,13 @@ import PageHero from '../../components/ui/PageHero.astro';
 import ToolCard from '../../components/ui/ToolCard.astro';
 import FinalCta from '../../components/cta/FinalCta.astro';
 import { tools } from '../../data/tools';
+const groups = ['Search & AI', 'Analytics & Marketing', 'Security & Email', 'Content & Productivity'] as const;
 const ld = {
   '@context': 'https://schema.org', '@type': 'ItemList', name: 'Free website tools by NSB INVICTUS',
   itemListElement: tools.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: new URL(`/tools/${t.slug}/`, Astro.site).toString() })),
 };
 ---
-<Base title="Free SEO, AI-Search, Security & Tracking Tools" description="Free live tools: website SEO/AEO/GEO audit, AI crawler checker, security headers, email deliverability (SPF/DMARC), GA4/GTM tracking checker and SERP preview." jsonLd={ld}>
+<Base title="Free SEO, AI-Search, Security & Tracking Tools" description="10 free tools: SEO/AEO/GEO website audit, AI crawler checker, security headers, SPF/DMARC check, GA4/GTM checker, UTM builder, word counter, password generator, image compressor." jsonLd={ld}>
   <PageHero
     eyebrow="Free tools"
     title="Check your website <span class='text-gradient'>live — for free.</span>"
@@ -22,9 +23,14 @@ const ld = {
   <section class="py-12" aria-labelledby="tools-h">
     <div class="container-x">
       <h2 id="tools-h" class="sr-only">All free tools</h2>
-      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {tools.map((t, i) => <ToolCard tool={t} i={i} />)}
-      </ul>
+      {groups.map((g) => (
+        <div class="mb-14">
+          <h3 class="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-signal-soft"><span class="h-px w-8 bg-gradient-to-r from-vision to-neon"></span>{g}</h3>
+          <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {tools.filter((t) => t.group === g).map((t, i) => <ToolCard tool={t} i={i} />)}
+          </ul>
+        </div>
+      ))}
       <p class="mt-10 max-w-2xl text-sm text-mist-500">Free checks are limited to protect the service. For complete audits, monitoring and fixes, our team uses its proprietary tools — <a href="/contact/?topic=search-visibility" class="text-signal-soft underline underline-offset-4">request a full analysis</a>.</p>
     </div>
   </section>

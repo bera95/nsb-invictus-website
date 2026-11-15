@@ -4,6 +4,7 @@ import ArchitectureCanvas from '../components/visual/ArchitectureCanvas.astro';
 import Hero from '../components/home/Hero.astro';
 import ServicesMarquee from '../components/home/ServicesMarquee.astro';
 import FreeToolsTeaser from '../components/home/FreeToolsTeaser.astro';
+import StatsStrip from '../components/home/StatsStrip.astro';
 import Problems from '../components/home/Problems.astro';
 import CapabilityEcosystem from '../components/home/CapabilityEcosystem.astro';
 import Advisory from '../components/home/Advisory.astro';
@@ -30,6 +31,7 @@ const website = {
   <ArchitectureCanvas slot="backdrop" mode="scroll" sequence={['vision', 'architecture', 'ecosystem', 'building', 'architecture']} offset={1.9} zoom={1.12} lift={1.9} />
   <Hero />
   <ServicesMarquee />
+  <StatsStrip />
   <Problems />
   <CapabilityEcosystem />
   <ProductsShowcase />

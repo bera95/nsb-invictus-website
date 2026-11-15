@@ -1,0 +1,31 @@
+---
+/** Facts about NSB INVICTUS and this website — no invented client statistics. */
+import Icon from '../ui/Icon.astro';
+import { capabilities } from '../../data/capabilities';
+import { tools } from '../../data/tools';
+import { products } from '../../data/products';
+const stats = [
+  { n: capabilities.length, s: '', label: 'Connected capabilities', icon: 'layers' },
+  { n: tools.length, s: '', label: 'Free live tools', icon: 'bolt' },
+  { n: 30, s: '+', label: 'Checks in our free audit', icon: 'check' },
+  { n: 15, s: '', label: 'AI & search crawlers tracked', icon: 'ai' },
+  { n: products.length, s: '', label: 'Proprietary platforms', icon: 'chart' },
+] as const;
+---
+<section class="relative py-14" aria-label="NSB INVICTUS in numbers">
+  <div class="container-x">
+    <ul class="grid grid-cols-2 gap-4 md:grid-cols-5">
+      {stats.map((s, i) => (
+        <li class:list={['glass-card p-5 text-center sm:p-6', i === 4 && 'col-span-2 md:col-span-1']} data-reveal data-reveal-delay={i * 80}>
+          <span class="mx-auto flex h-10 w-10 items-center justify-center rounded-xl border border-neon/30 bg-neon/10 text-neon-soft"><Icon name={s.icon} class="h-5 w-5" /></span>
+          <p class="mt-4 font-display text-4xl text-gradient sm:text-5xl"><span data-count={s.n} data-suffix={s.s}>{s.n}{s.s}</span></p>
+          <p class="mt-2 text-xs leading-snug text-mist-400 sm:text-sm">{s.label}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<script>
+  import { initCharts } from '../../scripts/charts';
+  initCharts();
+</script>

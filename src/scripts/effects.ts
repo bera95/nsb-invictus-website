@@ -1,6 +1,6 @@
 /**
  * Interaction effects: cursor glow, card spotlight, 3D tilt, magnetic buttons,
- * text scramble on eyebrows and a scroll progress bar. All skipped for reduced motion.
+ * and a scroll progress bar. All skipped for reduced motion.
  */
 export function initEffects() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -60,27 +60,4 @@ export function initEffects() {
     });
   }
 
-  // Text scramble on eyebrows when they enter the viewport
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+<>/';
-  const scramble = (el: HTMLElement) => {
-    const final = el.textContent ?? '';
-    let frame = 0;
-    const total = 16;
-    const tick = () => {
-      el.textContent = final.split('').map((ch, i) => {
-        if (ch === ' ' || i < (frame / total) * final.length) return ch;
-        return chars[Math.floor(Math.random() * chars.length)];
-      }).join('');
-      if (++frame <= total) requestAnimationFrame(tick); else el.textContent = final;
-    };
-    tick();
-    // Safety net: always restore the real text (e.g. if rAF is throttled in a background tab).
-    setTimeout(() => { el.textContent = final; }, 900);
-  };
-  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-    if (e.isIntersecting) { scramble(e.target as HTMLElement); io.unobserve(e.target); }
-  }), { threshold: 0.6 });
-  document.querySelectorAll<HTMLElement>('.eyebrow').forEach((el) => {
-    if (el.children.length === 0) io.observe(el);
-  });
 }

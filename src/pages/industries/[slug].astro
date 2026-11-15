@@ -5,6 +5,7 @@ import FinalCta from '../../components/cta/FinalCta.astro';
 import Arrow from '../../components/ui/Arrow.astro';
 import { industries, type Industry } from '../../data/industries';
 import { capabilities } from '../../data/capabilities';
+import { industryIcon } from '../../data/icons';
 
 export function getStaticPaths() {
   return industries.map((i) => ({ params: { slug: i.slug }, props: { ind: i } }));
@@ -20,6 +21,8 @@ const ld = { '@context': 'https://schema.org', '@type': 'Service', name: ind.nam
     title={ind.headline}
     intro={ind.intro}
     shape={ind.shape}
+    icon={industryIcon[ind.slug]}
+    iconColor="#22d3ee"
     breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Industries', href: '/industries/' }, { label: ind.shortName }]}
   >
     <a href={`/contact/?topic=${ind.slug}`} class="btn btn-primary">Discuss your project <Arrow /></a>

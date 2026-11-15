@@ -6,6 +6,9 @@
  */
 import Arrow from '../ui/Arrow.astro';
 import { capabilities } from '../../data/capabilities';
+import Icon from '../ui/Icon.astro';
+import IconBadge from '../ui/IconBadge.astro';
+import { capabilityIcon } from '../../data/icons';
 
 const R = 38; // radius in % of the diagram box
 const step = 360 / capabilities.length;
@@ -72,7 +75,8 @@ for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++
               data-index={i}
             >
               <span class="eco-dot relative flex h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-ink-900 font-mono text-[0.7rem] text-mist-200 transition-all duration-500 sm:h-14 sm:w-14 sm:text-xs">
-                {n.index}
+                <Icon name={capabilityIcon[n.slug]} class="h-5 w-5 sm:h-6 sm:w-6" />
+                <span class="sr-only">{n.index}</span>
               </span>
               <span class="eco-label w-[6.5rem] text-center text-[0.7rem] leading-tight text-mist-400 transition-colors sm:w-32 sm:text-[0.8rem]">{n.shortName}</span>
             </button>
@@ -93,8 +97,8 @@ for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++
               data-panel={i}
               tabindex="0"
             >
-              <div class="flex items-center gap-3">
-                <span class="h-2 w-2 rounded-full" style={`background:${n.accent};box-shadow:0 0 12px ${n.accent}`}></span>
+              <div class="flex items-center gap-4">
+                <IconBadge name={capabilityIcon[n.slug]} color={n.accent} />
                 <span class="font-mono text-xs tracking-[0.18em] text-mist-500">CAPABILITY {n.index}</span>
               </div>
               <h3 class="mt-4 text-2xl sm:text-3xl">{n.name}</h3>

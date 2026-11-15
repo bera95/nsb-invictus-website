@@ -2,7 +2,7 @@
  * Free tools — client side. Calls /api/tools.php and renders results.
  * All external values are inserted with textContent (never innerHTML) to prevent XSS.
  */
-type Status = 'pass' | 'warn' | 'fail' | 'info';
+type Status = 'pass' | 'warn' | 'fail' | 'info' | 'locked';
 interface Check { id: string; category: string; label: string; status: Status; detail: string; locked?: boolean }
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', text?: string) => {
@@ -16,6 +16,7 @@ const statusMeta: Record<Status, { label: string; color: string; icon: string }>
   warn: { label: 'Improve', color: '#f5b544', icon: '!' },
   fail: { label: 'Issue', color: '#ff4f7a', icon: '✕' },
   info: { label: 'Info', color: '#7fe6f6', icon: 'i' },
+  locked: { label: 'Locked', color: '#a996ff', icon: '🔒' },
 };
 
 function scoreRing(score: number, label = 'Score') {
@@ -53,14 +54,22 @@ function checkRow(c: Check) {
   head.append(tag);
   body.append(head);
   if (c.locked) {
-    const lock = el('p', 'mt-1 flex items-center gap-2 text-sm text-mist-500');
-    lock.append(el('span', '', '🔒'), el('span', 'blur-[3px] select-none', 'Details and recommended fix included in the full report.'));
-    body.append(lock);
+    head.firstChild!.textContent = ['Structured data & entity signals', 'Crawl and index configuration', 'Content and answer readiness', 'Security header policy', 'Tracking and consent setup', 'Performance and delivery'][Math.abs(c.id.length * 7 + c.category.length) % 6];
+    (head.firstChild as HTMLElement).className = 'text-mist-50 blur-[5px] select-none';
+    body.append(el('p', 'mt-1 text-sm text-mist-500 blur-[4px] select-none', 'Detailed finding and recommended fix are part of the full report.'));
+    row.setAttribute('aria-label', 'Locked finding — available in the full report');
   } else if (c.detail) {
     body.append(el('p', 'mt-1 break-words text-sm text-mist-400', c.detail));
   }
   row.append(icon, body);
   return row;
+}
+
+function lockedNote(count: number, text: string) {
+  const n = el('div', 'locked-note relative -mt-24 flex flex-col items-center gap-3 rounded-2xl px-6 pb-4 pt-28 text-center');
+  n.append(el('p', 'font-display text-xl text-mist-50', `🔒 +${count} more findings locked`));
+  n.append(el('p', 'max-w-md text-sm text-mist-400', text));
+  return n;
 }
 
 function ctaBox(capHref: string, text: string) {
@@ -97,8 +106,10 @@ function leadGate(root: HTMLElement, data: any) {
     fd.set('company', '');
     fd.set('started', started);
     fd.set('message', `Free website audit — full report requested for ${data.url}. Score ${data.score}/100, ${data.issues} issues found.`);
-    fd.set('report', data.checks.map((c: Check) => `[${c.status.toUpperCase()}] ${c.label}${c.detail ? ' — ' + c.detail : ''}`).join('\n') +
-      '\n\nCategories: ' + data.categories.map((c: any) => `${c.label} ${c.score}`).join(', '));
+    fd.set('report', `URL: ${data.url}\nScore: ${data.score}/100 · ${data.issues} of ${data.total} checks need attention\n` +
+      'Categories: ' + data.categories.map((c: any) => `${c.label} ${c.score}`).join(', ') + '\nTop findings shown to the visitor:\n' +
+      data.checks.filter((c: Check) => !c.locked).map((c: Check) => `[${c.status.toUpperCase()}] ${c.label} — ${c.detail}`).join('\n') +
+      '\n\nRun the full analysis in SEODREAM before replying.');
     try {
       const res = await fetch('/api/inquiry.php', { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
       const j = await res.json().catch(() => ({}));
@@ -137,6 +148,8 @@ const renderers: Record<string, (root: HTMLElement, d: any, capHref: string) => 
     const list = el('ul', 'mt-6 grid gap-3');
     (d.checks as Check[]).forEach((c) => list.append(checkRow(c)));
     root.append(list);
+    const locked = (d.checks as Check[]).filter((c) => c.locked).length;
+    if (locked) root.append(lockedNote(locked, 'The free check shows your 3 most important findings. Get every finding, the exact fixes and a priority plan in the full report.'));
     leadGate(root, d);
   },
   'ai-crawlers'(root, d, capHref) {
@@ -152,7 +165,9 @@ const renderers: Record<string, (root: HTMLElement, d: any, capHref: string) => 
       grid.append(checkRow({ id: b.bot, category: '', label: `${b.bot}`, status: map[b.access], detail: `${b.owner} · ${label}` }));
     }
     root.append(grid);
-    root.append(ctaBox(capHref, 'Want your brand cited in ChatGPT, Perplexity and Gemini? We optimise for AI search (GEO).'));
+    const more = (d.totalBots ?? 0) - r.bots.length;
+    if (more > 0) root.append(lockedNote(more, `${d.blockedTotal} of ${d.totalBots} crawlers are blocked in total. The full GEO report covers every AI crawler, your AI-answer visibility and what to change.`));
+    root.append(ctaBox(capHref + '&ref=ai-crawlers', 'Want your brand cited in ChatGPT, Perplexity and Gemini? Get the full GEO report from our team.'));
   },
   headers(root, d, capHref) {
     const top = el('div', 'panel flex flex-col items-center gap-8 p-6 sm:flex-row sm:p-8');
@@ -165,7 +180,9 @@ const renderers: Record<string, (root: HTMLElement, d: any, capHref: string) => 
     const list = el('ul', 'mt-6 grid gap-3');
     (d.checks as Check[]).forEach((c) => list.append(checkRow(c)));
     root.append(list);
-    root.append(ctaBox(capHref, 'Need a full security review and hardening? Our team covers servers, apps and compliance.'));
+    const lockedH = (d.checks as Check[]).filter((c) => c.locked).length;
+    if (lockedH) root.append(lockedNote(lockedH, 'See every header result with exact configuration fixes in the full security report.'));
+    root.append(ctaBox(capHref + '&ref=security', 'Need a full security review and hardening? Our team covers servers, apps and compliance.'));
   },
   email(root, d, capHref) {
     const top = el('div', 'panel flex flex-col items-center gap-8 p-6 sm:flex-row sm:p-8');
@@ -265,4 +282,142 @@ export function initSerp(root: HTMLElement) {
   };
   [t, d, u].forEach((x) => x.addEventListener('input', update));
   update();
+}
+
+/* ------------------------------------------------------------------ */
+/* Browser-only tools                                                   */
+/* ------------------------------------------------------------------ */
+const fmtBytes = (b: number) => (b > 1048576 ? (b / 1048576).toFixed(2) + ' MB' : Math.round(b / 1024) + ' KB');
+
+function bindCopy(root: HTMLElement) {
+  root.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const src = root.querySelector<HTMLElement>(btn.dataset.copy!)!;
+      try { await navigator.clipboard.writeText(src.textContent ?? ''); btn.textContent = 'Copied ✓'; setTimeout(() => (btn.textContent = 'Copy'), 1500); } catch { /* clipboard blocked */ }
+    });
+  });
+}
+
+function initUtm(root: HTMLElement) {
+  const q = (n: string) => root.querySelector<HTMLInputElement>(`[name="${n}"]`)!;
+  const out = root.querySelector<HTMLElement>('[data-utm-out]')!;
+  const clean = (v: string) => v.trim().toLowerCase().replace(/\s+/g, '_');
+  const update = () => {
+    const raw = q('url').value.trim();
+    if (!raw || !q('utm_source').value.trim() || !q('utm_medium').value.trim() || !q('utm_campaign').value.trim()) { out.textContent = 'Fill in the required fields…'; return; }
+    try {
+      const u = new URL(/^https?:\/\//i.test(raw) ? raw : 'https://' + raw);
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((k) => { const v = clean(q(k).value); v ? u.searchParams.set(k, v) : u.searchParams.delete(k); });
+      out.textContent = u.toString();
+    } catch { out.textContent = 'Please enter a valid URL.'; }
+  };
+  root.querySelectorAll('input').forEach((i) => i.addEventListener('input', update));
+  bindCopy(root);
+}
+
+const STOP = new Set('a an and are as at be but by for from has have i in is it its of on or that the this to was were will with you your we our they their not can do if so than then there these those what when which who how all any more most other some such only own same too very just also into about over after before'.split(' '));
+function syllables(w: string) {
+  w = w.toLowerCase().replace(/[^a-z]/g, '');
+  if (w.length <= 3) return 1;
+  w = w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '').replace(/^y/, '');
+  return Math.max(1, (w.match(/[aeiouy]{1,2}/g) || []).length);
+}
+function initWords(root: HTMLElement) {
+  const ta = root.querySelector<HTMLTextAreaElement>('[data-wc-text]')!;
+  const set = (k: string, v: string) => (root.querySelector(`[data-wc="${k}"]`)!.textContent = v);
+  const kw = root.querySelector<HTMLElement>('[data-wc-keywords]')!;
+  const mins = (n: number) => (n < 1 ? Math.max(0, Math.round(n * 60)) + ' s' : Math.round(n) + ' min');
+  const update = () => {
+    const t = ta.value;
+    const words = t.match(/[\p{L}\p{N}'’-]+/gu) || [];
+    const sentences = t.split(/[.!?]+(?:\s|$)/).filter((s) => s.trim()).length;
+    const paragraphs = t.split(/\n\s*\n/).filter((s) => s.trim()).length;
+    set('words', String(words.length));
+    set('chars', String(t.length));
+    set('charsNoSpace', String(t.replace(/\s/g, '').length));
+    set('sentences', String(sentences));
+    set('paragraphs', String(paragraphs));
+    set('read', mins(words.length / 230));
+    set('speak', mins(words.length / 140));
+    const syl = words.reduce((a, w) => a + syllables(w), 0);
+    const flesch = words.length && sentences ? Math.round(206.835 - 1.015 * (words.length / sentences) - 84.6 * (syl / words.length)) : 0;
+    set('flesch', words.length ? String(Math.max(0, Math.min(100, flesch))) : '0');
+    const freq = new Map<string, number>();
+    words.forEach((w) => { const l = w.toLowerCase(); if (l.length > 2 && !STOP.has(l)) freq.set(l, (freq.get(l) || 0) + 1); });
+    const top = [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
+    kw.replaceChildren(...(top.length ? top.map(([w, c]) => { const li = el('li', 'tag'); li.textContent = `${w} · ${c} · ${((c / words.length) * 100).toFixed(1)}%`; return li; }) : [el('li', 'text-sm text-mist-500', 'Start typing to see keyword density.')]));
+  };
+  ta.addEventListener('input', update);
+}
+
+function initPassword(root: HTMLElement) {
+  const out = root.querySelector<HTMLElement>('[data-pw-out]')!;
+  const len = root.querySelector<HTMLInputElement>('[data-pw-len]')!;
+  const bar = root.querySelector<HTMLElement>('[data-pw-bar]')!;
+  const label = root.querySelector<HTMLElement>('[data-pw-strength]')!;
+  const opt = (k: string) => root.querySelector<HTMLInputElement>(`[data-pw-opt="${k}"]`)!.checked;
+  const gen = () => {
+    const sets: Record<string, string> = { upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', lower: 'abcdefghijklmnopqrstuvwxyz', digits: '0123456789', symbols: '!@#$%^&*()-_=+[]{};:,.?/' };
+    let pool = Object.keys(sets).filter(opt).map((k) => sets[k]).join('');
+    if (opt('noambig')) pool = pool.replace(/[lI1O0o]/g, '');
+    if (!pool) { out.textContent = 'Select at least one character type.'; return; }
+    const n = Number(len.value);
+    const rnd = new Uint32Array(n);
+    crypto.getRandomValues(rnd);
+    out.textContent = Array.from(rnd, (r) => pool[r % pool.length]).join('');
+    const bits = Math.round(n * Math.log2(pool.length));
+    const [txt, color, pct] = bits >= 100 ? ['Excellent', '#10b981', 100] : bits >= 75 ? ['Strong', '#22d3ee', 78] : bits >= 50 ? ['Fair', '#f5b544', 50] : ['Weak', '#ff4f7a', 25];
+    bar.style.width = pct + '%'; bar.style.background = color; bar.style.boxShadow = `0 0 12px ${color}`;
+    label.textContent = `${txt} · about ${bits} bits of entropy`; label.style.color = color as string;
+    root.querySelector('[data-pw-len-val]')!.textContent = String(n);
+  };
+  root.querySelectorAll('input').forEach((i) => i.addEventListener('input', gen));
+  root.querySelector('[data-pw-new]')!.addEventListener('click', gen);
+  bindCopy(root);
+  gen();
+}
+
+function initImage(root: HTMLElement) {
+  const input = root.querySelector<HTMLInputElement>('[data-img-input]')!;
+  const drop = root.querySelector<HTMLElement>('[data-img-drop]')!;
+  const w = root.querySelector<HTMLInputElement>('[data-img-w]')!;
+  const f = root.querySelector<HTMLSelectElement>('[data-img-f]')!;
+  const qEl = root.querySelector<HTMLInputElement>('[data-img-q]')!;
+  let file: File | null = null;
+  let url = '';
+  const run = async () => {
+    root.querySelector('[data-img-qv]')!.textContent = qEl.value;
+    if (!file) return;
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, Number(w.value || bmp.width) / bmp.width);
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * scale); c.height = Math.round(bmp.height * scale);
+    c.getContext('2d')!.drawImage(bmp, 0, 0, c.width, c.height);
+    const blob: Blob | null = await new Promise((r) => c.toBlob(r, f.value, Number(qEl.value) / 100));
+    if (!blob) return;
+    if (url) URL.revokeObjectURL(url);
+    url = URL.createObjectURL(blob);
+    root.querySelector('[data-img-result]')!.classList.remove('hidden');
+    root.querySelector('[data-img-before]')!.textContent = fmtBytes(file.size);
+    root.querySelector('[data-img-after]')!.textContent = fmtBytes(blob.size);
+    root.querySelector('[data-img-saved]')!.textContent = Math.max(0, Math.round((1 - blob.size / file.size) * 100)) + '%';
+    (root.querySelector('[data-img-preview]') as HTMLImageElement).src = url;
+    const a = root.querySelector<HTMLAnchorElement>('[data-img-download]')!;
+    a.href = url;
+    a.download = file.name.replace(/\.[^.]+$/, '') + (f.value === 'image/webp' ? '.webp' : '.jpg');
+  };
+  const take = (fl?: FileList | null) => { if (fl && fl[0] && /^image\/(jpeg|png|webp)$/.test(fl[0].type)) { file = fl[0]; run(); } };
+  input.addEventListener('change', () => take(input.files));
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('border-neon'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('border-neon'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('border-neon'); take(e.dataTransfer?.files); });
+  [w, f, qEl].forEach((x) => x.addEventListener('input', run));
+}
+
+export function initClientTool(root: HTMLElement) {
+  const kind = root.dataset.clientTool;
+  if (kind === 'utm') initUtm(root);
+  else if (kind === 'words') initWords(root);
+  else if (kind === 'password') initPassword(root);
+  else if (kind === 'image') initImage(root);
 }

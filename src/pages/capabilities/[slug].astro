@@ -6,6 +6,7 @@ import Arrow from '../../components/ui/Arrow.astro';
 import { capabilities, type Capability } from '../../data/capabilities';
 import { industries } from '../../data/industries';
 import { process } from '../../data/approach';
+import { capabilityIcon } from '../../data/icons';
 
 export function getStaticPaths() {
   return capabilities.map((c) => ({ params: { slug: c.slug }, props: { cap: c } }));
@@ -36,6 +37,8 @@ const service = {
     title={cap.headline}
     intro={cap.intro}
     shape={cap.shape}
+    icon={capabilityIcon[cap.slug]}
+    iconColor={cap.accent}
     breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Capabilities', href: '/capabilities/' }, { label: cap.name }]}
   >
     <a href={`/contact/?topic=${cap.slug}`} class="btn btn-primary">Discuss your {cap.shortName} project <Arrow /></a>

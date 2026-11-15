@@ -1,6 +1,7 @@
 ---
 import ToolCard from '../ui/ToolCard.astro';
 import { tools } from '../../data/tools';
+import SampleDashboard from '../visual/SampleDashboard.astro';
 ---
 <section class="relative py-24 md:py-32" data-scene="2" data-dim="0.12" data-offset="0" aria-labelledby="free-tools-h">
   <div class="container-x">
@@ -18,6 +19,15 @@ import { tools } from '../../data/tools';
       <ul class="grid gap-4 sm:grid-cols-2">
         {tools.slice(1, 5).map((t, i) => <ToolCard tool={t} i={i} />)}
       </ul>
+    </div>
+    <div class="mt-12 grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      <div data-reveal>
+        <p class="eyebrow mb-5">What you get</p>
+        <h3 class="text-display-md">From a quick score to a <span class="text-gradient">full growth report.</span></h3>
+        <p class="mt-5 text-lg leading-relaxed text-mist-400">Free checks show the headline. Our full reports — built with SEODREAM and our analytics platform — show every finding, the fix and the impact over time.</p>
+        <a href="/contact/?topic=search-visibility" class="btn btn-ghost mt-8">Request a full report →</a>
+      </div>
+      <SampleDashboard />
     </div>
   </div>
 </section>

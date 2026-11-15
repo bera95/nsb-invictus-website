@@ -1,0 +1,80 @@
+---
+/** Animated sample report — illustrative data only, clearly labelled. */
+interface Props { compact?: boolean }
+const cats = [['On-page SEO', 82, '#a996ff'], ['AEO & GEO', 64, '#ff4fd8'], ['Technical', 91, '#22d3ee'], ['Security', 58, '#f5b544'], ['Tracking', 76, '#10b981']] as const;
+const bars = [34, 42, 38, 55, 61, 58, 72, 69, 80, 86, 83, 94];
+const kpis = [['Organic sessions', '+48%'], ['AI citations', '+31'], ['Conversions', '+22%']];
+const score = 78, R = 54, C = 2 * Math.PI * R;
+---
+<div class="dash glass-card neon-frame p-5 sm:p-8" data-chart>
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-signal-soft">Sample report</p>
+      <p class="mt-1 font-display text-xl text-mist-50">example-company.com</p>
+    </div>
+    <span class="tag !border-caution/60 !text-caution">Illustrative data</span>
+  </div>
+  <div class="mt-6 grid gap-5 lg:grid-cols-[auto_1fr]">
+    <!-- Donut -->
+    <div class="glass-card flex items-center justify-center p-5">
+      <div class="relative h-36 w-36">
+        <svg viewBox="0 0 140 140" class="h-full w-full -rotate-90" aria-hidden="true">
+          <defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset=".5" stop-color="#ff4fd8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+          <circle cx="70" cy="70" r={R} fill="none" stroke="rgba(148,163,210,.14)" stroke-width="12" />
+          <circle class="donut" cx="70" cy="70" r={R} fill="none" stroke="url(#dg)" stroke-width="12" stroke-linecap="round" stroke-dasharray={C} style={`--off:${C * (1 - score / 100)};--c:${C}`} />
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center"><span class="font-display text-4xl text-mist-50" data-count={score}>{score}</span><span class="font-mono text-[0.6rem] tracking-[0.2em] text-mist-500">SCORE</span></div>
+      </div>
+    </div>
+    <!-- Category bars -->
+    <ul class="glass-card space-y-3 p-5">
+      {cats.map(([l, v, c], i) => (
+        <li>
+          <div class="flex justify-between text-sm"><span class="text-mist-200">{l}</span><span class="font-mono text-mist-50" data-count={v}>{v}</span></div>
+          <div class="mt-1 h-2 overflow-hidden rounded-full bg-white/5"><div class="hbar h-full rounded-full" style={`--w:${v}%;background:${c};box-shadow:0 0 10px ${c};transition-delay:${i * 120}ms`}></div></div>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="mt-5 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
+    <!-- Line + columns -->
+    <div class="glass-card p-5">
+      <p class="text-sm text-mist-200">Visibility trend <span class="text-mist-500">· 12 weeks</span></p>
+      <div class="relative mt-4 h-36">
+        <div class="absolute inset-0 flex items-end gap-1.5">
+          {bars.map((h, i) => <span class="col flex-1 rounded-t bg-gradient-to-t from-vision/50 to-signal/70" style={`--h:${h}%;transition-delay:${i * 60}ms`}></span>)}
+        </div>
+        <svg class="absolute inset-0 h-full w-full" viewBox="0 0 120 100" preserveAspectRatio="none" aria-hidden="true">
+          <path class="line" d="M0 70 L11 62 L22 66 L33 50 L44 44 L55 47 L66 33 L77 36 L88 24 L99 17 L110 20 L120 8" fill="none" stroke="#ff4fd8" stroke-width="2.2" vector-effect="non-scaling-stroke" />
+        </svg>
+      </div>
+    </div>
+    <!-- KPIs -->
+    <ul class="grid grid-cols-3 gap-3 lg:grid-cols-1">
+      {kpis.map(([l, v]) => (
+        <li class="glass-card flex flex-col justify-center p-4 lg:flex-row lg:items-center lg:justify-between">
+          <span class="text-xs text-mist-400 sm:text-sm">{l}</span>
+          <span class="mt-1 font-display text-xl text-reality-soft sm:text-2xl lg:mt-0">{v}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .donut { stroke-dashoffset: var(--c); transition: stroke-dashoffset 1.8s cubic-bezier(0.16, 1, 0.3, 1); filter: drop-shadow(0 0 8px rgb(255 79 216 / 0.5)); }
+  .hbar { width: 0; transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .col { height: 0; transition: height 1.2s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0.75; }
+  .line { stroke-dasharray: 300; stroke-dashoffset: 300; transition: stroke-dashoffset 2.2s ease-out 0.4s; filter: drop-shadow(0 0 6px #ff4fd8); }
+  .dash:global(.in-view) .donut { stroke-dashoffset: var(--off); }
+  .dash:global(.in-view) .hbar { width: var(--w); }
+  .dash:global(.in-view) .col { height: var(--h); }
+  .dash:global(.in-view) .line { stroke-dashoffset: 0; }
+  :global(.motion-ok) .dash:global(.in-view) .col { animation: col-breathe 3s ease-in-out 1.4s infinite alternate; transform-origin: bottom; }
+  @keyframes col-breathe { to { transform: scaleY(0.92); } }
+  @media (prefers-reduced-motion: reduce) { .donut, .hbar, .col, .line { transition: none; } }
+</style>
+<script>
+  import { initCharts } from '../../scripts/charts';
+  initCharts();
+</script>
