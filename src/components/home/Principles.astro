@@ -9,9 +9,9 @@ import { principles } from '../../data/approach';
         <h2 id="principles-title" class="text-display-md">Commitments, not slogans.</h2>
         <p class="mt-6 text-lg leading-relaxed text-mist-400">We prefer to earn trust through how we work. These principles shape every engagement.</p>
       </div>
-      <ul class="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+      <ul class="grid gap-4 sm:grid-cols-2">
         {principles.map((p, i) => (
-          <li class="bg-ink-900/90 p-7 backdrop-blur-sm" data-reveal data-reveal-delay={i * 70}>
+          <li class="glass-card p-7" data-reveal data-reveal-delay={i * 70}>
             <span class="block h-px w-8 bg-gradient-to-r from-vision to-signal" aria-hidden="true"></span>
             <h3 class="mt-5 text-lg">{p.title}</h3>
             <p class="mt-2 text-sm leading-relaxed text-mist-400">{p.text}</p>

@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import FinalCta from '../../components/cta/FinalCta.astro';
+import { tools } from '../../data/tools';
+const ld = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Free website tools by NSB INVICTUS',
+  itemListElement: tools.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: new URL(`/tools/${t.slug}/`, Astro.site).toString() })),
+};
+---
+<Base title="Free SEO, AI-Search, Security & Tracking Tools" description="Free live tools: website SEO/AEO/GEO audit, AI crawler checker, security headers, email deliverability (SPF/DMARC), GA4/GTM tracking checker and SERP preview." jsonLd={ld}>
+  <PageHero
+    eyebrow="Free tools"
+    title="Check your website <span class='text-gradient'>live — for free.</span>"
+    intro="Professional checks from the same team that builds SEODREAM and our analytics platform. Run them on any website in seconds — and talk to us when you want the full picture."
+    shape="beacon"
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Free tools' }]}
+  >
+    <a href="/tools/website-audit/" class="btn btn-primary">Run the free website audit →</a>
+  </PageHero>
+  <section class="py-12" aria-labelledby="tools-h">
+    <div class="container-x">
+      <h2 id="tools-h" class="sr-only">All free tools</h2>
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {tools.map((t, i) => <ToolCard tool={t} i={i} />)}
+      </ul>
+      <p class="mt-10 max-w-2xl text-sm text-mist-500">Free checks are limited to protect the service. For complete audits, monitoring and fixes, our team uses its proprietary tools — <a href="/contact/?topic=search-visibility" class="text-signal-soft underline underline-offset-4">request a full analysis</a>.</p>
+    </div>
+  </section>
+  <FinalCta title="Found issues? <span class='text-gradient'>We fix them.</span>" text="SEO, AEO and GEO, tracking and consent, security, speed — our team turns a free check into measurable improvements." topic="search-visibility" />
+</Base>

@@ -1,0 +1,23 @@
+---
+import ToolCard from '../ui/ToolCard.astro';
+import { tools } from '../../data/tools';
+---
+<section class="relative py-24 md:py-32" data-scene="2" data-dim="0.12" data-offset="0" aria-labelledby="free-tools-h">
+  <div class="container-x">
+    <div class="glass-card neon-frame grid gap-10 p-8 sm:p-12 lg:grid-cols-[1fr_1.1fr] lg:items-center" data-reveal>
+      <div>
+        <p class="eyebrow mb-5">Free tools</p>
+        <h2 id="free-tools-h" class="text-display-md">Check your website <span class="text-gradient">live — right now.</span></h2>
+        <p class="mt-5 max-w-lg text-lg leading-relaxed text-mist-400">Run a free SEO, AEO &amp; GEO audit, see whether AI assistants can read your site, grade your security headers or check your tracking — in seconds.</p>
+        <form action="/tools/website-audit/" class="mt-8 flex flex-col gap-3 rounded-2xl border border-white/10 bg-void/40 p-2 sm:flex-row" data-teaser>
+          <label for="teaser-url" class="sr-only">Website address</label>
+          <input id="teaser-url" name="url" class="field !border-transparent !bg-transparent" placeholder="yourwebsite.com" inputmode="url" />
+          <button class="btn btn-primary shrink-0" type="submit">Audit my site →</button>
+        </form>
+      </div>
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {tools.slice(1, 5).map((t, i) => <ToolCard tool={t} i={i} />)}
+      </ul>
+    </div>
+  </div>
+</section>

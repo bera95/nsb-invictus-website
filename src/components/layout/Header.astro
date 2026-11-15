@@ -33,6 +33,7 @@ const menus: Record<string, { label: string; href: string; note?: string }[]> = 
                 aria-current={isActive(item.href) ? 'page' : undefined}
               >
                 {item.label}
+                {item.href === '/tools/' && <span class="h-1.5 w-1.5 rounded-full bg-neon shadow-[0_0_8px_#ff4fd8]" aria-hidden="true"></span>}
                 {sub && <svg class="h-3 w-3 opacity-60 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>}
               </a>
               {isActive(item.href) && <span class="absolute inset-x-4 -bottom-0.5 h-px bg-gradient-to-r from-vision to-signal" aria-hidden="true" />}

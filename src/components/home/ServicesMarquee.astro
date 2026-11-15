@@ -1,7 +1,7 @@
 ---
 /** Infinite neon ticker of everything we do. */
 const rowA = ['AI agents', 'LLM integration', 'SEO', 'AEO', 'GEO', 'Local SEO', 'Technical SEO', 'GA4', 'Google Tag Manager', 'Consent Mode v2', 'Search Console', 'Live dashboards'];
-const rowB = ['Websites', 'Web apps', 'Mobile apps', 'SaaS platforms', 'E-commerce tools', 'Cloud & DevOps', 'Web security', 'GDPR compliance', 'CRO', 'Performance marketing', 'Branding', 'Consulting'];
+const rowB = ['Websites', 'Web apps', 'Mobile apps', 'SaaS platforms', 'E-commerce tools', 'Blog content', 'Social media', 'Web security', 'GDPR compliance', 'CRO', 'Performance marketing', 'Branding', 'Consulting'];
 ---
 <section class="marquee relative z-10 overflow-hidden border-y border-line bg-void/60 py-6 backdrop-blur-sm" aria-label="What we do">
   <ul class="sr-only">{[...rowA, ...rowB].map((t) => <li>{t}</li>)}</ul>

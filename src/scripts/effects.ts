@@ -31,7 +31,7 @@ export function initEffects() {
       tx = e.clientX; ty = e.clientY;
       if (glow) glow.style.opacity = '1';
       if (!raf) raf = requestAnimationFrame(loop);
-      const card = (e.target as HTMLElement).closest<HTMLElement>('.panel, .fx-card');
+      const card = (e.target as HTMLElement).closest<HTMLElement>('.panel, .fx-card, .glass-card');
       if (card) {
         const r = card.getBoundingClientRect();
         card.style.setProperty('--mx', `${e.clientX - r.left}px`);

@@ -111,6 +111,7 @@ $budget = oneLine(field('budget', 60));
 $timeline = oneLine(field('timeline', 60));
 $product = oneLine(field('product', 80));
 $message = field('message', 5000);
+$report = field('report', 12000); // optional: free-tool results attached to a lead
 $consent = field('consent', 5) === 'yes';
 
 $errors = [];
@@ -137,6 +138,7 @@ $lines = [
     str_repeat('-', 40),
     $message,
     str_repeat('-', 40),
+    ($report !== '' ? "Free tool report:\n" . $report . "\n" . str_repeat('-', 40) : ''),
     'Submitted: ' . gmdate('Y-m-d H:i') . ' UTC',
     'Consent to processing: yes',
 ];

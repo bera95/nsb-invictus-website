@@ -1,0 +1,98 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import FinalCta from '../../components/cta/FinalCta.astro';
+import { tools, type Tool } from '../../data/tools';
+import { getCapability } from '../../data/capabilities';
+
+export function getStaticPaths() {
+  return tools.map((t) => ({ params: { slug: t.slug }, props: { tool: t } }));
+}
+interface Props { tool: Tool }
+const { tool } = Astro.props;
+const cap = getCapability(tool.capability)!;
+const capHref = `/contact/?topic=${cap.slug}`;
+const others = tools.filter((t) => t.slug !== tool.slug).slice(0, 3);
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'WebApplication', name: tool.name, description: tool.seo.description, applicationCategory: 'BusinessApplication', operatingSystem: 'Any (web browser)', url: new URL(`/tools/${tool.slug}/`, Astro.site).toString(), offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, provider: { '@type': 'Organization', name: 'NSB INVICTUS' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: tool.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+<Base title={tool.seo.title} description={tool.seo.description} jsonLd={ld}>
+  <section class="relative overflow-hidden pt-32 pb-10 md:pt-40">
+    <div class="neon-grid !h-[70%] !opacity-40" aria-hidden="true"></div>
+    <div class="container-x relative">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Free tools', href: '/tools/' }, { label: tool.name }]} />
+      <div class="mx-auto mt-10 max-w-3xl text-center">
+        <p class="eyebrow mb-6 justify-center">Free tool{tool.badge ? ` · ${tool.badge}` : ''}</p>
+        <h1 class="text-display-lg">{tool.name}</h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-mist-200">{tool.description}</p>
+      </div>
+
+      <div class="mx-auto mt-10 max-w-3xl" data-tool data-api={tool.api} data-cap={capHref}>
+        {tool.input === 'serp' ? (
+          <div class="panel neon-frame space-y-5 p-6 sm:p-8" data-serp>
+            <div><label class="field-label" for="serp-title">Title tag</label><input class="field" id="serp-title" name="serp-title" value="NSB INVICTUS — Where Vision Becomes Reality" /><p class="mt-1 font-mono text-xs" data-serp-tmeter></p></div>
+            <div><label class="field-label" for="serp-desc">Meta description</label><textarea class="field min-h-24" id="serp-desc" name="serp-desc">AI agents, SEO, AEO and GEO, websites, apps and SaaS, GA4 and GTM analytics, cloud and security — serving clients worldwide.</textarea><p class="mt-1 font-mono text-xs" data-serp-dmeter></p></div>
+            <div><label class="field-label" for="serp-url">URL</label><input class="field" id="serp-url" name="serp-url" value="https://nsbinvictus.tech/" /></div>
+            <div class="rounded-xl bg-white p-5 text-left" aria-live="polite">
+              <p class="mb-1 text-[12px] text-[#4d5156]" style="font-family:Arial" data-serp-url></p>
+              <p class="text-[20px] leading-tight text-[#1a0dab]" style="font-family:Arial" data-serp-title></p>
+              <p class="mt-1 text-[14px] leading-snug text-[#4d5156]" style="font-family:Arial" data-serp-desc></p>
+            </div>
+          </div>
+        ) : (
+          <form class="panel neon-frame flex flex-col gap-3 p-3 sm:flex-row" data-tool-form>
+            <label for="tool-target" class="sr-only">{tool.input === 'domain' ? 'Domain' : 'Website address'}</label>
+            <input id="tool-target" name="target" class="field !border-transparent !bg-transparent text-lg" placeholder={tool.placeholder} autocomplete="url" inputmode="url" required maxlength="2048" />
+            <button type="submit" class="btn btn-primary shrink-0">Check now →</button>
+          </form>
+        )}
+        <div class="mt-8 scroll-mt-28" data-tool-output aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16" aria-labelledby="how-h">
+    <div class="container-x grid gap-12 lg:grid-cols-2">
+      <div data-reveal>
+        <p class="eyebrow mb-5">How it works</p>
+        <h2 id="how-h" class="text-display-md">Live checks. No sign-up.</h2>
+        <ol class="mt-8 space-y-4">
+          {tool.howItWorks.map((s, i) => <li class="flex gap-4"><span class="font-mono text-signal-soft">0{i + 1}</span><span class="text-mist-200">{s}</span></li>)}
+        </ol>
+        <a href={`/capabilities/${cap.slug}/`} class="btn btn-ghost mt-8">Related service: {cap.shortName} →</a>
+      </div>
+      <div class="space-y-3">
+        {tool.faq.map((f, i) => (
+          <details class="panel group p-6" open={i === 0} data-reveal>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="text-lg">{f.q}</h3><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line-strong text-signal-soft transition-transform group-open:rotate-45" aria-hidden="true">+</span></summary>
+            <p class="mt-4 leading-relaxed text-mist-400">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16" aria-labelledby="more-h">
+    <div class="container-x">
+      <h2 id="more-h" class="text-3xl" data-reveal>More free tools</h2>
+      <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{others.map((t, i) => <ToolCard tool={t} i={i} />)}</ul>
+    </div>
+  </section>
+  <FinalCta topic={cap.slug} />
+</Base>
+
+<style>
+  :global(.tool-spinner) { width: 22px; height: 22px; border-radius: 9999px; border: 2px solid rgb(255 79 216 / 0.25); border-top-color: #ff4fd8; box-shadow: 0 0 14px #ff4fd8; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<script>
+  import { initTool, initSerp } from '../../scripts/tools';
+  document.querySelectorAll<HTMLElement>('[data-tool]').forEach((root) => {
+    const serp = root.querySelector<HTMLElement>('[data-serp]');
+    serp ? initSerp(serp) : initTool(root);
+  });
+</script>

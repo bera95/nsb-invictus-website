@@ -59,4 +59,5 @@ export const navigation = [
   { label: 'Industries', href: '/industries/' },
   { label: 'Products', href: '/products/' },
   { label: 'Approach', href: '/approach/' },
+  { label: 'Free tools', href: '/tools/' },
 ] as const;

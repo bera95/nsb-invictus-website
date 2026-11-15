@@ -7,7 +7,8 @@ const port = process.env.PORT || '4322';
 const hasPhp = spawnSync('php', ['-v']).status === 0;
 if (hasPhp) {
   console.log(`Preview (static + PHP) → http://localhost:${port}`);
-  spawn('php', ['-S', `0.0.0.0:${port}`, '-t', 'dist', 'scripts/router.php'], { stdio: 'inherit' });
+  // Several workers so the free tools can scan the preview itself.
+  spawn('php', ['-S', `0.0.0.0:${port}`, '-t', 'dist', 'scripts/router.php'], { stdio: 'inherit', env: { ...process.env, PHP_CLI_SERVER_WORKERS: '4' } });
 } else {
   console.log('PHP not found — starting static preview (contact form endpoint disabled).');
   spawn('npx', ['astro', 'preview', '--port', port], { stdio: 'inherit', shell: true });

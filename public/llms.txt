@@ -8,12 +8,20 @@
 - [Websites, Apps & SaaS](https://nsbinvictus.tech/capabilities/software-engineering/): websites, web and mobile apps, SaaS platforms, e-commerce tools, APIs.
 - [Analytics, Tracking & Data](https://nsbinvictus.tech/capabilities/data-intelligence/): GA4, Google Tag Manager, Search Console, Consent Mode v2 and cookie compliance, live dashboards, CRO.
 - [Cloud, Security & Compliance](https://nsbinvictus.tech/capabilities/cloud-platform/): cloud architecture, DevOps, website and application security, GDPR compliance.
-- [Digital Growth & Brand](https://nsbinvictus.tech/capabilities/digital-growth/): digital strategy, branding, content, performance marketing, marketing automation.
+- [Marketing, Content & Social](https://nsbinvictus.tech/capabilities/digital-growth/): marketing strategy, website and blog content, social media management, performance marketing, branding, email automation.
 - [Strategy & Consulting](https://nsbinvictus.tech/approach/#advisory): discovery, audits, architecture and roadmaps.
 
 ## Proprietary tools
 - [SEODREAM](https://nsbinvictus.tech/products/): search intelligence platform for SEO, AEO and GEO (in use with clients).
 - [Analytics Command Center](https://nsbinvictus.tech/products/): live GA4, GTM, Search Console and consent dashboard with automated issue detection (in use with clients).
+
+## Free tools
+- [Website SEO, AEO & GEO Audit](https://nsbinvictus.tech/tools/website-audit/)
+- [AI Crawler Access Checker](https://nsbinvictus.tech/tools/ai-crawler-checker/)
+- [Security Headers Checker](https://nsbinvictus.tech/tools/security-headers/)
+- [Email Deliverability Checker (SPF, DMARC, MX)](https://nsbinvictus.tech/tools/email-deliverability/)
+- [Tracking & Consent Checker (GA4, GTM)](https://nsbinvictus.tech/tools/tracking-checker/)
+- [SERP Snippet Preview](https://nsbinvictus.tech/tools/serp-preview/)
 
 ## Industries
 - [Property Technology & Digital Real Estate](https://nsbinvictus.tech/industries/property-technology/)

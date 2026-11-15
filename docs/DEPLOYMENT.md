@@ -73,6 +73,13 @@ This step does **not** deploy anything to Hostinger yet. Hostinger only deploys 
 - Google Search Console: add the domain property and submit `https://nsbinvictus.tech/sitemap-index.xml`.
 - Run through `docs/QA-CHECKLIST.md`.
 
+## Free tools endpoint (`api/tools.php`)
+
+- Works on Hostinger Premium as is. It needs the PHP `curl`, `dom` and `mbstring` extensions, which are enabled by default.
+- Optional settings in `nsb-config.php`: `tools_per_hour` (default 30 checks per visitor per hour).
+- **Never** set `tools_allow_private` in production. It is only for local testing; with it off, the tools refuse internal and private addresses (SSRF protection).
+- "Full report" requests arrive as normal inquiry emails with topic `free-audit` and the audit results attached.
+
 ## Everyday workflow
 
 1. Change content or code, check with `npm run dev` / `npm run build && npm run verify && npm run preview`.

@@ -11,6 +11,7 @@ Corporate website for NSB INVICTUS — **https://nsbinvictus.tech**: a static As
 | 3D | three.js (custom shaders), lazy-loaded after first paint |
 | Motion | Ambient 2D canvas (packets, comets), neon CSS layer, view transitions — all off for reduced motion |
 | Analytics | GTM + Consent Mode v2 via `src/components/layout/CookieConsent.astro` |
+| Free tools | `/tools/` pages (`src/data/tools.ts`, `src/scripts/tools.ts`) + `public/api/tools.php` (SSRF-safe, rate-limited) |
 | Forms | `public/api/inquiry.php` (PHP 7.4+/8.x, PHPMailer over SMTP) |
 | Fonts | Self-hosted via Fontsource (no Google Fonts requests) |
 | Hosting | Hostinger Premium — static files + PHP |
