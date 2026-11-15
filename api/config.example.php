@@ -27,6 +27,10 @@ return [
     // Local development only: log messages instead of sending email.
     'log_only' => false,
 
+    // Free tools (api/tools.php): checks per hour per visitor. NEVER enable tools_allow_private in production.
+    'tools_per_hour' => 30,
+    'tools_allow_private' => false,
+
     // Rate limiting
     'rate_limit_per_hour' => 5,
     'rate_limit_salt'     => 'CHANGE_ME_RANDOM_STRING',
