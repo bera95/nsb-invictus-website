@@ -1,20 +1,24 @@
 # NSB INVICTUS
 
-> NSB INVICTUS is a technology and digital innovation company. Tagline: "Where vision becomes reality." It designs, engineers and grows digital solutions, and develops its own software products. Based in Serbia, working with clients internationally.
+> NSB INVICTUS is a technology and digital innovation company from Kikinda, Serbia, serving clients worldwide (Europe, the United States, Canada). Tagline: "Where vision becomes reality." A multidisciplinary team that designs, engineers and grows digital solutions and builds its own proprietary tools.
 
 ## Capabilities
-- [AI & Intelligent Automation](https://nsbinvictus.tech/capabilities/ai-automation/): AI agents, LLM integrations, intelligent automation, AI-powered workflows, custom AI applications.
-- [Software & Product Engineering](https://nsbinvictus.tech/capabilities/software-engineering/): custom software, SaaS platforms, web applications, business management systems, APIs and integrations.
-- [Data & Business Intelligence](https://nsbinvictus.tech/capabilities/data-intelligence/): BI, analytics, interactive dashboards, reporting, predictive analytics.
-- [Cloud & Platform Engineering](https://nsbinvictus.tech/capabilities/cloud-platform/): cloud architecture, DevOps, CI/CD, migration, performance optimisation.
-- [Digital Growth & Brand](https://nsbinvictus.tech/capabilities/digital-growth/): digital strategy, SEO and GEO, content, brand development, performance marketing.
-- [Strategy & Advisory](https://nsbinvictus.tech/approach/#advisory): discovery and architecture engagements.
+- [AI, Agents & Automation](https://nsbinvictus.tech/capabilities/ai-automation/): AI agents, LLM integrations and RAG, intelligent automation, custom AI tools.
+- [Search, AI & Local Visibility](https://nsbinvictus.tech/capabilities/search-visibility/): technical and content SEO, AEO (answer engine optimisation), GEO (generative engine optimisation), local and international SEO.
+- [Websites, Apps & SaaS](https://nsbinvictus.tech/capabilities/software-engineering/): websites, web and mobile apps, SaaS platforms, e-commerce tools, APIs.
+- [Analytics, Tracking & Data](https://nsbinvictus.tech/capabilities/data-intelligence/): GA4, Google Tag Manager, Search Console, Consent Mode v2 and cookie compliance, live dashboards, CRO.
+- [Cloud, Security & Compliance](https://nsbinvictus.tech/capabilities/cloud-platform/): cloud architecture, DevOps, website and application security, GDPR compliance.
+- [Digital Growth & Brand](https://nsbinvictus.tech/capabilities/digital-growth/): digital strategy, branding, content, performance marketing, marketing automation.
+- [Strategy & Consulting](https://nsbinvictus.tech/approach/#advisory): discovery, audits, architecture and roadmaps.
+
+## Proprietary tools
+- [SEODREAM](https://nsbinvictus.tech/products/): search intelligence platform for SEO, AEO and GEO (in use with clients).
+- [Analytics Command Center](https://nsbinvictus.tech/products/): live GA4, GTM, Search Console and consent dashboard with automated issue detection (in use with clients).
 
 ## Industries
-- [Property Technology & Digital Real Estate](https://nsbinvictus.tech/industries/property-technology/): 360° virtual property tours, interactive property experiences, property management software, real estate platforms.
+- [Property Technology & Digital Real Estate](https://nsbinvictus.tech/industries/property-technology/)
 - [E-commerce & Retail](https://nsbinvictus.tech/industries/ecommerce-retail/)
 
 ## Company
 - [Approach](https://nsbinvictus.tech/approach/)
-- [Products](https://nsbinvictus.tech/products/)
-- [Contact](https://nsbinvictus.tech/contact/)
+- [Contact](https://nsbinvictus.tech/contact/): nikola.bera@gmail.com
