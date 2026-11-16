@@ -37,6 +37,9 @@ return [
     'challenge_difficulty' => 16,
     'challenge_secret'     => 'CHANGE_ME_ANOTHER_RANDOM_STRING',
 
+    // Sales-pitch score at which a message is silently discarded (logged in private/spam-log.txt). Raise to be more lenient.
+    'spam_drop_score' => 4,
+
     // Rate limiting
     'rate_limit_per_hour' => 5,
     'rate_limit_salt'     => 'CHANGE_ME_RANDOM_STRING',

@@ -70,7 +70,32 @@ function oneLine(string $v): string
     return trim(preg_replace('/[\r\n\t]+/', ' ', $v) ?? '');
 }
 
+/* ---------- Spam helpers ---------- */
+function nsb_is_trapped(array $config): bool
+{
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $file = rtrim($config['rate_limit_dir'] ?? sys_get_temp_dir(), '/') . '/nsb-trap.json';
+    if (!is_file($file)) return false;
+    $list = json_decode((string) @file_get_contents($file), true) ?: [];
+    $exp = $list[hash('sha256', $ip . ($config['rate_limit_salt'] ?? 'nsb'))] ?? 0;
+    return (int) $exp > time();
+}
+/** Discarded messages are kept (briefly) outside public_html for review: <public_html>/../private/spam-log.txt */
+function nsb_quarantine(string $reason, string $summary): void
+{
+    $dir = dirname(__DIR__, 2) . '/private';
+    if (!is_dir($dir)) return;
+    $log = $dir . '/spam-log.txt';
+    if (is_file($log) && filesize($log) > 1048576) @rename($log, $log . '.old');
+    @file_put_contents($log, gmdate('Y-m-d H:i') . " UTC | $reason | " . preg_replace('/\s+/', ' ', mb_substr($summary, 0, 400)) . "\n", FILE_APPEND | LOCK_EX);
+}
+
 /* ---------- Spam protection ---------- */
+// Visitors caught by the bot trap: pretend success, send nothing.
+if (nsb_is_trapped($config)) {
+    nsb_quarantine('trapped-ip', (string) ($_POST['email'] ?? '') . ' ' . (string) ($_POST['message'] ?? ''));
+    respond(true);
+}
 require_once __DIR__ . '/pow-verify.php';
 // 0. Obvious bots and scripts (no or automated user agent).
 $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
@@ -89,9 +114,9 @@ if (field('website', 200) !== '') {
 if (!nsb_pow_verify($config)) {
     respond(false, 'Please complete the “I’m not a robot” check and try again.', 400);
 }
-// 2. Timing: forms submitted in under 3 seconds are almost certainly automated.
+// 2. Timing: forms submitted in under 8 seconds are almost certainly automated.
 $started = (int) field('started', 20);
-if ($started > 0 && (microtime(true) * 1000 - $started) < 3000) {
+if ($started > 0 && (microtime(true) * 1000 - $started) < 8000) {
     respond(true);
 }
 // 3. Rate limit per IP (hashed; no raw IPs stored).
@@ -143,9 +168,14 @@ if ($errors) {
 }
 
 /* ---------- Sales-pitch / spam scoring (flags, never blocks) ---------- */
-$spamScore = preg_match_all('/(seo services|rank(ing)? (your|on|in) google|first page of google|price ?list|quote (&|and) price|guest post|backlink|link building|we (can|will) help (you|your)|increase (your )?(traffic|sales|leads)|digital marketing (agency|services)|web ?design services|white ?label|outsourc|lead generation services|crypto|casino|forex|loan offer|discoverable on ai platforms)/i', $message . ' ' . $company);
+$spamScore = preg_match_all('/(came across (your|nsbinvictus)|wanted to reach out|reaching out|quick question|i noticed your (site|website)|send (over )?(a couple of |some )?samples|happy to send|promotional videos?|explainer videos?|starting (at|from) \\$?[0-9]|from (one|two|three) hundred|dollars|usd|per month for|we help (brands|businesses|companies)|collaborat|partnership opportunity|virtual assistant|app development services|seo services|rank(ing)? (your|on|in) google|first page of google|price ?list|quote (&|and) price|guest post|backlink|link building|we (can|will) help (you|your)|increase (your )?(traffic|sales|leads)|digital marketing (agency|services)|web ?design services|white ?label|outsourc|lead generation services|crypto|casino|forex|loan offer|discoverable on ai platforms)/i', $message . ' ' . $company);
 if (preg_match('/@(gmail|yahoo|hotmail|outlook|proton|aol)\./i', $email)) $spamScore++;
 $isSuspect = $spamScore >= 2;
+// Clear sales pitches are discarded silently (logged privately for review).
+if ($spamScore >= (int) ($config['spam_drop_score'] ?? 4)) {
+    nsb_quarantine('sales-pitch score ' . $spamScore, $email . ' | ' . $message);
+    respond(true);
+}
 
 /* ---------- Compose ---------- */
 $subject = ($isSuspect ? '[Possible spam] ' : '') . sprintf('[%s] New inquiry — %s%s', $config['site_name'] ?? 'NSB INVICTUS', $name, $company !== '' ? " ($company)" : '');

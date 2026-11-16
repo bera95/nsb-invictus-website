@@ -7,6 +7,8 @@ import { industries } from '../../data/industries';
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer relative z-10 mt-24 overflow-hidden">
+  <!-- Bot trap: invisible to people and assistive tech; disallowed for well-behaved crawlers via robots.txt -->
+  <a href="/api/trap.php" class="bt-link" tabindex="-1" aria-hidden="true" rel="nofollow noindex">Archive</a>
   <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
     <div class="neon-grid !bottom-[-20%] !h-[90%] !opacity-40"></div>
     <div class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-vision/30 blur-[120px]"></div>
@@ -87,6 +89,7 @@ const year = new Date().getFullYear();
     background: linear-gradient(90deg, transparent, #7c5cff, #ff4fd8, #22d3ee, transparent);
     box-shadow: 0 0 18px #ff4fd8;
   }
+  .bt-link { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
   .footer-mark { color: transparent; -webkit-text-stroke: 1px rgb(169 150 255 / 0.18); }
   :global(.motion-ok) .footer-mark { animation: mark-glow 6s ease-in-out infinite; }
   @keyframes mark-glow { 50% { -webkit-text-stroke-color: rgb(255 79 216 / 0.3); filter: drop-shadow(0 0 12px rgb(255 79 216 / 0.25)); } }

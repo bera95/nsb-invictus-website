@@ -23,6 +23,11 @@ Put the domain behind Cloudflare (change the nameservers in Hostinger to the two
 4. **Turnstile** for forms: add the site key to the GitHub variable `PUBLIC_TURNSTILE_SITE_KEY` and the secret to `nsb-config.php` (`turnstile_secret`) — already supported by the code.
 5. SSL/TLS mode **Full (strict)**.
 
+## Bot trap & silent discard
+- Every page contains an invisible link to `/api/trap.php` (disallowed in robots.txt, hidden from people and screen readers). Scrapers that follow it are flagged for 7 days and served an endless, lightweight maze of pages.
+- Messages from flagged visitors, forms submitted in under 8 seconds and clear sales pitches (`spam_drop_score`, default 4) receive a normal “thank you” but are **not emailed**. They are logged in `<public_html>/../private/spam-log.txt` (outside the web root, auto-rotated at 1 MB) so you can review them.
+- Borderline messages are still delivered with a `[Possible spam]` subject prefix.
+
 ## Email handling tips
 - In Gmail, create a filter: *Subject contains* `[Possible spam]` → *Skip the Inbox* + label `Website spam`. Review it weekly.
 - The proof-of-work difficulty can be raised in `nsb-config.php` (`challenge_difficulty`, default 16; each +1 doubles the work for bots).
