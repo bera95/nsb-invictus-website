@@ -18,7 +18,7 @@ if (!existsSync(dist)) { console.error('dist/ not found — run npm run build');
 walk(dist);
 
 // 1. Required
-const required = ['index.html', '404.html', '.htaccess', 'robots.txt', 'sitemap-index.xml', 'favicon.svg', 'og-image.png', 'site.webmanifest',
+const required = ['index.html', '404.html', '.htaccess', 'robots.txt', 'sitemap-index.xml', 'favicon.ico', 'og-image.png', 'site.webmanifest',
   'api/inquiry.php', 'api/tools.php', 'api/.htaccess', 'tools/index.html', 'api/config.example.php', 'contact/index.html', 'privacy/index.html', 'legal/index.html'];
 for (const r of required) if (!files.includes(r)) errors.push(`missing required file: ${r}`);
 
