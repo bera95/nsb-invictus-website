@@ -14,7 +14,7 @@ import { site } from '../data/site';
         <dt class="text-mist-500">Registered address</dt><dd class="text-mist-50">{site.legal.address}</dd>
         <dt class="text-mist-500">Registration</dt><dd class="text-mist-50">{site.legal.registration}</dd>
         <dt class="text-mist-500">Country</dt><dd class="text-mist-50">{site.legal.jurisdiction}</dd>
-        <dt class="text-mist-500">Email</dt><dd><a class="text-signal-soft underline underline-offset-4" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></dd>
+        <dt class="text-mist-500">Contact</dt><dd><a class="text-signal-soft underline underline-offset-4" href="/contact/">Contact form</a></dd>
         <dt class="text-mist-500">Phone</dt>
         <dd class="space-y-1">{site.contact.phones.map((p) => <div><a class="text-mist-50" href={`tel:${p.tel}`}>{p.display}</a> <span class="text-mist-500">({p.label})</span></div>)}</dd>
       </dl>

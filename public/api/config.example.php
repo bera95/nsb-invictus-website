@@ -10,7 +10,7 @@
 return [
     'site_name'      => 'NSB INVICTUS',
     'allowed_host'   => 'nsbinvictus.tech',
-    'mail_to'        => ['nikola.bera@gmail.com'],  // who receives inquiries
+    'mail_to'        => ['inbox@yourdomain.com'],  // who receives inquiries
     'mail_from'      => 'website@nsbinvictus.tech', // Hostinger mailbox on the domain (create it in hPanel)
     'mail_from_name' => 'NSB INVICTUS Website',
 
@@ -32,6 +32,10 @@ return [
     'tools_per_day'  => 80,
     'tools_allow_private' => false,
     'allow_automation'    => false, // local testing only — keep false in production
+
+    // "I'm not a robot" proof-of-work: difficulty in bits (16 ≈ 0.3–1 s in a browser). Optional own secret.
+    'challenge_difficulty' => 16,
+    'challenge_secret'     => 'CHANGE_ME_ANOTHER_RANDOM_STRING',
 
     // Rate limiting
     'rate_limit_per_hour' => 5,

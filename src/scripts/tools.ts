@@ -1,3 +1,5 @@
+import { ROBOT_CHECK_HTML, initRobotCheck, robotVerified } from './robotcheck';
+
 /**
  * Free tools — client side. Calls /api/tools.php and renders results.
  * All external values are inserted with textContent (never innerHTML) to prevent XSS.
@@ -111,11 +113,14 @@ function leadGate(root: HTMLElement, data: any) {
     <div><label class="field-label" for="lg-email">Work email *</label><input class="field" id="lg-email" name="email" type="email" required maxlength="160" autocomplete="email"></div>
     <label class="flex items-start gap-3 text-sm text-mist-400 sm:col-span-2"><input type="checkbox" name="consent" value="yes" required class="mt-1 h-4 w-4 accent-[#7c5cff]"><span>I agree that NSB INVICTUS may contact me about this report, as described in the <a href="/privacy/" class="text-signal-soft underline underline-offset-4">privacy policy</a>.</span></label>
     <div class="absolute -left-[9999px]" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+    <div class="sm:col-span-2">${ROBOT_CHECK_HTML}</div>
     <div class="flex flex-wrap items-center gap-4 sm:col-span-2"><button class="btn btn-primary" type="submit">Send me the full report</button><span class="text-sm" role="status" aria-live="polite" data-lg-status></span></div>`;
   const started = String(Date.now() - 10000);
+  initRobotCheck(form);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!robotVerified(form)) return;
     const status = form.querySelector<HTMLElement>('[data-lg-status]')!;
     const btn = form.querySelector<HTMLButtonElement>('button')!;
     btn.disabled = true; status.textContent = 'Sending…'; status.className = 'text-sm text-mist-400';

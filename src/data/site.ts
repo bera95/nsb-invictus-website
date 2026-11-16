@@ -13,8 +13,8 @@ export const site = {
   locale: 'en',
 
   contact: {
-    /** Public inquiry address (temporary — replace with a domain mailbox, e.g. hello@nsbinvictus.tech). */
-    email: 'nikola.bera@gmail.com' as string,
+    /** No public email address: all contact goes through the website form (spam protection). */
+    email: '' as string,
     emailIsPlaceholder: false,
     /** Public phone numbers. `tel` must be in international E.164 format. */
     phones: [

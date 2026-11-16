@@ -1,6 +1,6 @@
 # Only the endpoint itself is publicly reachable.
 Options -Indexes
-<FilesMatch "^(config|config\.example)\.php$|\.(json|lock|md)$">
+<FilesMatch "^(config|config\.example|pow-verify)\.php$|\.(json|lock|md)$">
   Require all denied
 </FilesMatch>
 RedirectMatch 404 ^/api/vendor/

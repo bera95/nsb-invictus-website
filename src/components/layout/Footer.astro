@@ -22,7 +22,7 @@ const year = new Date().getFullYear();
         AI and agents, SEO · AEO · GEO, websites, apps and SaaS, analytics, cloud and security, growth and consulting — from Kikinda, Serbia, for clients worldwide.
       </p>
       <div class="mt-6 space-y-2 text-sm" data-copy-ok>
-        <a href={`mailto:${site.contact.email}`} class="link-underline inline-block py-1.5 text-mist-200">{site.contact.email}</a>
+        <a href="/contact/" class="link-underline inline-block py-1.5 text-mist-200">Send us a message →</a>
         {site.contact.phones.map((p) => (
           <div><a href={`tel:${p.tel}`} class="inline-block py-1.5 text-mist-400 hover:text-mist-200">{p.display}</a> <span class="text-xs text-mist-500">· {p.label}</span></div>
         ))}

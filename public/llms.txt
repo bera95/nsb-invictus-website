@@ -36,4 +36,4 @@
 
 ## Company
 - [Approach](https://nsbinvictus.tech/approach/)
-- [Contact](https://nsbinvictus.tech/contact/): nikola.bera@gmail.com
+- [Contact](https://nsbinvictus.tech/contact/): contact form

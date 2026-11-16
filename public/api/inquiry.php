@@ -71,6 +71,7 @@ function oneLine(string $v): string
 }
 
 /* ---------- Spam protection ---------- */
+require_once __DIR__ . '/pow-verify.php';
 // 0. Obvious bots and scripts (no or automated user agent).
 $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
 if (empty($config['allow_automation']) && ($ua === '' || preg_match('/(bot|crawl|spider|scrapy|python|curl|wget|httpclient|go-http|libwww|headless|phantom|selenium|puppeteer)/i', $ua))) {
@@ -83,6 +84,10 @@ if (preg_match_all('#https?://#i', (string) ($_POST['message'] ?? '')) > 3) {
 // 1. Honeypot: silently accept so bots learn nothing.
 if (field('website', 200) !== '') {
     respond(true);
+}
+// 1b. "I'm not a robot" proof-of-work check.
+if (!nsb_pow_verify($config)) {
+    respond(false, 'Please complete the “I’m not a robot” check and try again.', 400);
 }
 // 2. Timing: forms submitted in under 3 seconds are almost certainly automated.
 $started = (int) field('started', 20);
@@ -118,8 +123,10 @@ $name = oneLine(field('name', 120));
 $email = oneLine(field('email', 160));
 $company = oneLine(field('company', 160));
 $topic = oneLine(field('topic', 60));
-$budget = oneLine(field('budget', 60));
-$timeline = oneLine(field('timeline', 60));
+$budgets = ['under-10k' => 'Under EUR 10,000', '10-30k' => 'EUR 10,000 - 30,000', '30-75k' => 'EUR 30,000 - 75,000', '75-150k' => 'EUR 75,000 - 150,000', 'over-150k' => 'Over EUR 150,000'];
+$timelines = ['asap' => 'As soon as possible', '3m' => 'Within 3 months', '3-6m' => '3 - 6 months', 'exploring' => 'Exploring options'];
+$budget = $budgets[field('budget', 20)] ?? '';
+$timeline = $timelines[field('timeline', 20)] ?? '';
 $product = oneLine(field('product', 80));
 $message = field('message', 5000);
 $report = field('report', 12000); // optional: free-tool results attached to a lead
@@ -135,8 +142,13 @@ if ($errors) {
     respond(false, 'Please complete the required fields: ' . implode(', ', $errors) . '.', 422);
 }
 
+/* ---------- Sales-pitch / spam scoring (flags, never blocks) ---------- */
+$spamScore = preg_match_all('/(seo services|rank(ing)? (your|on|in) google|first page of google|price ?list|quote (&|and) price|guest post|backlink|link building|we (can|will) help (you|your)|increase (your )?(traffic|sales|leads)|digital marketing (agency|services)|web ?design services|white ?label|outsourc|lead generation services|crypto|casino|forex|loan offer|discoverable on ai platforms)/i', $message . ' ' . $company);
+if (preg_match('/@(gmail|yahoo|hotmail|outlook|proton|aol)\./i', $email)) $spamScore++;
+$isSuspect = $spamScore >= 2;
+
 /* ---------- Compose ---------- */
-$subject = sprintf('[%s] New inquiry — %s%s', $config['site_name'] ?? 'NSB INVICTUS', $name, $company !== '' ? " ($company)" : '');
+$subject = ($isSuspect ? '[Possible spam] ' : '') . sprintf('[%s] New inquiry — %s%s', $config['site_name'] ?? 'NSB INVICTUS', $name, $company !== '' ? " ($company)" : '');
 $lines = [
     "New inquiry from the website",
     str_repeat('-', 40),
@@ -175,6 +187,7 @@ if (!empty($config['smtp_host']) && is_file($autoload)) {
         $mail->Password = $config['smtp_pass'];
         $mail->SMTPSecure = ((int) $mail->Port === 465) ? 'ssl' : 'tls';
         $mail->CharSet = 'UTF-8';
+        $mail->Encoding = 'base64';
         $mail->setFrom($config['mail_from'], $config['mail_from_name'] ?? 'NSB INVICTUS Website');
         foreach ((array) $config['mail_to'] as $to) {
             $mail->addAddress($to);

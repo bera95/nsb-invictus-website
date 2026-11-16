@@ -258,6 +258,12 @@ input, textarea, select, [contenteditable="true"], [data-copy-ok], [data-copy-ok
 img, svg, canvas { -webkit-user-drag: none; user-drag: none; }
 @media print { body * { visibility: hidden !important; } body::after { content: 'Printing is disabled. Visit nsbinvictus.tech'; visibility: visible; } }
 
+/* "I'm not a robot" check */
+.robot-spin { width: 16px; height: 16px; border-radius: 9999px; border: 2px solid rgb(255 79 216 / 0.25); border-top-color: #ff4fd8; animation: robot-spin 0.7s linear infinite; }
+@keyframes robot-spin { to { transform: rotate(360deg); } }
+.robot-check.robot-error { border-color: #f5b544; box-shadow: 0 0 0 3px rgb(245 181 68 / 0.2); }
+.robot-check .robot-box:hover { border-color: #ff4fd8; }
+
 /* Reveal-on-scroll (progressive enhancement: visible without JS) */
 .js [data-reveal] { opacity: 0; transform: translateY(24px); }
 @media (prefers-reduced-motion: reduce) {

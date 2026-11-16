@@ -69,7 +69,7 @@ This step does **not** deploy anything to Hostinger yet. Hostinger only deploys 
 
 - `https://nsbinvictus.tech/` loads, and `http://` and `https://www.` redirect to it.
 - `https://nsbinvictus.tech/api/config.example.php` → 403 · `/api/vendor/` → 404/403.
-- Submit a test inquiry on `/contact/` and confirm the email arrives at nikola.bera@gmail.com, with Reply-To set to the sender.
+- Submit a test inquiry on `/contact/` and confirm the email arrives at inbox@yourdomain.com, with Reply-To set to the sender.
 - Google Search Console: add the domain property and submit `https://nsbinvictus.tech/sitemap-index.xml`.
 - Run through `docs/QA-CHECKLIST.md`.
 
