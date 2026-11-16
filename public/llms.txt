@@ -30,6 +30,20 @@
 - [Strong Password Generator](https://nsbinvictus.tech/tools/password-generator/)
 - [Image Compressor & Resizer](https://nsbinvictus.tech/tools/image-compressor/)
 
+## Insights (guides)
+- [AI Agents for Business: What They Can Do in Every Department](https://nsbinvictus.tech/insights/ai-agents-for-business/)
+- [AI Content That Ranks: A Workflow for Blogs, Websites and Social Media](https://nsbinvictus.tech/insights/ai-content-workflow/)
+- [E-commerce SEO Checklist: Product and Category Pages That Rank](https://nsbinvictus.tech/insights/ecommerce-seo-checklist/)
+- [Why Your Emails Go to Spam: SPF, DKIM and DMARC Explained](https://nsbinvictus.tech/insights/email-spf-dkim-dmarc/)
+- [Google Consent Mode v2 and GA4: A Clear Setup Guide for EU Websites](https://nsbinvictus.tech/insights/ga4-consent-mode-v2-guide/)
+- [How Much Does a Business Website Cost? A Practical Breakdown](https://nsbinvictus.tech/insights/how-much-does-a-website-cost/)
+- [How to Get Your Business Mentioned in ChatGPT, Perplexity and AI Overviews](https://nsbinvictus.tech/insights/how-to-appear-in-chatgpt-answers/)
+- [Local SEO for Businesses Serving Several Countries: Europe, the US and Canada](https://nsbinvictus.tech/insights/international-local-seo/)
+- [Custom Property Management Software vs Off-the-Shelf Tools](https://nsbinvictus.tech/insights/property-management-software/)
+- [How to Build a SaaS MVP: Steps, Timeline and Common Mistakes](https://nsbinvictus.tech/insights/saas-mvp-development/)
+- [SEO vs AEO vs GEO: What’s the Difference — and Do You Need All Three?](https://nsbinvictus.tech/insights/seo-vs-aeo-vs-geo/)
+- [Website Security Checklist: 15 Checks Every Business Site Needs](https://nsbinvictus.tech/insights/website-security-checklist/)
+
 ## Industries
 - [Property Technology & Digital Real Estate](https://nsbinvictus.tech/industries/property-technology/)
 - [E-commerce & Retail](https://nsbinvictus.tech/industries/ecommerce-retail/)

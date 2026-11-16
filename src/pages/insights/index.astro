@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import InsightCard from '../../components/ui/InsightCard.astro';
+import FinalCta from '../../components/cta/FinalCta.astro';
+import { insights, insightCategories } from '../../data/insights';
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Blog', name: 'NSB INVICTUS Insights', url: new URL('/insights/', Astro.site).toString(),
+  publisher: { '@type': 'Organization', name: 'NSB INVICTUS' },
+  blogPost: insights.map((p) => ({ '@type': 'BlogPosting', headline: p.title, url: new URL(`/insights/${p.slug}/`, Astro.site).toString(), datePublished: p.date.toISOString() })),
+};
+---
+<Base title="Insights — SEO, GEO, AI Agents, Web Development & Marketing Guides" description="Practical guides from NSB INVICTUS on SEO, AEO and GEO, AI agents, websites and SaaS, analytics and consent, security, content and e-commerce." jsonLd={ld}>
+  <PageHero
+    compact
+    eyebrow="Insights"
+    title="Practical guides for <span class='text-gradient'>growing online.</span>"
+    intro="Clear answers to the questions we hear most — about search and AI visibility, AI agents, websites and apps, analytics, security and marketing."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Insights' }]}
+  />
+  <section class="pb-16" aria-labelledby="posts-h">
+    <div class="container-x">
+      <h2 id="posts-h" class="sr-only">All articles</h2>
+      <div class="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter by category" data-filters>
+        <button type="button" class="tag !px-4 !py-2 is-on" data-filter="all" aria-pressed="true">All</button>
+        {insightCategories.map((c) => <button type="button" class="tag !px-4 !py-2" data-filter={c} aria-pressed="false">{c}</button>)}
+      </div>
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-posts>
+        {insights.map((p, i) => <InsightCard post={p} i={i} />)}
+      </ul>
+      <p class="mt-10"><a href="/rss.xml" class="text-sm text-mist-400 underline underline-offset-4">Subscribe via RSS</a></p>
+    </div>
+  </section>
+  <FinalCta />
+</Base>
+<style>
+  [data-filter].is-on { border-color: #ff4fd8; color: #ff8be6; box-shadow: 0 0 14px -4px #ff4fd8; }
+</style>
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+    document.querySelectorAll<HTMLElement>('[data-posts] > li').forEach((li) => {
+      li.hidden = b.dataset.filter !== 'all' && li.dataset.category !== b.dataset.filter;
+    });
+  }));
+</script>

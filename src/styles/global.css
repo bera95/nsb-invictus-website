@@ -258,6 +258,23 @@ input, textarea, select, [contenteditable="true"], [data-copy-ok], [data-copy-ok
 img, svg, canvas { -webkit-user-drag: none; user-drag: none; }
 @media print { body * { visibility: hidden !important; } body::after { content: 'Printing is disabled. Visit nsbinvictus.tech'; visibility: visible; } }
 
+/* Article typography (Insights) */
+.article-body { color: var(--color-mist-200); font-size: 1.075rem; line-height: 1.8; }
+.article-body > * + * { margin-top: 1.15rem; }
+.article-body h2 { margin-top: 2.75rem; font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); line-height: 1.2; }
+.article-body h3 { margin-top: 2rem; font-size: 1.25rem; }
+.article-body strong { color: var(--color-mist-50); font-weight: 600; }
+.article-body a { color: var(--color-signal-soft); text-decoration: underline; text-underline-offset: 4px; }
+.article-body ul { list-style: disc; padding-left: 1.4rem; }
+.article-body ol { list-style: decimal; padding-left: 1.4rem; }
+.article-body li + li { margin-top: 0.4rem; }
+.article-body li::marker { color: #ff8be6; }
+.article-body code { font-family: var(--font-mono); font-size: 0.88em; background: rgb(255 255 255 / 0.07); border: 1px solid var(--color-line); border-radius: 0.35rem; padding: 0.1rem 0.35rem; overflow-wrap: anywhere; }
+.article-body table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 0.95rem; }
+.article-body th, .article-body td { border-bottom: 1px solid var(--color-line); padding: 0.7rem 0.9rem; text-align: left; vertical-align: top; }
+.article-body th { color: var(--color-mist-50); font-weight: 500; }
+.article-body > p:first-of-type { font-size: 1.15rem; color: var(--color-mist-50); border-left: 2px solid #ff4fd8; padding-left: 1.1rem; }
+
 /* "I'm not a robot" check */
 .robot-spin { width: 16px; height: 16px; border-radius: 9999px; border: 2px solid rgb(255 79 216 / 0.25); border-top-color: #ff4fd8; animation: robot-spin 0.7s linear infinite; }
 @keyframes robot-spin { to { transform: rotate(360deg); } }

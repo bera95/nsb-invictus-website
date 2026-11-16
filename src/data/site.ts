@@ -19,7 +19,7 @@ export const site = {
     /** Public phone numbers. `tel` must be in international E.164 format. */
     phones: [
       { label: 'Ireland', display: '+353 87 443 3160', tel: '+353874433160' },
-      { label: 'Serbia', display: '+387 64 191 4707', tel: '+387641914707' },
+      { label: 'Serbia', display: '+381 64 191 4707', tel: '+381641914707' },
     ] as { label: string; display: string; tel: string }[],
   },
 
@@ -64,6 +64,6 @@ export const navigation = [
   { label: 'Industries', href: '/industries/' },
   { label: 'AI Agents', href: '/ai-agents/' },
   { label: 'Products', href: '/products/' },
-  { label: 'Approach', href: '/approach/' },
+  { label: 'Insights', href: '/insights/' },
   { label: 'Free tools', href: '/tools/' },
 ] as const;

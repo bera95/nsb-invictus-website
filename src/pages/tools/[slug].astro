@@ -4,6 +4,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import ToolCard from '../../components/ui/ToolCard.astro';
 import FinalCta from '../../components/cta/FinalCta.astro';
 import ClientTool from '../../components/visual/ClientTool.astro';
+import { insights } from '../../data/insights';
 import { tools, type Tool } from '../../data/tools';
 import { getCapability } from '../../data/capabilities';
 
@@ -14,6 +15,7 @@ interface Props { tool: Tool }
 const { tool } = Astro.props;
 const cap = getCapability(tool.capability)!;
 const capHref = `/contact/?topic=${cap.slug}`;
+const guide = insights.find((p) => p.tool === tool.slug) ?? insights.find((p) => p.capability === tool.capability);
 const others = tools.filter((t) => t.slug !== tool.slug).slice(0, 3);
 const ld = [
   { '@context': 'https://schema.org', '@type': 'WebApplication', name: tool.name, description: tool.seo.description, applicationCategory: 'BusinessApplication', operatingSystem: 'Any (web browser)', url: new URL(`/tools/${tool.slug}/`, Astro.site).toString(), offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, provider: { '@type': 'Organization', name: 'NSB INVICTUS' } },
@@ -66,6 +68,7 @@ const ld = [
           {tool.howItWorks.map((s, i) => <li class="flex gap-4"><span class="font-mono text-signal-soft">0{i + 1}</span><span class="text-mist-200">{s}</span></li>)}
         </ol>
         <a href={`/capabilities/${cap.slug}/`} class="btn btn-ghost mt-8">Related service: {cap.shortName} →</a>
+        {guide && <p class="mt-6 text-sm text-mist-400">Read the guide: <a href={`/insights/${guide.slug}/`} class="text-signal-soft underline underline-offset-4">{guide.title}</a></p>}
       </div>
       <div class="space-y-3">
         {tool.faq.map((f, i) => (

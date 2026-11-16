@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import InsightCard from '../../components/ui/InsightCard.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import FinalCta from '../../components/cta/FinalCta.astro';
+import Arrow from '../../components/ui/Arrow.astro';
+import { insights, formatDate, type Insight } from '../../data/insights';
+import { getCapability } from '../../data/capabilities';
+import { getTool } from '../../data/tools';
+
+export function getStaticPaths() {
+  return insights.map((p) => ({ params: { slug: p.slug }, props: { post: p } }));
+}
+interface Props { post: Insight }
+const { post } = Astro.props;
+const { Content } = post;
+const cap = post.capability ? getCapability(post.capability) : undefined;
+const tool = post.tool ? getTool(post.tool) : undefined;
+const related = insights.filter((p) => p.slug !== post.slug && (p.category === post.category || p.capability === post.capability)).slice(0, 3);
+const url = new URL(`/insights/${post.slug}/`, Astro.site).toString();
+const toc = post.headings.filter((h) => h.depth === 2);
+const ld = [
+  {
+    '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, description: post.description,
+    datePublished: post.date.toISOString(), dateModified: post.date.toISOString(), mainEntityOfPage: url, url,
+    image: new URL('/og-image.png', Astro.site).toString(), keywords: (post.keywords ?? []).join(', '), articleSection: post.category,
+    author: { '@type': 'Organization', name: 'NSB INVICTUS', url: new URL('/', Astro.site).toString() },
+    publisher: { '@type': 'Organization', name: 'NSB INVICTUS', logo: { '@type': 'ImageObject', url: new URL('/icon-512.png', Astro.site).toString() } },
+  },
+  ...(post.faq?.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: post.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }] : []),
+];
+---
+<Base title={post.title} description={post.description} ogType="article" jsonLd={ld}>
+  <article>
+    <header class="relative pt-32 pb-10 md:pt-40">
+      <div class="container-x max-w-6xl">
+        <div class="max-w-3xl">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Insights', href: '/insights/' }, { label: post.title }]} />
+        <div class="mt-8 flex flex-wrap items-center gap-3 text-sm">
+          <span class="tag !border-neon/50 !text-neon-soft">{post.category}</span>
+          <time class="text-mist-400" datetime={post.date.toISOString()}>{formatDate(post.date)}</time>
+          <span class="text-mist-500">· {post.readingMinutes} min read</span>
+        </div>
+        <h1 class="mt-6 text-display-md">{post.title}</h1>
+        <p class="mt-6 text-lg leading-relaxed text-mist-200">{post.description}</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-x grid max-w-6xl gap-12 pb-12 lg:grid-cols-[1fr_17rem]">
+      <div class="article-body min-w-0">
+        <Content />
+        {post.faq?.length && (
+          <section class="mt-14" aria-labelledby="faq-h">
+            <h2 id="faq-h">Frequently asked questions</h2>
+            <div class="mt-6 space-y-3">
+              {post.faq.map((f, i) => (
+                <details class="panel group p-6" open={i === 0}>
+                  <summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="!mt-0 text-lg">{f.q}</h3><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line-strong text-signal-soft transition-transform group-open:rotate-45" aria-hidden="true">+</span></summary>
+                  <p class="!mt-4">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+      <aside class="space-y-5 lg:sticky lg:top-28 lg:self-start" aria-label="Article tools">
+        {toc.length > 0 && (
+          <nav class="glass-card p-5" aria-label="On this page">
+            <p class="font-mono text-xs uppercase tracking-[0.18em] text-mist-500">On this page</p>
+            <ol class="mt-4 space-y-2 text-sm">{toc.map((h) => <li><a href={`#${h.slug}`} class="text-mist-400 hover:text-mist-50">{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+        {cap && (
+          <div class="glass-card neon-frame p-5">
+            <p class="font-mono text-xs uppercase tracking-[0.18em] text-signal-soft">Need help?</p>
+            <p class="mt-3 text-mist-50">{cap.name}</p>
+            <p class="mt-2 text-sm text-mist-400">{cap.summary}</p>
+            <a href={`/contact/?topic=${cap.slug}`} class="btn btn-primary mt-5 w-full !min-h-10 !py-2 text-sm">Talk to our team <Arrow /></a>
+          </div>
+        )}
+      </aside>
+    </div>
+  </article>
+
+  {tool && (
+    <section class="py-10" aria-labelledby="tool-h">
+      <div class="container-x max-w-6xl">
+        <h2 id="tool-h" class="text-2xl">Try it on your site — free</h2>
+        <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><ToolCard tool={tool} /></ul>
+      </div>
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="py-14" aria-labelledby="rel-h">
+      <div class="container-x max-w-6xl">
+        <h2 id="rel-h" class="text-2xl">Related insights</h2>
+        <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{related.map((p, i) => <InsightCard post={p} i={i} />)}</ul>
+      </div>
+    </section>
+  )}
+  <FinalCta topic={cap?.slug} />
+</Base>

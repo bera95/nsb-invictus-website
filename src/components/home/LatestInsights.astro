@@ -1,0 +1,17 @@
+---
+import InsightCard from '../ui/InsightCard.astro';
+import { insights } from '../../data/insights';
+const latest = insights.slice(0, 3);
+---
+<section class="relative py-24 md:py-28" data-scene="4" data-dim="0.22" aria-labelledby="latest-h">
+  <div class="container-x">
+    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+      <div>
+        <p class="eyebrow mb-5">Insights</p>
+        <h2 id="latest-h" class="text-display-md">Answers to the questions <span class="text-gradient">our clients ask.</span></h2>
+      </div>
+      <a href="/insights/" class="btn btn-ghost">All articles →</a>
+    </div>
+    <ul class="mt-12 grid gap-5 md:grid-cols-3">{latest.map((p, i) => <InsightCard post={p} i={i} />)}</ul>
+  </div>
+</section>

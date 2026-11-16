@@ -7,6 +7,8 @@ import { capabilities, type Capability } from '../../data/capabilities';
 import { industries } from '../../data/industries';
 import { process } from '../../data/approach';
 import { capabilityIcon } from '../../data/icons';
+import { insights } from '../../data/insights';
+import InsightCard from '../../components/ui/InsightCard.astro';
 
 export function getStaticPaths() {
   return capabilities.map((c) => ({ params: { slug: c.slug }, props: { cap: c } }));
@@ -14,6 +16,7 @@ export function getStaticPaths() {
 interface Props { cap: Capability }
 const { cap } = Astro.props;
 const related = cap.connections.map((c) => ({ ...c, cap: capabilities.find((x) => x.slug === c.to)! }));
+const capInsights = insights.filter((p) => p.capability === cap.slug).slice(0, 3);
 const relevantIndustries = industries.filter((i) => i.solutions.some((s) => s.capability === cap.slug));
 const faqLd = {
   '@context': 'https://schema.org',
@@ -150,6 +153,15 @@ const service = {
       </div>
     </div>
   </section>
+
+  {capInsights.length > 0 && (
+    <section class="relative py-16" aria-labelledby="ins-h">
+      <div class="container-x">
+        <h2 id="ins-h" class="text-3xl" data-reveal>Insights on {cap.shortName}</h2>
+        <ul class="mt-8 grid gap-5 md:grid-cols-3">{capInsights.map((p, i) => <InsightCard post={p} i={i} />)}</ul>
+      </div>
+    </section>
+  )}
 
   <FinalCta title={`Let’s talk about <span class="text-gradient">${cap.shortName}</span>.`} topic={cap.slug} />
 </Base>

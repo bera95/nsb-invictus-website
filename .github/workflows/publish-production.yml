@@ -70,3 +70,10 @@ jobs:
           git commit -q -m "Production build from ${GITHUB_SHA::7}"
           git push origin HEAD:production
           echo "Published $(git rev-parse --short HEAD) to production."
+
+      - name: Notify search engines (IndexNow)
+        # Gives Hostinger time to auto-deploy, so the key file and new pages are live.
+        continue-on-error: true
+        run: |
+          sleep 120
+          node scripts/indexnow.mjs
