@@ -17,7 +17,7 @@ const menus: Record<string, { label: string; href: string; icon?: IconName }[]> 
   '/industries/': industries.map((i) => ({ label: i.shortName, href: `/industries/${i.slug}/`, icon: industryIcon[i.slug] })),
 };
 ---
-<header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 border-b border-transparent" data-header>
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500 border-b border-transparent" data-header>
   <div class="container-x flex h-[var(--header-h)] items-center justify-between gap-3 xl:gap-6">
     <a href="/" class="relative z-10 -m-1 p-1" aria-label="NSB INVICTUS — home">
       <Wordmark id="hdr" />
@@ -41,7 +41,7 @@ const menus: Record<string, { label: string; href: string; icon?: IconName }[]> 
               {isActive(item.href) && <span class="absolute inset-x-4 -bottom-0.5 h-px bg-gradient-to-r from-vision to-signal" aria-hidden="true" />}
               {sub && (
                 <div class="invisible absolute left-1/2 top-full w-[22rem] -translate-x-1/2 pt-3 opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                  <ul class="glass rounded-2xl p-2 shadow-2xl shadow-black/50">
+                  <ul class="dropdown-panel rounded-2xl p-2">
                     {sub.map((s) => (
                       <li>
                         <a href={s.href} class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-mist-200 transition-colors hover:bg-white/5 hover:text-mist-50">
