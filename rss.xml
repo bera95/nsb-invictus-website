@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>NSB INVICTUS Insights</title>
+    <link>https://nsbinvictus.tech/insights/</link>
+    <description>Guides on SEO, AEO and GEO, AI agents, websites and apps, analytics, security and marketing.</description>
+    <language>en</language>
+    <item>
+      <title>AI Agents for Business: What They Can Do in Every Department</title>
+      <link>https://nsbinvictus.tech/insights/ai-agents-for-business/</link>
+      <guid>https://nsbinvictus.tech/insights/ai-agents-for-business/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>AI &amp; Automation</category>
+      <description>What AI agents are, how they differ from chatbots, and practical examples for marketing, content, sales, support, analytics and operations — plus how to start safely.</description>
+    </item>
+    <item>
+      <title>AI Content That Ranks: A Workflow for Blogs, Websites and Social Media</title>
+      <link>https://nsbinvictus.tech/insights/ai-content-workflow/</link>
+      <guid>https://nsbinvictus.tech/insights/ai-content-workflow/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Marketing &amp; Content</category>
+      <description>How to use AI to produce blog articles, website copy and social media posts with images that rank and convert — without generic content. Workflow, quality checks and pitfalls.</description>
+    </item>
+    <item>
+      <title>Custom Property Management Software vs Off-the-Shelf Tools</title>
+      <link>https://nsbinvictus.tech/insights/property-management-software/</link>
+      <guid>https://nsbinvictus.tech/insights/property-management-software/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Industries</category>
+      <description>When off-the-shelf property management software is enough and when custom software pays off — features, integrations, automation, costs and how to decide.</description>
+    </item>
+    <item>
+      <title>E-commerce SEO Checklist: Product and Category Pages That Rank</title>
+      <link>https://nsbinvictus.tech/insights/ecommerce-seo-checklist/</link>
+      <guid>https://nsbinvictus.tech/insights/ecommerce-seo-checklist/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Search &amp; AI</category>
+      <description>A practical e-commerce SEO checklist covering category pages, product pages, faceted navigation, structured data, speed, internal linking and AI shopping assistants.</description>
+    </item>
+    <item>
+      <title>Google Consent Mode v2 and GA4: A Clear Setup Guide for EU Websites</title>
+      <link>https://nsbinvictus.tech/insights/ga4-consent-mode-v2-guide/</link>
+      <guid>https://nsbinvictus.tech/insights/ga4-consent-mode-v2-guide/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Analytics &amp; Tracking</category>
+      <description>What Google Consent Mode v2 is, why EU and EEA websites need it, basic vs advanced mode, and a step-by-step setup with GA4 and Google Tag Manager — plus how to test it.</description>
+    </item>
+    <item>
+      <title>How Much Does a Business Website Cost? A Practical Breakdown</title>
+      <link>https://nsbinvictus.tech/insights/how-much-does-a-website-cost/</link>
+      <guid>https://nsbinvictus.tech/insights/how-much-does-a-website-cost/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Websites &amp; Apps</category>
+      <description>What drives the cost of a business website, typical ranges for different types of sites, ongoing costs to plan for, and how to get the most value from your budget.</description>
+    </item>
+    <item>
+      <title>How to Build a SaaS MVP: Steps, Timeline and Common Mistakes</title>
+      <link>https://nsbinvictus.tech/insights/saas-mvp-development/</link>
+      <guid>https://nsbinvictus.tech/insights/saas-mvp-development/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Websites &amp; Apps</category>
+      <description>A practical guide to building a SaaS minimum viable product: defining scope, choosing architecture, multi-tenancy, billing, launch and the mistakes that cost founders the most.</description>
+    </item>
+    <item>
+      <title>How to Get Your Business Mentioned in ChatGPT, Perplexity and AI Overviews</title>
+      <link>https://nsbinvictus.tech/insights/how-to-appear-in-chatgpt-answers/</link>
+      <guid>https://nsbinvictus.tech/insights/how-to-appear-in-chatgpt-answers/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Search &amp; AI</category>
+      <description>A practical GEO guide: how AI assistants choose sources, why some brands are cited and others ignored, and the concrete steps to improve your visibility in AI answers.</description>
+    </item>
+    <item>
+      <title>Local SEO for Businesses Serving Several Countries: Europe, the US and Canada</title>
+      <link>https://nsbinvictus.tech/insights/international-local-seo/</link>
+      <guid>https://nsbinvictus.tech/insights/international-local-seo/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Search &amp; AI</category>
+      <description>How to rank locally in multiple countries and cities: site structure, hreflang, Google Business Profile, local content and citations — without duplicate content problems.</description>
+    </item>
+    <item>
+      <title>SEO vs AEO vs GEO: What’s the Difference — and Do You Need All Three?</title>
+      <link>https://nsbinvictus.tech/insights/seo-vs-aeo-vs-geo/</link>
+      <guid>https://nsbinvictus.tech/insights/seo-vs-aeo-vs-geo/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Search &amp; AI</category>
+      <description>SEO, AEO and GEO explained in plain language: how ranking in Google, winning answer boxes and being cited by ChatGPT or Perplexity differ, and how to plan for all three.</description>
+    </item>
+    <item>
+      <title>Website Security Checklist: 15 Checks Every Business Site Needs</title>
+      <link>https://nsbinvictus.tech/insights/website-security-checklist/</link>
+      <guid>https://nsbinvictus.tech/insights/website-security-checklist/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Security &amp; Cloud</category>
+      <description>A practical website security checklist for business owners: HTTPS, security headers, updates, backups, access control, forms, monitoring and GDPR — with free tools to test your site.</description>
+    </item>
+    <item>
+      <title>Why Your Emails Go to Spam: SPF, DKIM and DMARC Explained</title>
+      <link>https://nsbinvictus.tech/insights/email-spf-dkim-dmarc/</link>
+      <guid>https://nsbinvictus.tech/insights/email-spf-dkim-dmarc/</guid>
+      <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+      <category>Security &amp; Cloud</category>
+      <description>Why business emails land in spam and how SPF, DKIM and DMARC fix it. A clear explanation, the records you need, a safe rollout plan and a free checker for your domain.</description>
+    </item>
+  </channel>
+</rss>
